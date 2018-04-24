@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="hellolc">
+<meta property="og:url" content="http://blog.hellolc.com/page/2/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hellolc">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-解读React源码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/06/解读React源码/" class="article-date">
+  <time datetime="2018-01-06T02:34:47.000Z" itemprop="datePublished">2018-01-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/06/解读React源码/">解读React源码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="15-0版本源码结构"><a href="#15-0版本源码结构" class="headerlink" title="15.0版本源码结构"></a>15.0版本源码结构</h2><ul>
+<li>addons:包含一系列的工具方法插件，如 PureRenderMixin、CSSTransitionGroup、Fragment、 LinkedStateMixin 等。</li>
+<li>isomorphic:包含一系列同构方法</li>
+<li>shared:包含一些公用或常用方法，如 Transaction、CallbackQueue 等</li>
+<li>test:包含一些测试方法等</li>
+<li>core/tests:包含一些边界错误的测试用例。</li>
+<li>renderers:是 React 代码的核心部分，它包含了大部分功能实现，此处对其进行单独分析。<ul>
+<li>renderers 分为 dom 和 shared 目录<ul>
+<li>dom:包含 client、server 和 shared<ul>
+<li>client:包含 DOM 操作方法(如 findDOMNode、setInnerHTML、setTextContent 等)以 及事件方法，结构如图 3-2 所示。这里的事件方法主要是一些非底层的实用性事件方法， 如 事 件 监 听 ( ReactEventListener )、 常 用 事 件 方 法 ( TapEventPlugin 、 EnterLeave- EventPlugin)以及一些合成事件(SyntheticEvents 等)。</li>
+<li>server:主要包含服务端渲染的实现和方法(如 ReactServerRendering、ReactServer- RenderingTransaction 等)。</li>
+<li>shared:包含文本组件(ReactDOMTextComponent)、标签组件(ReactDOMComponent)、 DOM 属性操作(DOMProperty、DOMPropertyOperations)、CSS 属性操作(CSSProperty、 CSSPropertyOperations)等。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>shared:包含 event 和 reconciler<ul>
+<li>event:包含一些更为底层的事件方法，如事件插件中心(EventPluginHub)、事件注册(EventPluginRegistry)、事件传播(EventPropagators)以及一些事件通用方法。React 自定义了一套通用事件的插件系统，该系统包含事件监听器、事件发射器、事 件插件中心、点击事件、进/出事件、简单事件、合成事件以及一些事件方法，如图 3-3 所示。</li>
+<li>reconciler:称为协调器，它是最为核心的部分，包含 React 中自定义组件的实现 (ReactCompositeComponent)、组件生命周期机制、setState 机制(ReactUpdates、ReactUpdateQueue)、DOM diff 算法(ReactMultiChild)等重要的特性方法。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Virtual-DOM"><a href="#Virtual-DOM" class="headerlink" title="Virtual DOM"></a>Virtual DOM</h2><p>构建一套简易 Virtual DOM 模型并不复杂，它只需要具备一个 DOM 标签所需的基本 元素即可:</p>
+<ul>
+<li>标签名</li>
+<li>节点属性，包含样式、属性、事件等</li>
+<li>子节点</li>
+<li>标识 id</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 标签名 </span></span><br><span class="line">    tagName: <span class="string">'div'</span>, </span><br><span class="line">    <span class="comment">// 属性 </span></span><br><span class="line">    properties: &#123;</span><br><span class="line">        <span class="comment">// 样式</span></span><br><span class="line">        style: &#123;&#125; </span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 子节点 </span></span><br><span class="line">    children: [], </span><br><span class="line">    <span class="comment">// 唯一标识 </span></span><br><span class="line">    key: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Virtual DOM 中的节点称为 ReactNode，它分为3种类型 ReactElement、ReactFragment 和 ReactText。其中，ReactElement 又分为 ReactComponentElement 和 ReactDOMElement</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">type ReactNode = ReactElement | ReactFragment | ReactText;</span><br><span class="line">type ReactElement = ReactComponentElement | ReactDOMElement;</span><br><span class="line">type ReactDOMElement = &#123; </span><br><span class="line">    type : string,</span><br><span class="line">    props : &#123;</span><br><span class="line">        children : ReactNodeList, </span><br><span class="line">        className : string,</span><br><span class="line">        etc.</span><br><span class="line">    &#125;,</span><br><span class="line">    key : string | boolean | number | <span class="literal">null</span>, </span><br><span class="line">    ref : string | <span class="literal">null</span></span><br><span class="line">&#125;;</span><br><span class="line">type ReactComponentElement&lt;TProps&gt; = &#123; </span><br><span class="line">    type : ReactClass&lt;TProps&gt;,</span><br><span class="line">    props : TProps,</span><br><span class="line">    key : string | boolean | number | <span class="literal">null</span>, </span><br><span class="line">    ref : string | <span class="literal">null</span></span><br><span class="line">&#125;;</span><br><span class="line">type ReactFragment = <span class="built_in">Array</span>&lt;ReactNode | ReactEmpty&gt;; </span><br><span class="line">type ReactNodeList = ReactNode | ReactEmpty;</span><br><span class="line">type ReactText = string | number;</span><br><span class="line">type ReactEmpty = <span class="literal">null</span> | <span class="literal">undefined</span> | boolean;</span><br></pre></td></tr></table></figure>
+<h3 id="创建React元素"><a href="#创建React元素" class="headerlink" title="创建React元素"></a>创建React元素</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Nav, Profile;</span><br><span class="line"><span class="comment">// 输入(JSX):</span></span><br><span class="line"><span class="keyword">const</span> app = &lt;Nav color="blue"&gt;&lt;Profile&gt;click&lt;/Profile&gt;&lt;/Nav&gt;;</span><br><span class="line"><span class="comment">// 输出(JavaScript):</span></span><br><span class="line"><span class="keyword">const</span> app = React.createElement(</span><br><span class="line">    Nav,</span><br><span class="line">    &#123;<span class="attr">color</span>:<span class="string">"blue"</span>&#125;, </span><br><span class="line">    React.createElement(Profile, <span class="literal">null</span>, <span class="string">"click"</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>源码路径: /v15.0.0/src/isomorphic/classic/element/ReactElement.js </p>
+</blockquote>
+<h3 id="初始化组件入口"><a href="#初始化组件入口" class="headerlink" title="初始化组件入口"></a>初始化组件入口</h3><ul>
+<li>当 node 为空时，说明 node 不存在，则初始化空组件 ReactEmptyComponent.create(instan- tiateReactComponent)。</li>
+<li>当 node 类型为对象时，即是 DOM 标签组件或自定义组件，那么如果 element 类型为字 符 串 时 ， 则 初 始 化 DOM 标 签 组 件 ReactNativeComponent.createInternalComponent (element)，否则初始化自定义组件 ReactCompositeComponentWrapper()。</li>
+<li>当 node 类型为字符串或数字时，则初始化文本组件 ReactNativeComponent.create InstanceForText(node)。</li>
+<li>如果是其他情况，则不作处理。</li>
+</ul>
+<blockquote>
+<p>源 码 路 径 : /v15.0.0/src/renderers/shared/ reconciler/instantiateReactComponent.js</p>
+</blockquote>
+<h3 id="DOM-标签组件"><a href="#DOM-标签组件" class="headerlink" title="DOM 标签组件"></a>DOM 标签组件</h3><blockquote>
+<p>当开发者 使用 React 时，此时的 <div> 并不是原生 <div> 标签，它其实是 React 生成的 Virtual DOM 对象， 只不过标签名称相同罢了</div></div></p>
+</blockquote>
+<p>ReactDOMComponent 针对 Virtual DOM 标签的处理主要分为以下两个部分:</p>
+<ul>
+<li>属性的更新，包括更新样式、更新属性、处理事件等</li>
+<li>子节点的更新，包括更新内容、更新子节点，此部分涉及 diff 算法。</li>
+</ul>
+<ol>
+<li>更新属性<br>当执行 mountComponent 方法时，ReactDOMComponent 首先会生成标记和标签，通过 this. createOpenTagMarkupAndPutListeners(transaction) 来处理 DOM 节点的属性和事件。</li>
+</ol>
+<ul>
+<li>如果存在事件，则针对当前的节点添加事件代理，即调用 enqueuePutListener(this, propKey, propValue, transaction)。</li>
+<li>如果存在样式，首先会对样式进行合并操作 Object.assign({}, props.style)，然后通过 CSSPropertyOperations.createMarkupForStyles(propValue, this) 创建样式。</li>
+<li>通过 DOMPropertyOperations.createMarkupForProperty(propKey, propValue) 创建属性。</li>
+<li>通过 DOMPropertyOperations.createMarkupForID(this._domID) 创建唯一标识。</li>
+</ul>
+<blockquote>
+<p>_createOpenTagMarkupAndPutListeners 方法的源码如下(源码路径:/v15.0.0/src/renderers/ dom/shared/ReactDOMComponent.js):</p>
+</blockquote>
+<h2 id="详解React生命周期"><a href="#详解React生命周期" class="headerlink" title="详解React生命周期"></a>详解React生命周期</h2><h3 id="使用createClass创建自定义组件"><a href="#使用createClass创建自定义组件" class="headerlink" title="使用createClass创建自定义组件"></a>使用createClass创建自定义组件</h3><p>createClass 是创建自定义组件的入口方法，负责管理生命周期中的 getDefaultProps。该方法法在整个生命周期中只执行一次，这样所有实例初始化的 props 将会被共享。通过 createClass 创建自定义组件，利用原型继承 ReactClassComponent 父类，按顺序合并mixin，设置初始化 defaultProps，返回构造函数。当使用 ES6 classes 编写 React 组件时，class MyComponent extends React.Component 其实就 是调用内部方法 createClass 创建组件</p>
+<blockquote>
+<p>源码路径(src/isomorphic/classic/ class/ReactClass.js#L802)</p>
+</blockquote>
+<h3 id="阶段一-MOUNTING"><a href="#阶段一-MOUNTING" class="headerlink" title="阶段一:MOUNTING"></a>阶段一:MOUNTING</h3><p>mountComponent 负责管理生命周期中的 getInitialState、componentWillMount、render 和componentDidMount。<br>由于 getDefaultProps 是通过构造函数进行管理的，所以也是整个生命周期中最先开始执行 的。而 mountComponent 只能望洋兴叹，无法调用到 getDefaultProps。这就解释了为何 getDefaultProps只执行一次<br>由于通过 ReactCompositeComponentBase 返回的是一个虚拟节点，所以需要利用 instantiateReactComponent 去得到实例，再使用 mountComponent 拿到结果作为当前自定义元素的结果。</p>
+<p>其实，mountComponent 本质上是通过递归渲染内容的，由于递归的特性，父组件的 componentWillMount 在其子组件的 componentWillMount 之前调用，而父组件的 componentDidMount 在其子组件的 componentDidMount 之后调用。</p>
+<p>updateComponent 本质上也是通过递归渲染内容的，由于递归的特性，父组件的 componentWillUpdate 是在其子组件的 componentWillUpdate 之前调用的，而父组件的 componentDidUpdate 也是在其子组件的 componentDidUpdate 之后调用的</p>
+<p>禁止在 shouldComponentUpdate 和 componentWillUpdate 中调用 setState，这会造成循环 调用，直至耗光浏览器内存后崩溃。</p>
+<blockquote>
+<p>mountComponent源码: /v15.0.0/src/renderers/shared/reconciler/ReactCompositeComponent.js</p>
+</blockquote>
+<h2 id="setState-异步更新"><a href="#setState-异步更新" class="headerlink" title="setState 异步更新"></a>setState 异步更新</h2><p> setState 通过一个队列机制实现 state 更新。 当执行 setState 时，会将需要更新的 state 合并 后放入状态队列，而不会立刻更新 this.state，队列机制可以高效地批量更新 state。<br> 当调用 setState 时，实际上会执行 enqueueSetState 方法，并对 partialState 以及_pendingStateQueue 更新队列进行合并操作，最终通过 enqueueUpdate 执行 state 更新。<br> 而 performUpdateIfNecessary 方法会获取 _pendingElement、_pendingStateQueue、_pendingForceUpdate，并调用 receiveComponent 和 updateComponent 方法进行组件更新。<br> 如 果 在 shouldComponentUpdate 或 componentWillUpdate 方 法 中 调 用 setState ， 此 时 this._pendingStateQueue != null，则 performUpdateIfNecessary 方法就会调用 updateComponent 方法进行组件更新，但 updateComponent 方法又会调用 shouldComponentUpdate 和 componentWill- Update 方法，因此造成循环调用，使得浏览器内存占满后崩溃</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            a: <span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            a: <span class="keyword">this</span>.state.a + <span class="number">1</span></span><br><span class="line">        &#125;, () =&gt; &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"a1 : "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                a: <span class="keyword">this</span>.state.a + <span class="number">1</span></span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"a2: "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            a: <span class="keyword">this</span>.state.a + <span class="number">1</span></span><br><span class="line">        &#125;, () =&gt; &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"a3: "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"a4: "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"a5: "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                a: <span class="keyword">this</span>.state.a + <span class="number">1</span></span><br><span class="line">            &#125;, () =&gt; &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">"a6 : "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line">                <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                    a: <span class="keyword">this</span>.state.a + <span class="number">1</span></span><br><span class="line">                &#125;)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">"a7: "</span>, <span class="keyword">this</span>.state.a)</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"a8: "</span>, <span class="keyword">this</span>.state.a);</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                a: <span class="keyword">this</span>.state.a + <span class="number">1</span></span><br><span class="line">            &#125;, () =&gt; &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">"a9: "</span>, <span class="keyword">this</span>.state.a);</span><br><span class="line"></span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"a10: "</span>, <span class="keyword">this</span>.state.a);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//上面结果</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * a4: 0</span></span><br><span class="line"><span class="comment"> * a1: 0</span></span><br><span class="line"><span class="comment"> * a2: 1</span></span><br><span class="line"><span class="comment"> * a3: 1</span></span><br><span class="line"><span class="comment"> * a5: 2</span></span><br><span class="line"><span class="comment"> * a6: 3</span></span><br><span class="line"><span class="comment"> * a7: 3</span></span><br><span class="line"><span class="comment"> * a8: 4</span></span><br><span class="line"><span class="comment"> * a9: 5</span></span><br><span class="line"><span class="comment"> * a10: 5</span></span><br><span class="line"><span class="comment"> * /</span></span><br></pre></td></tr></table></figure>
+<h2 id="vitrul-diff"><a href="#vitrul-diff" class="headerlink" title="vitrul diff"></a>vitrul diff</h2><blockquote>
+<p>源码: /v15.0.0/src/renderers/shared/reconciler/ReactMultiChild.js</p>
+</blockquote>
+<h2 id="React-Patch-方法"><a href="#React-Patch-方法" class="headerlink" title="React Patch 方法"></a>React Patch 方法</h2><p> 所谓 Patch，简而言之就是将 tree diff 计算出来的 DOM 差异队列更新到真实的 DOM 节点上，最终让浏览器能够渲染出更新的数据。而且，React 并不是计算出一个差异就去执 行一次 Patch，而是计算出全部差异并放入差异队列后，再一次性地去执行 Patch 方法完成真实 DOM 的更新。</p>
+<blockquote>
+<p>Patch 方 法 的 源 码 如 下 ( 源 码 路 径 : /v15.0.0/src/renderers/dom/client/utils/DOMChildrenOperations.js)</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/01/06/解读React源码/" data-id="cjgcxuq43002wq8vnz621k0va" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="Program Performance-ProgramPerformance" class="article article-type-Program Performance" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/30/ProgramPerformance/" class="article-date">
+  <time datetime="2017-12-30T08:06:39.000Z" itemprop="datePublished">2017-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/30/ProgramPerformance/">Performance</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Web-Worker"><a href="#Web-Worker" class="headerlink" title="Web Worker"></a>Web Worker</h2><blockquote>
+<p>JavaScript是一门单线程语言, 我们可以通过浏览器的<code>Work</code>, 启动多线程来提高性能来处理io密集型计算, 大数据处理等; 但是主进程和子线程是隔离的, 只能通过监听事件和postMessage的方式进行传递消息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//在主线程启动线程 注意有跨域问题 而且必须是js可执行脚本</span><br><span class="line">var w1 = new Worker( &quot;http://127.0.0.1:8080/test.js&quot; );</span><br><span class="line">//监听事件, 就可以收到子线程的发送消息</span><br><span class="line">w1.addEventListener(&quot;message&quot;, function(e) &#123;</span><br><span class="line">    console.log(&quot;main process receive: &quot;, e.data)</span><br><span class="line">&#125;)</span><br><span class="line">//对子线程发送信息</span><br><span class="line">w1.postMessage(&quot;hello world&quot;)</span><br><span class="line"></span><br><span class="line">// test.js</span><br><span class="line">console.log(&quot;test.js....&quot;, navigator, location, JSON)</span><br><span class="line">addEventListener( &quot;message&quot;, function(evt)&#123;</span><br><span class="line">    // evt.data</span><br><span class="line">    console.log(&quot;receive: &quot;, evt.data)</span><br><span class="line">    postMessage( &quot;message has received&quot; );</span><br><span class="line">&#125; );</span><br><span class="line">importScripts(&quot;test2.js&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="Work-中可以使用如下全局变量"><a href="#Work-中可以使用如下全局变量" class="headerlink" title="Work 中可以使用如下全局变量"></a>Work 中可以使用如下全局变量</h3><ul>
+<li>navigator</li>
+<li>location</li>
+<li>JSON</li>
+<li>importScripts //同步阻塞引入其他脚本</li>
+</ul>
+<h3 id="Shared-Workers"><a href="#Shared-Workers" class="headerlink" title="Shared Workers"></a>Shared Workers</h3><p>通浏览器同时打开多个tab(同一个页面), 就会同时打开多个work, 此时我们可以用共享work来减少性能资源消耗<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var w1 = new SharedWorker( &quot;http://127.0.0.1:8080/mySharedWorker.js&quot; );</span><br><span class="line"></span><br><span class="line">// 通过port对象作为唯一标识</span><br><span class="line">w1.port.addEventListener( &quot;message&quot;, handleMessages );</span><br><span class="line">w1.port.postMessage( &quot;something cool&quot; );</span><br><span class="line"></span><br><span class="line">//port connect initialized</span><br><span class="line">w1.port.start();</span><br></pre></td></tr></table></figure></p>
+<p>在shared worker 内部给来的请求分配一个端口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// inside the mySharedWorker.js</span><br><span class="line">addEventListener(&quot;connect&quot;, function (event) &#123;</span><br><span class="line">    //分配端口给这个链接</span><br><span class="line">    var port = event.ports[0];</span><br><span class="line"></span><br><span class="line">    port.addEventListener(&quot;message&quot;, function (event) &#123;</span><br><span class="line">        // ....</span><br><span class="line">        port.postMessage( .. );</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    // initialize the port connection</span><br><span class="line">    port.start();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="SIMD"><a href="#SIMD" class="headerlink" title="SIMD"></a>SIMD</h2><p>SIMD 打算把 CPU 级的并行数学运算映射到 JavaScript API，以获得高性能的数据并行运 算，比如在大数据集上的数字处理。 现在还在研发中, 也许会在es7出现</p>
+<h2 id="asm-js"><a href="#asm-js" class="headerlink" title="asm.js"></a>asm.js</h2><p>asm.js 优化了垃圾收集和强制类型转换等部分, 所以适合数学运算(如游戏中的图形处理)</p>
+<p><a href="http://asmjs.org/spec/latest/" target="_blank" rel="noopener">asm 代码风格</a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">    "use asm"</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">45</span>;</span><br><span class="line">    <span class="keyword">var</span> b = a | <span class="number">0</span>; <span class="comment">//因为js是32位的, 但现在的计算机一般都是64位的, 通过`| 0`后, 计算机知道这是32位的变量, 减少了对高位的追踪计算</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> heap = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>( <span class="number">0x10000</span> ); <span class="comment">// 从堆里申请64k内存</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/12/30/ProgramPerformance/" data-id="cjgcxuq350014q8vns4lldokl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Generators" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/02/Generators/" class="article-date">
+  <time datetime="2017-12-02T06:17:01.000Z" itemprop="datePublished">2017-12-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/02/Generators/">Generators</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function *foo(x) &#123;</span><br><span class="line">	var y = x * (yield function() &#123;return &quot;hello world&quot;;&#125;); </span><br><span class="line">	return y;</span><br><span class="line">&#125;</span><br><span class="line">var it = foo( 6 ); //将6作为参数调用foo方法 并返回一个迭代器对象</span><br><span class="line">// start `foo(..)`</span><br><span class="line">var res1 = it.next(); //开始执行函数, 直到碰到yield 就停住了, 等待下一步指令; 并返回一个迭代器对象值为 &#123;done: false, value: ƒ&#125;, done表示迭代器还没有结束, value表示yield后面的内容; 一般浏览器都会忽略掉第一个next传入的参数</span><br><span class="line">res1.value(); //上面yield后面的内容是一个函数, 所以调用后, 返回&quot;hello world&quot;</span><br><span class="line">var res2 = it.next( 7 ); //将7 作为yield的返回值, 并继续执行至下一个yield或是结束</span><br><span class="line">res2.value; //因此 6 * 7 = 42</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function* test() &#123;</span><br><span class="line">	yield 1;</span><br><span class="line">	yield 2;</span><br><span class="line">	yield 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var it = test();</span><br><span class="line">for (var v of it) &#123;</span><br><span class="line">	console.log(v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>for (var v of it)</code> 会自动执行迭代器的next方法, 直到返回的对象<code>done: true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (var v of it) &#123;&#125;</span><br><span class="line">//可以转化为如下</span><br><span class="line">for (var ret; (ret = it.next()) &amp;&amp; !ret.done; ) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1, 3, 5, 7];</span><br><span class="line">for (var v of arr) &#123;</span><br><span class="line">	console.log(v);//1 3 5 7</span><br><span class="line">&#125;</span><br><span class="line">// 等价于如下</span><br><span class="line">var it = arr[Symbol.iterator]()</span><br><span class="line">it.next();//&#123;value: 1, done: false&#125;</span><br><span class="line">it.next();//&#123;value: 3, done: false&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function* test() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		var nextVal = 1;</span><br><span class="line">		while (true) &#123;</span><br><span class="line">			nextVal += 3;</span><br><span class="line">			yield nextVal;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; finally &#123;</span><br><span class="line">		console.log(&apos;finally...&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var it = test();</span><br><span class="line">for (var v of it) &#123;</span><br><span class="line">	console.log(v)</span><br><span class="line">	if (v &gt; 30 ) &#123;</span><br><span class="line">		var result = it.return(&quot;hello world&quot;)</span><br><span class="line">		console.log(&quot;result: &quot;, result)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> * 输出结果: 1 4 .... finally... result: &#123;value: &quot;hello world&quot;, done: true&#125;</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当我们调用迭代器it的return方法时, 迭代器会将it.next的结果done设置为true, 来终端迭代器迭代下去, 然后会执行迭代器里的finally方法(如果有), 最后返回的value的值等于我们return传递进去的值</p>
+</blockquote>
+<h2 id="自动执行迭代器"><a href="#自动执行迭代器" class="headerlink" title="自动执行迭代器"></a>自动执行迭代器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">function ajax(delay) &#123;</span><br><span class="line">    return new Promise(function(resolve, reject) &#123;</span><br><span class="line">        //延迟返回 模拟异步</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            resolve(&quot;ajax data&quot;);</span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function *test(arg) &#123;</span><br><span class="line">    var ajaxRes = yield ajax(arg);</span><br><span class="line">    return yield ajaxRes;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> * 模拟co库写的一个迭代器递归执行方法</span><br><span class="line"> **/</span><br><span class="line">function co(gen) &#123;</span><br><span class="line">    //获取初始化参数</span><br><span class="line">    var args = [].slice.call(arguments, 1);</span><br><span class="line">    //使用当前作用域初始化gen获取迭代器对象it, 下面it会作为一个闭包对象一直被递归调用</span><br><span class="line">    var it = gen.apply(this, args);</span><br><span class="line">    //返回一个处理好的promise</span><br><span class="line">    return Promise.resolve().then(function handleNext(value) &#123;</span><br><span class="line">        //将上一次promise返回的结果作为参数传递给迭代器, 第一次value为undefined, 一般浏览器会忽略</span><br><span class="line">        var next = it.next(value);</span><br><span class="line">        console.log(&quot;next: &quot;, next);</span><br><span class="line">        </span><br><span class="line">        //函数自运行</span><br><span class="line">        return (function handleResult(next) &#123;</span><br><span class="line">            //判断迭代器是否完成 如果完成返回最后结果</span><br><span class="line">            if (next.done) &#123;</span><br><span class="line">                return next.value;</span><br><span class="line">            &#125; else if (typeof next.value == &apos;function&apos;) &#123;</span><br><span class="line">				//处理thunk类型的回调</span><br><span class="line">				//返回一个promise</span><br><span class="line">				return new Promise(function(resolve, reject) &#123;</span><br><span class="line">					//给thunk传递回调函数</span><br><span class="line">					next.value(function(err, msg) &#123;</span><br><span class="line">						if (err) &#123;</span><br><span class="line">							reject(err);</span><br><span class="line">						&#125; else &#123;</span><br><span class="line">							resolve(msg);</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;)</span><br><span class="line">				&#125;).then(function() &#123;</span><br><span class="line">                    //如果promise返回成功, 就递归调用handleNext来处理it迭代器至完成</span><br><span class="line">                    handleNext,</span><br><span class="line"></span><br><span class="line">                    //异常处理</span><br><span class="line">                    function handleErr(err) &#123;</span><br><span class="line">                        return Promise.resolve(</span><br><span class="line">                            //处理异常</span><br><span class="line">                            it.throw(err)</span><br><span class="line">                        ).then(</span><br><span class="line">                            //继续处理异常处理的结果</span><br><span class="line">                            handleResult</span><br><span class="line">                        )</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">				&#125;)</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">                //否则就递归调用迭代器</span><br><span class="line">                //通过promise处理next.value, 如果next.value是非promise对象就会直接进入then, 否则就等待promise回调then</span><br><span class="line">                //这里的next.value一般都是异步处理, 例如ajax操作</span><br><span class="line">                return Promise.resolve(next.value).then(</span><br><span class="line">                    //如果promise返回成功, 就递归调用handleNext来处理it迭代器至完成</span><br><span class="line">                    handleNext,</span><br><span class="line">					</span><br><span class="line">                    //异常处理</span><br><span class="line">                    function handleErr(err) &#123;</span><br><span class="line">                        return Promise.resolve(</span><br><span class="line">                            //处理异常</span><br><span class="line">                            it.throw(err)</span><br><span class="line">                        ).then(</span><br><span class="line">                            //继续处理异常处理的结果</span><br><span class="line">                            handleResult</span><br><span class="line">                        )</span><br><span class="line">                    &#125;</span><br><span class="line">                );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(next)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">co(test, 3000).then(function(res) &#123;</span><br><span class="line">    console.log(&quot;res: &quot;,res)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面是一个自动递归处理迭代器的方法, 方法类似co库</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">funcion *foo() &#123;</span><br><span class="line">	var r1 = yield ajax(&apos;url1&apos;);</span><br><span class="line">	var r2 = yield ajax(&apos;url2&apos;);</span><br><span class="line"></span><br><span class="line">	var r3 = yield ajax(r1+r2);</span><br><span class="line">	return r3;</span><br><span class="line">&#125;</span><br><span class="line">co(foo);</span><br><span class="line"></span><br><span class="line">//可以优化为下面</span><br><span class="line">funcion *foo() &#123;</span><br><span class="line"></span><br><span class="line">	var p1 = ajax(&apos;url1&apos;);</span><br><span class="line">	var p2 = ajax(&apos;url2&apos;);</span><br><span class="line">	var r1 = yield p1</span><br><span class="line">	var r2 = yield p2</span><br><span class="line"></span><br><span class="line">	var r3 = yield ajax(r1+r2);</span><br><span class="line">	return r3;</span><br><span class="line">&#125;</span><br><span class="line">co(foo);</span><br><span class="line">// 上面那方法可以理解如下</span><br><span class="line">funcion *foo() &#123;</span><br><span class="line">	var results = yield Promise.all([ajax(&apos;url1&apos;), ajax(&apos;url2)]);</span><br><span class="line">	var r1 = results[0];</span><br><span class="line">	var r2 = results[1];</span><br><span class="line"></span><br><span class="line">	var r3 = yield ajax(r1+r2);</span><br><span class="line">	return r3;</span><br><span class="line">&#125;</span><br><span class="line">co(foo);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面第一个demo, 按照迭代器的方式, 必须等r1的ajax返回结果后, 才会调用r2的ajax, 这样效率就会很低, 所以应该优化为下面那方法, 这样就可以先直接发送2个ajax请求并发, 处理结果使用迭代器</p>
+</blockquote>
+<h2 id="迭代器的polyfill"><a href="#迭代器的polyfill" class="headerlink" title="迭代器的polyfill"></a>迭代器的polyfill</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">function *foo(url) &#123;</span><br><span class="line">	// STATE *1*</span><br><span class="line">	try &#123;</span><br><span class="line">		console.log( &quot;requesting:&quot;, url );</span><br><span class="line">		var TMP1 = request( url );</span><br><span class="line"></span><br><span class="line">		// STATE *2*</span><br><span class="line">		var val = yield TMP1;</span><br><span class="line">		console.log( val );</span><br><span class="line">	&#125; catch (e) &#123;</span><br><span class="line">		// STATE *3*</span><br><span class="line">		console.log( &quot;Oops:&quot;, err );</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//polyfill 如下</span><br><span class="line"></span><br><span class="line">function foo(url) &#123;</span><br><span class="line">	// manage generator state</span><br><span class="line">	var state;</span><br><span class="line"></span><br><span class="line">	// generator-wide variable declarations</span><br><span class="line">	var val;</span><br><span class="line">	</span><br><span class="line">	function process(v) &#123;</span><br><span class="line">		switch (state) &#123;</span><br><span class="line">			case 1: </span><br><span class="line">				console.log( &quot;requesting:&quot;, url );</span><br><span class="line">				return request( url );  </span><br><span class="line">			case 2:</span><br><span class="line">				val = v;</span><br><span class="line">				console.log( val );</span><br><span class="line">			case 3:</span><br><span class="line">				var err = v;</span><br><span class="line">				console.log( &quot;Oops:&quot;, err );</span><br><span class="line">				return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return &#123;</span><br><span class="line">		next: function(v) &#123;</span><br><span class="line">			// initial state</span><br><span class="line">			if (!state) &#123; </span><br><span class="line">				state = 1;</span><br><span class="line">				return &#123;</span><br><span class="line">					done: false,</span><br><span class="line">					value: process()</span><br><span class="line">				&#125;;</span><br><span class="line">			// yield resumed successfully</span><br><span class="line">			&#125; else if (state == 1) &#123;</span><br><span class="line">				state = 2;</span><br><span class="line">				return &#123;</span><br><span class="line">					done: true,</span><br><span class="line">					value: process( v )</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">			// generator already completed</span><br><span class="line">			else &#123; </span><br><span class="line">				return &#123;</span><br><span class="line">					done: true,</span><br><span class="line">					value: undefined</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		throw: function(e) &#123;</span><br><span class="line">			// the only explicit error handling is in </span><br><span class="line">			// state *1*</span><br><span class="line">			if (state == 1) &#123;</span><br><span class="line">				state = 3; </span><br><span class="line">				return &#123;</span><br><span class="line">					done: true,</span><br><span class="line">					value: process( e )</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">			// otherwise, an error won&apos;t be handled, </span><br><span class="line">			// so just throw it right back out</span><br><span class="line">			else &#123;</span><br><span class="line">				throw e; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/12/02/Generators/" data-id="cjgcxuq2o000bq8vnl94ln74j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Coercion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/22/Coercion/" class="article-date">
+  <time datetime="2017-10-22T06:28:26.000Z" itemprop="datePublished">2017-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/22/Coercion/">Coercion</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Abstract-Value-Operations"><a href="#Abstract-Value-Operations" class="headerlink" title="Abstract Value Operations"></a>Abstract Value Operations</h2><h3 id="JSON-stringify"><a href="#JSON-stringify" class="headerlink" title="JSON.stringify"></a>JSON.stringify</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JSON.stringify( undefined ); //&quot;undefined&quot;</span><br><span class="line">JSON.stringify( function()&#123;&#125; ); //&quot;undefined&quot;</span><br><span class="line">JSON.stringify( null ); //&quot;null&quot;</span><br><span class="line">JSON.stringify(</span><br><span class="line">   [1,undefined,function()&#123;&#125;,4]</span><br><span class="line">); // &quot;[1,null,null,4]&quot;</span><br><span class="line">JSON.stringify(</span><br><span class="line">   &#123; a:2, b:function()&#123;&#125; &#125;</span><br><span class="line">);// &quot;&#123;&quot;a&quot;:2&#125;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从上可以看出, 不同类型的值在不同类型中, <code>JSON.stringify</code>的结果表现形式也不一样, 在数组的<code>undefined</code>, <code>function</code>会被转换成<code>null</code>, 在对象里值为<code>undefined, function</code>的属性会被过滤掉</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123; </span><br><span class="line">	b: 42,</span><br><span class="line">	c: o,</span><br><span class="line">    d: function()&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">// create a circular reference inside `a`</span><br><span class="line">o.e = a;</span><br><span class="line"></span><br><span class="line">// would throw an error on the circular reference</span><br><span class="line">// JSON.stringify( a );</span><br><span class="line"></span><br><span class="line">// define a custom JSON value serialization</span><br><span class="line">a.toJSON = function() &#123;</span><br><span class="line">    // only include the `b` property for serialization</span><br><span class="line">    return &#123; b: this.b &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">JSON.stringify( a ); // &quot;&#123;&quot;b&quot;:42&#125;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果我们对象引用了自身, 再执行<code>JSON.stringify</code>时会报异常, 我们可以给这个对象定义一个<code>toJSON</code>的方法, 返回一个默认对象, 来避免这种情况</p>
+</blockquote>
+<h2 id="Explicit-Coercion"><a href="#Explicit-Coercion" class="headerlink" title="Explicit Coercion"></a>Explicit Coercion</h2><h3 id="ToNumber"><a href="#ToNumber" class="headerlink" title="ToNumber"></a>ToNumber</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Nubmer(true);//1</span><br><span class="line">Nubmer(false);//0</span><br><span class="line">Nubmer(undefined);//NaN</span><br><span class="line">Nubmer(null);//0</span><br><span class="line">Nubmer(&quot;&quot;);//0</span><br><span class="line">Nubmer(&quot;false&quot;);//NaN</span><br><span class="line">Nubmer([]);//0</span><br><span class="line">Nubmer([&quot;&quot;]);//0</span><br><span class="line">Nubmer([&quot;&quot;, &quot;&quot;]);//NaN</span><br><span class="line">Nubmer(&#123;&#125;);//NaN</span><br><span class="line">Nubmer(function()&#123;&#125;);//NaN</span><br><span class="line"></span><br><span class="line">var num1 = true + 1; // 1 + 1 = 2</span><br><span class="line">var num2 = false + 1; //0 + 1 = 1</span><br><span class="line">var num3 = undefined + 1; //NaN + 1 = NaN</span><br><span class="line">var num4 = null + 1; // 0 + 1 = 1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>综上可知, <code>true, false, undefined, null</code>在数学计算中, 强转后的数值不一, 格外需要注意的是<code>undefined</code>和非空字符串会被转换为<code>NaN</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> var a = &#123;</span><br><span class="line">        valueOf: function()&#123;</span><br><span class="line">            return &quot;42&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        toString: function()&#123;</span><br><span class="line">            return &quot;4221&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">    var b = &#123;</span><br><span class="line">        toString: function()&#123;</span><br><span class="line">            return &quot;42&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var c = [4,2];</span><br><span class="line">c.toString = function()&#123;</span><br><span class="line">    return this.join( &quot;&quot; ); // &quot;42&quot;</span><br><span class="line">&#125;;</span><br><span class="line">Number( a ); //42</span><br><span class="line">Number( b ); //42</span><br><span class="line">Number( c ); //42</span><br><span class="line">a + &apos;&apos;;//42</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果定义了<code>valueOf</code>, <code>toString</code>, 在强转的时候, 会优先调用<code>valueOf</code>, 如果没有<code>valueOf</code>, 再调用<code>toString</code></p>
+</blockquote>
+<h3 id="ToBoolean"><a href="#ToBoolean" class="headerlink" title="ToBoolean"></a>ToBoolean</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Boolean(&quot;&quot;);//false</span><br><span class="line">Boolean(NaN);//false</span><br><span class="line">Boolean(undefined);//false</span><br><span class="line">Boolean(null);//false</span><br><span class="line">Boolean(0);//false</span><br><span class="line">Boolean(-0);//false</span><br><span class="line"></span><br><span class="line">Boolean(new Boolean( false ));//true</span><br><span class="line">Boolean(new Number( 0 ));//true</span><br><span class="line">Boolean(new String( &quot;&quot; ));//true</span><br><span class="line">Boolean(&quot;0&quot;);//true</span><br><span class="line">Boolean([]);//true</span><br><span class="line">Boolean(&#123;&#125;);//true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>只有上面几种情况会返回<code>false</code>, 其余都会返回<code>true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Boolean(document.all)//false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>Boolean(document.all)</code>居然返回false, 似乎和上面的结论矛盾, 其实是因为历史原因, <code>document.all</code>其实已经被废弃, 但是又为了兼容有些代码, 浏览器又不能把他删除, 但又不想让<code>if(document.all){}</code>这样的代码执行, 因此让<code>Boolean(document.all)</code>为<code>false</code>, 即使<code>document.all</code>返回的是一个类数组</p>
+</blockquote>
+<h3 id="Explicitly-Parsing-Numeric-Strings"><a href="#Explicitly-Parsing-Numeric-Strings" class="headerlink" title="Explicitly: Parsing Numeric Strings"></a>Explicitly: Parsing Numeric Strings</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = &quot;42&quot;;</span><br><span class="line">var b = &quot;42px&quot;;</span><br><span class="line">Number( a );    // 42</span><br><span class="line">parseInt( a );  // 42</span><br><span class="line">Number( b );    // NaN</span><br><span class="line">parseInt( b );  // 42</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>parseInt</code>只要解析是值, 第一个是数字就能解析, 否则就返回<code>NaN</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parseInt(1/0, 19);//18</span><br><span class="line">parseInt( 0.000008 );// 0   (&quot;0&quot; from &quot;0.000008&quot;)</span><br><span class="line">parseInt( 0.0000008 );// 8   (&quot;8&quot; from &quot;8e-7&quot;)</span><br><span class="line">parseInt( false, 16 );// 250 (&quot;fa&quot; from &quot;false&quot;)</span><br><span class="line">parseInt( parseInt, 16 );// 15  (&quot;f&quot; from &quot;function..&quot;)</span><br><span class="line">parseInt( &quot;0x10&quot; );// 16</span><br><span class="line">parseInt( &quot;103&quot;, 2 ); // 2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>parseInt()</code>的一些奇怪现象</p>
+</blockquote>
+<h2 id="Implicit-Coercion"><a href="#Implicit-Coercion" class="headerlink" title="Implicit Coercion"></a>Implicit Coercion</h2><h3 id="Implicitly-Strings-lt-–-gt-Numbers"><a href="#Implicitly-Strings-lt-–-gt-Numbers" class="headerlink" title="Implicitly: Strings &lt;–&gt; Numbers"></a>Implicitly: Strings &lt;–&gt; Numbers</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = [1,2];</span><br><span class="line">var b = [3,4];</span><br><span class="line">a + b; // &quot;1,23,4&quot;</span><br><span class="line"></span><br><span class="line">&#123;&#125; + [];//0 这里&#123;&#125;其实不是表示空对象, 而是表示一个块作用域, 因此没有任务作用, 所以 +[] 转换为数字为0</span><br><span class="line">[] + &#123;&#125;;//&quot;[object Object]&quot; 这里&#123;&#125;表示对象被强转成了字符串</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是一些比较奇怪的现象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> var a = &#123;</span><br><span class="line">        valueOf: function() &#123; return 42; &#125;,</span><br><span class="line">        toString: function() &#123; return 4; &#125;</span><br><span class="line">&#125;</span><br><span class="line">a + &quot;&quot;; // &quot;42&quot;</span><br><span class="line">String( a );    // &quot;4&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上两者转换是有区别的, <code>a + &quot;&quot;</code>这种形式会优先调用<code>valueOf</code>方法, 而<code>String()</code>直接调用<code>toString</code>方法</p>
+</blockquote>
+<h2 id="Loose-Equals-Versus-Strict-Equals"><a href="#Loose-Equals-Versus-Strict-Equals" class="headerlink" title="Loose Equals Versus Strict Equals"></a>Loose Equals Versus Strict Equals</h2><blockquote>
+<p>我们经常会说<code>==</code>表示检测两者的值否是相等, <code>===</code>表示检测两者的值相等的同时再检测类型是否相同, 这种说法不是完全正确, 正确理解应该是, <code>==</code>会将两值转换成同一类型再进行比较, 而<code>===</code>不会将两值类型做转换而直接进行比较<br>当一个<code>String</code>类型和一个<code>Number</code>类型进行<code>==</code>比较, <code>String</code>类型会转换为<code>Number</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var num = 42;</span><br><span class="line">num == true;//false ==&gt; 42 == Number(true) ==&gt; 42 == 1</span><br><span class="line">num == false;//false ==&gt; 42 == Number(false) ==&gt; 42 == 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的比较结果居然都是<code>false</code>, 据我们上面分析得知, 42被转换为布尔值为<code>true</code>, 但实际上, 当一个<code>Number</code>类型和一个<code>Boolean</code>类型做比较时, <code>Boolean</code>类型会被转换成<code>Number</code>类型</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;42&quot;</span><br><span class="line">num == true;//false ==&gt; Number(&quot;42&quot;) == Number(true) ==&gt; 42 == 1</span><br><span class="line">num == false;//false ==&gt; Number(&quot;42&quot;) == Number(false) ==&gt; 42 == 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当2个非数字类型的变量进行比较时, 两者都会转换成<code>Number</code>类型再进行比较</p>
+</blockquote>
+<h3 id="Comparing-nulls-to-unde-neds"><a href="#Comparing-nulls-to-unde-neds" class="headerlink" title="Comparing: nulls to unde neds"></a>Comparing: nulls to unde neds</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">null == undefined;//true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>null</code>和<code>undefined</code>这两者与其他类型比较都是返回<code>false</code>, 只有以上情况, 会返回<code>true</code>,</p>
+</blockquote>
+<h3 id="Comparing-objects-to-nonobjects"><a href="#Comparing-objects-to-nonobjects" class="headerlink" title="Comparing: objects to nonobjects"></a>Comparing: objects to nonobjects</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = 42;</span><br><span class="line">var b = [42];</span><br><span class="line">a == b; //true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上结果得知, 所有对象类型与原始标量类型做比较时, 对象类型都会被转换成原始标量类型再进行比较</p>
+</blockquote>
+<h3 id="Edge-Cases"><a href="#Edge-Cases" class="headerlink" title="Edge Cases"></a>Edge Cases</h3><blockquote>
+<p>一些比较奇怪的bug</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Number.prototype.valueOf = function() &#123;</span><br><span class="line">    return 3;</span><br><span class="line">&#125;;</span><br><span class="line">new Nubmer( 2 ); //2 </span><br><span class="line">new Number( 2 ) == 3;   // true</span><br><span class="line">new Number( 2 ) == 2;   // false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面是比较奇怪的<code>bug</code>, 返回是2, 但是与2不相等</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var i = 2;</span><br><span class="line">    Number.prototype.valueOf = function() &#123;</span><br><span class="line">        return i++;</span><br><span class="line">&#125;;</span><br><span class="line">var a = new Number( 42 );</span><br><span class="line">if (a == 2 &amp;&amp; a == 3) &#123;</span><br><span class="line">    console.log( &quot;Yep, this happened.&quot; );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上<code>if</code>结果是<code>true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&quot;0&quot; == false; //true 两者类型不同, 都会转换成Number类型再进行比较</span><br><span class="line">&quot;0&quot; == &quot;&quot;; //false 都是字符串类型, 不进行转换直接比较</span><br><span class="line"></span><br><span class="line">false == []; //true //转换成数字类型再进行比较</span><br><span class="line">false == &#123;&#125;; //false //转换成数字类型再进行比较</span><br><span class="line"></span><br><span class="line">&quot;&quot; == []; //true</span><br><span class="line">&quot;&quot; == &#123;&#125;; //false</span><br><span class="line"></span><br><span class="line">0 == []; //true</span><br><span class="line">0 == &#123;&#125;; //false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面为何 <code>[]``{}</code> 比较结果不一样呢? 因为<code>Number([]) === 0</code> <code>Number({})</code>结果为NaN; <code>String([]) === &#39;&#39;</code> <code>String({}) === [object Object]</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[] == ![]; //true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>非常奇怪, 上面结果是<code>true</code>, 因为上面的转换规则如下 <code>==&gt; [] == false ==&gt; ==&gt; Number([]) == Number(false) ==&gt; 0 == 0 ==&gt; true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2 == [2];       // true  Number([2]) ==&gt; 2</span><br><span class="line">&quot;&quot; == [null];   // true  String([null]) ==&gt; &quot;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面, 只要按照对象类型与原始类型比较时, 对象类型会被转换成原始类型再进行比较</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 == &quot;\n&quot; //==&gt; 0 == Number(&quot;\n&quot;) ==&gt; 0 == 0</span><br></pre></td></tr></table></figure>
+<h3 id="Abstract-Relational-Comparison"><a href="#Abstract-Relational-Comparison" class="headerlink" title="Abstract Relational Comparison"></a>Abstract Relational Comparison</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[42] &lt; [&quot;43&quot;]; //true</span><br><span class="line">[&quot;42&quot;] &lt; [&quot;043&quot;]; //false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面第一条是可以理解的, 第二条是因为两者都是字符串数组, 所以就转换成字符串比较, 字符串比较是按位比较的, 他们各自的第一位分别是4与0, 所有<code>[&quot;42&quot;] &gt; [&quot;043&quot;]</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123; b: 42 &#125;;</span><br><span class="line">var b = &#123; b: 43 &#125;;</span><br><span class="line"></span><br><span class="line">a &lt; b;  // false</span><br><span class="line">a == b; // false</span><br><span class="line">a &gt; b;  // false</span><br><span class="line"></span><br><span class="line">a &lt;= b; // true</span><br><span class="line">a &gt;= b; // true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面真是个奇怪的现象, 为什么会这样呢? 因为js判断<code>a &lt;= b</code>的时候其实是转换成<code>!(a&gt;b)</code> 判断<code>a&gt;=b</code>的时候其实是转换成<code>!(a&lt;b)</code></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/22/Coercion/" data-id="cjgcxuq2j0004q8vnkergfnhz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Natives" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/20/Natives/" class="article-date">
+  <time datetime="2017-10-20T01:53:15.000Z" itemprop="datePublished">2017-10-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/20/Natives/">Natives</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new Array(1, 2, 3);// [1, 2, 3]</span><br><span class="line">Array(1, 2, 3);// [1, 2, 3]</span><br><span class="line">[1, 2, 3];//[1, 2, 3]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是3种, 初始化数组的方式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(3);</span><br><span class="line">arr.length;//3</span><br><span class="line">arr;//[empty x 3]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是一个奇怪的现象, 当我们给数组初始化时, 只传递一个数值时, 它不是初始化一个数组包含这个值, 而是初始化了长度为这个值的数组</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = new Array( 3 );//[empty x 3]</span><br><span class="line">var b = [undefined, undefined, undefined ];//[undefined, undefined, undefined ]</span><br><span class="line">var c = [];</span><br><span class="line">c.length = 3; //[empty x 3]</span><br><span class="line">var d = [, , ,]; //[empty x 3]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上数组, 看似好像都是3个位置的数组, 但其实他们的值不全一样, 请看下面</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.map(function(v, key)&#123; return key; &#125;); // [ undefined x 3 ]</span><br><span class="line">b.map(function(v, key)&#123; return key; &#125;); // [ 0, 1, 2 ]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上, 我们发现a居然没有key值, 所以以后要undefined填充的数组使用b的方式声明</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = Array.apply( null, &#123; length: 3 &#125; );</span><br><span class="line">a; // [ undefined, undefined, undefined ]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是快速获取由undefined填充的数组</p>
+<p>总结: 我们应该尽量避免使用对象形式创建数组, 应该使用 <code>var arr = []</code> 这种字面量形式</p>
+</blockquote>
+<h2 id="Object-Function-and-RegExp"><a href="#Object-Function-and-RegExp" class="headerlink" title="Object(..), Function(..), and RegExp(..)"></a>Object(..), Function(..), and RegExp(..)</h2><blockquote>
+<p>字面量的/正则表达式/比 <code>new RegExp</code>方式性能会好很多, 因为js引擎会对其进行提前编译和缓存</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function isThisCool(vals,fn,rx) &#123;</span><br><span class="line">    vals = vals || Array.prototype;</span><br><span class="line">    fn = fn || Function.prototype;</span><br><span class="line">    rx = rx || RegExp.prototype;</span><br><span class="line">    return rx.test(</span><br><span class="line">        vals.map( fn ).join( &quot;&quot; )</span><br><span class="line">	); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isThisCool();       // true</span><br><span class="line"></span><br><span class="line">isThisCool(</span><br><span class="line">        [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],</span><br><span class="line">		function(v)&#123; return v.toUpperCase(); &#125;,</span><br><span class="line">		/D/</span><br><span class="line">		);// false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, 是一种初始化类似的方式, 比<code>[], function(){},  /(?:)/</code>在性能上会好一点, 但是尽量避免有修改属性的操作, 因为那样有可能影响到元素属性, 导致bug</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/20/Natives/" data-id="cjgcxuq33000zq8vnje9g18im" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Values" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/17/Values/" class="article-date">
+  <time datetime="2017-10-17T12:01:54.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/17/Values/">Values</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">arr[0] = 0;</span><br><span class="line">arr[2] = 2;</span><br><span class="line">arr.length; //3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上当我们跳过1索引位, 但是数组的长度还是变成了3而不是2, 索引1位置的值为<code>undefined</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">arr[&quot;hello&quot;] = &quot;world&quot;;</span><br><span class="line">arr.length; //0</span><br><span class="line">arr[&quot;2&quot;] = 2;</span><br><span class="line">arr.length; //3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上当设置为字符串为key时, 不会算在数组长度里, 但是如果设置的是一个字符串的数值, 会为强转成数值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.slice.call(arrayLike);</span><br><span class="line">//等价于es6</span><br><span class="line">Array.from(arrayLike)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上是将类数组(dom对象数组或者函数的arguments参数数组)的数组转换为数组</p>
+</blockquote>
+<h2 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h2><blockquote>
+<p>字符串, 有点像字符数组, 他们有一些公用方法, 但不完全一样, 比如字符串是无法改变自身位置, 但数组是可以的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;hello&quot;;</span><br><span class="line">str.concat(&quot;~~&quot;, &quot;world&quot;);//hello~~world</span><br><span class="line"></span><br><span class="line">str.join;//undefined</span><br><span class="line">Array.prototype.join.call(str, &apos;-&apos;);//h-e-l-l-o</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上我们发现我们能使用部分数组的方法, 但是不能使用有些数组方法(比如reverse), 这是为什么呢? 因为join方法是返回一个新数组的, 而reverse是改变数组本身, 又因为字符串是无法改变自身位置的, 所以reverse无法使用</p>
+</blockquote>
+<p>##Numbers<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var num = .42;</span><br><span class="line">//等价于如下</span><br><span class="line">num = 0.42</span><br><span class="line"></span><br><span class="line">var num2 = 42.;</span><br><span class="line">//等价于如下</span><br><span class="line">num2 = 42.0;</span><br><span class="line"></span><br><span class="line">var num3 = 4E2; //400</span><br><span class="line"></span><br><span class="line">//.toFiex保留几位小数</span><br><span class="line">var num4 = 42.59;</span><br><span class="line">num4.toFixed(0)//43</span><br><span class="line">num4.toFixed(1)//42.6</span><br><span class="line">num4.toFixed(2)//42.59</span><br><span class="line">num4.toFixed(4)//42.590</span><br><span class="line">num4.toFixed(5)//42.5900</span><br><span class="line"></span><br><span class="line">//.toPrecision保留几位数</span><br><span class="line">var a = 42.59;</span><br><span class="line">a.toPrecision( 1 ); // &quot;4e+1&quot;</span><br><span class="line">a.toPrecision( 2 ); // &quot;43&quot;</span><br><span class="line">a.toPrecision( 3 ); // &quot;42.6&quot;</span><br><span class="line">a.toPrecision( 4 ); // &quot;42.59&quot;</span><br><span class="line">a.toPrecision( 5 ); // &quot;42.590&quot;</span><br><span class="line">a.toPrecision( 6 ); // &quot;42.5900&quot;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0x12//十六进制</span><br><span class="line">0o12//八进制 在非严格模式下可以使用012, 但已废弃, 不建议再使用</span><br><span class="line">0b11//二进制</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0.1 + 0.2 == 0.30000000000000004</span><br><span class="line"></span><br><span class="line">function numbersCloseEnoughToEqual(n1,n2) &#123;</span><br><span class="line">        return Math.abs( n1 - n2 ) &lt; Number.EPSILON;</span><br><span class="line">&#125;</span><br><span class="line">var a = 0.1 + 0.2;</span><br><span class="line">var b = 0.3;</span><br><span class="line">numbersCloseEnoughToEqual( a, b );</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上得知, js的小数计算结果有偏差, 所以可以使用<code>Number.EPSILON</code>来计算是否相等</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number.MAX_VALUE;//1.798e+308</span><br><span class="line">Number.MIN_VALUE;//5e-324</span><br><span class="line">Number.MAX_SAFE_INTEGER;//9007199254740991= 2^53 - 1</span><br><span class="line">Number.MIN_SAFE_INTEGER;//-9007199254740991</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>js整数最大用53位表示, 所以如果计算64位数时需要额外引入库</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number.isInteger( 42 );     // true</span><br><span class="line">Number.isInteger( 42.000 ); // true</span><br><span class="line">Number.isInteger( 42.3 );   // false</span><br></pre></td></tr></table></figure>
+<h2 id="undefined"><a href="#undefined" class="headerlink" title="undefined"></a>undefined</h2><blockquote>
+<p>undefined是一个标识符, 而null是关键字</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    var undefined = 2;</span><br><span class="line">    console.log( undefined ); // 2</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var foo = void 0;</span><br><span class="line">foo;//undefined</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以通过void获取undefined值, void _ 会一直返回undefined值</p>
+</blockquote>
+<h2 id="NaN-Not-a-Number"><a href="#NaN-Not-a-Number" class="headerlink" title="NaN - Not a Number"></a>NaN - Not a Number</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">typeof NaN // number</span><br><span class="line"></span><br><span class="line">NaN == NaN; //undefined</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">isNaN(NaN); //true</span><br><span class="line">isNaN(1); //false</span><br><span class="line">isNaN(&apos;1&apos;); //false</span><br><span class="line">isNaN(&apos;hello&apos;); //true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上得知, isNaN是用来判别是不是数字, 如果不是数字就返回true, 否则就是true</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number.isNaN(NaN); //true</span><br><span class="line">Number.isNaN(1); //false</span><br><span class="line">Number.isNaN(&apos;1&apos;); //false</span><br><span class="line">Number.isNaN(&apos;hello&apos;); //false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>es6提供的<code>Number.isNaN</code>修复了这个问题</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">if (!Number.isNaN) &#123;</span><br><span class="line">        Number.isNaN = function(n) &#123;</span><br><span class="line">            return (</span><br><span class="line">                typeof n === &quot;number&quot; &amp;&amp;</span><br><span class="line">                window.isNaN( n )</span><br><span class="line">			); </span><br><span class="line">		&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (!Number.isNaN) &#123;</span><br><span class="line">	 Number.isNaN = function(n) &#123;</span><br><span class="line">	 	//只有NaN不等于自身</span><br><span class="line">        return n !== n;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>两种es6 isNaN的polyfill</p>
+</blockquote>
+<h3 id="Zeros"><a href="#Zeros" class="headerlink" title="Zeros"></a>Zeros</h3><blockquote>
+<p>js里有0和-0, 它的用处不是很大, 但是在某些运动时刻, 可以通过正负值, 来判断运动方向</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 0 / -3; // -0</span><br><span class="line">var b = 0 * -3; // -0</span><br><span class="line"></span><br><span class="line">a.toString(); //&quot;0&quot;</span><br><span class="line">a + &quot;&quot;; //&quot;0&quot;</span><br><span class="line">String( a ); //&quot;0&quot;</span><br><span class="line"></span><br><span class="line">JSON.stringify( a );   // &quot;0&quot;</span><br><span class="line">JSON.parse( &quot;-0&quot; ); // -0</span><br><span class="line"></span><br><span class="line">Number( &quot;-0&quot; );     // -0</span><br><span class="line"></span><br><span class="line">-0 === 0;//true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function isNegZero(n) &#123;</span><br><span class="line">    n = Number( n );</span><br><span class="line">    return (n === 0) &amp;&amp; (1 / n === -Infinity);</span><br><span class="line">&#125;</span><br><span class="line">isNegZero( -0 );// true</span><br><span class="line">isNegZero( 0 / -3 );// true</span><br><span class="line">isNegZero( 0 );// false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以通过上面的方法判断是否为负0</p>
+</blockquote>
+<h3 id="Special-Equality"><a href="#Special-Equality" class="headerlink" title="Special Equality"></a>Special Equality</h3><blockquote>
+<p>es6提供的提供了<code>Object.is</code>方法可以来判断两值是否相等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 2 / &quot;foo&quot;;</span><br><span class="line">var b = -3 * 0;</span><br><span class="line"></span><br><span class="line">Object.is( a, NaN ); //true</span><br><span class="line">Object.is( b, -0 ); //true</span><br><span class="line">Object.is( b, 0 ); // false</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if (!Object.is) &#123;</span><br><span class="line">        Object.is = function(v1, v2) &#123;</span><br><span class="line">            // test for `-0`</span><br><span class="line">            if (v1 === 0 &amp;&amp; v2 === 0) &#123;</span><br><span class="line">                return 1 / v1 === 1 / v2;</span><br><span class="line">            &#125;</span><br><span class="line">            // test for `NaN`</span><br><span class="line">            if (v1 !== v1) &#123;</span><br><span class="line">                return v2 !== v2;</span><br><span class="line">            &#125;</span><br><span class="line">            // everything else</span><br><span class="line">            return v1 === v2;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>polyfill如上</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/17/Values/" data-id="cjgcxuq370016q8vnn1temch6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-漫谈React" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/11/漫谈React/" class="article-date">
+  <time datetime="2017-10-11T01:01:17.000Z" itemprop="datePublished">2017-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/11/漫谈React/">漫谈React</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="事件系统"><a href="#事件系统" class="headerlink" title="事件系统"></a>事件系统</h2><h3 id="事件委派"><a href="#事件委派" class="headerlink" title="事件委派"></a>事件委派</h3><blockquote>
+<p>它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数</p>
+</blockquote>
+<h3 id="在React中使用原生事件"><a href="#在React中使用原生事件" class="headerlink" title="在React中使用原生事件"></a>在React中使用原生事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class NativeEventDemo extends Component &#123; </span><br><span class="line">	componentDidMount() &#123;</span><br><span class="line">		this.refs.button.addEventListener(&apos;click&apos;, e =&gt; &#123; this.handleClick(e);&#125;); </span><br><span class="line">	&#125;</span><br><span class="line">	handleClick(e) &#123; </span><br><span class="line">		console.log(e);</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillUnmount() &#123; </span><br><span class="line">		this.refs.button.removeEventListener(&apos;click&apos;);</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;button ref=&quot;button&quot;&gt;Test&lt;/button&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><h3 id="跨级组件通信通信"><a href="#跨级组件通信通信" class="headerlink" title="跨级组件通信通信"></a>跨级组件通信通信</h3><blockquote>
+<p>父级组件申明<code>getChildContext</code>方法和<code>childContextTypes</code>对象属性, 子组件申明<code>contextTypes</code>再可以通过<code>this.context</code>跨级获取对应的属性, 类似全局变量的概念, 但是这样比较混乱, react不建议这样使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">	static childContextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;</span><br><span class="line">	getChildContext() &#123; </span><br><span class="line">		return &#123;</span><br><span class="line">			color: &apos;red&apos;, </span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;Son /&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Son extends Component &#123;</span><br><span class="line">	static contextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &#123;this.context.color&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="没有嵌套关系的组件通信"><a href="#没有嵌套关系的组件通信" class="headerlink" title="没有嵌套关系的组件通信"></a>没有嵌套关系的组件通信</h3><blockquote>
+<p>通过<code>EventEmitter</code>对象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import &#123; EventEmitter &#125; from &apos;events&apos;;</span><br><span class="line">const emitter = new EventEmitter();</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.btnClick = emitter.on(&apos;btnClick&apos;, (data) =&gt; &#123; </span><br><span class="line">      console.log(data);</span><br><span class="line">      alert(data)</span><br><span class="line">    &#125;); </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    emitter.removeListener(this.btnClick);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class OtherComp extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">    	super(props);</span><br><span class="line">	&#125;</span><br><span class="line">	onClickEvent() &#123;</span><br><span class="line">	    emitter.emit(&apos;btnClick&apos;, &apos;click...&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		</span><br><span class="line">		return &lt;button onClick=&#123;this.onClickEvent.bind(this)&#125;&gt;按钮&lt;/button&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h2><h3 id="属性代理"><a href="#属性代理" class="headerlink" title="属性代理"></a>属性代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		const newProps = &#123;</span><br><span class="line">			text: newText, </span><br><span class="line">		&#125;;</span><br><span class="line">		return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt;</span><br><span class="line">	class extends Component &#123;</span><br><span class="line">		constructor(props) &#123; </span><br><span class="line">			super(props); </span><br><span class="line">			this.state = &#123;</span><br><span class="line">		  		name: &apos;&apos;,</span><br><span class="line">		  	&#125;;</span><br><span class="line">			this.onNameChange = this.onNameChange.bind(this); </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		onNameChange(event) &#123; </span><br><span class="line">			this.setState(&#123;</span><br><span class="line">				name: event.target.value, </span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">		render() &#123;</span><br><span class="line">			const newProps = &#123;</span><br><span class="line">				name: &#123;</span><br><span class="line">					value: this.state.name,</span><br><span class="line">					onChange: this.onNameChange,</span><br><span class="line">				&#125;, </span><br><span class="line">			&#125;</span><br><span class="line">			return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MyContainer</span><br><span class="line">class MyComponent extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;input name=&quot;name&quot; &#123;...this.props.name&#125; /&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过以上的封装，我们就得到了一个被控制的 input 组件。</p>
+</blockquote>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><blockquote>
+<p>高阶组件集成传递进来的组件WrappedComponent, 然后通过super去反向调用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends WrappedComponent &#123;</span><br><span class="line">		render() &#123;</span><br><span class="line">			return super.render();</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件性能优化"><a href="#组件性能优化" class="headerlink" title="组件性能优化"></a>组件性能优化</h2><h3 id="PureRender"><a href="#PureRender" class="headerlink" title="PureRender"></a>PureRender</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Account style=&#123;&#123; color: &apos;black&apos; &#125;&#125; /&gt;</span><br><span class="line"></span><br><span class="line">//优化为如下</span><br><span class="line"></span><br><span class="line">const defaultStyle = &#123;&#123;color: &apos;black&apos;&#125;&#125;;</span><br><span class="line">&lt;Account style=&#123;this.props.style || defaultStyle&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, 我们知道，每次调用 React 组件其实都会重新创建组件。就算传入的数组或对象的值没有改变, 但它引用的地址改变, 因此对象和数组类型的数据, 应该用一个变量传入</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class NameItem extends Component &#123; </span><br><span class="line">	render() &#123;</span><br><span class="line">		//翻译成jsx为: &lt;Item children=&#123;React.createElement(&apos;span&apos;, &#123;&#125;, &apos;Arcthur&apos;)&#125;/&gt;</span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;Item/&gt;</span><br><span class="line">		 )</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">import PureRenderMixin from &apos;react-addons-pure-render-mixin&apos;;</span><br><span class="line">class NameItem extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this); </span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123; </span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;/Item&gt;</span><br><span class="line">		); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, Item 组件不论什么情况下都会重新渲染。那么，怎么避免 Item 组件的重复渲染呢? 很简单，我们给 NameItem 设置 PureRender</p>
+</blockquote>
+<h3 id="Immutable"><a href="#Immutable" class="headerlink" title="Immutable"></a>Immutable</h3><blockquote>
+<p>Immutable提供了很多类似es6工具方法, 它最大的亮点是提供了Map(对象), List(数据)这2个方法, 它可以得到不会被改变的对象和数组, 就可以防止数据被在某些黑盒里修改</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let a = Map(&#123;</span><br><span class="line">	select: &apos;users&apos;,</span><br><span class="line">	filter: Map(&#123; name: &apos;Cam&apos; &#125;),</span><br><span class="line">&#125;);</span><br><span class="line">let b = a.set(&apos;select&apos;, &apos;people&apos;);</span><br><span class="line">a === b // false</span><br><span class="line"></span><br><span class="line">let map1 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">let map2 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">map1 === map2; // =&gt; false</span><br><span class="line">Immutable.is(map1, map2); // =&gt; true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上为Immutable的map简单用法, Immutable.is 比较的是两个对象的 hashCode 或 valueOf(对于 JavaScript 对象)。由于 Immutable 内部使用了 trie 数据结构来存储，只要两个对象的 hashCode 相等，值就是一样的。 这样的算法避免了深度遍历比较，因此性能非常好。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;; </span><br><span class="line">import &#123; is &#125; from &apos;immutable&apos;;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123; </span><br><span class="line">	shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">		const thisProps = this.props || &#123;&#125;;</span><br><span class="line">		const thisState = this.state || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">		if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) &#123;</span><br><span class="line">			return true; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextProps) &#123;</span><br><span class="line">			if (nextProps.hasOwnProperty(key) &amp;&amp; !is(thisProps[key], nextProps[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextState) &#123;</span><br><span class="line">			if (nextState.hasOwnProperty(key) &amp;&amp; !is(thisState[key], nextState[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return false; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上优化shouldComponentUpdate, Immutable.js提供了简洁、高效的判断数据是否变化的方法，只需 === 和 is 比较就能知 道是否需要执行 render，而这个操作几乎零成本，所以可以极大提高性能</p>
+</blockquote>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><blockquote>
+<p>我们迭代渲染数组时, 如果不给组件设置key或是设置了相同的key会有警告, 但是设置的key, 尽量根据组件自身属性而产生的唯一性key, 比如id, 尽量避免使用数组的key, 这样效率会很低, 因为所有组件基本都会重新渲染</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import createFragment from &apos;react-addons-create-fragment&apos;;</span><br><span class="line">function Rank(&#123; first, second &#125;) &#123; </span><br><span class="line">	const children = createFragment(&#123;</span><br><span class="line">		first: first,</span><br><span class="line">		second: second, </span><br><span class="line">	&#125;);</span><br><span class="line">	return ( &lt;ul&gt;&#123;children&#125; &lt;/ul&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于 key，我们还需要知道的一种情况是，有两个子组件需要渲染的时候，我们没法给它们<br>设 key。这时需要用到 React 插件 createFragment 来解决, 如上</p>
+</blockquote>
+<h3 id="react-addons-perf-性能检测工具"><a href="#react-addons-perf-性能检测工具" class="headerlink" title="react-addons-perf 性能检测工具"></a>react-addons-perf 性能检测工具</h3><blockquote>
+<p>通过 Perf.start() 和 Perf.stop() 两个 API 设置 开始和结束的状态来作分析</p>
+</blockquote>
+<ul>
+<li>Perf.printInclusive(measurements):所有阶段的时间。 </li>
+<li>Perf.printExclusive(measurements):不包含挂载组件的时间，即初始化 props、state，调用 componentWillMount 和 componentDidMount 方法的时间等。</li>
+<li>Perf.printWasted(measurements):监测渲染的内容保持不变的组件(可以查看哪些组件<br>没有被 shouldComponentUpdate 命中)。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/11/漫谈React/" data-id="cjgcxuq40002rq8vnvacjamhs" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-初入React世界" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/10/初入React世界/" class="article-date">
+  <time datetime="2017-10-10T00:47:18.000Z" itemprop="datePublished">2017-10-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/10/初入React世界/">初入React世界</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React生命周期"><a href="#React生命周期" class="headerlink" title="React生命周期"></a>React生命周期</h2><ul>
+<li>constructor</li>
+<li>static getDerivedStateFromProps</li>
+<li>componentWillMount / UNSAFE_componentWillMount</li>
+<li>render</li>
+<li>componnetDidMount</li>
+<li>componentWillReceiveProps / UNSAFE_componentWillReceiveProps</li>
+<li>static getDerivedStateFromProps</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate / UNSAFE_componentWillUpdate</li>
+<li>render</li>
+<li>getSnapshotBeforeUpdate</li>
+<li>componnetDidUpdate</li>
+<li>componentWillUnmount</li>
+<li>componentDidCatch</li>
+</ul>
+<h3 id="componnetDidMount"><a href="#componnetDidMount" class="headerlink" title="componnetDidMount"></a>componnetDidMount</h3><blockquote>
+<p>绑定事件, ajax请求尽量在这个阶段调用; 此阶段虽然在render之后被调用, 实质上仅仅生成了dom树, 还没有被渲染到页面上, 因此在调用setState, 页面上不会出现重复渲染</p>
+</blockquote>
+<h3 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h3><blockquote>
+<p>此阶段控制页面是否重新渲染; 可以通过继承 <code>React.PureComponent</code>, 它实现了prop和state的浅比较; react不推荐我们在这阶段进行深度比较, 或是通过json.stringify进行比较, 这样很耗性能;</p>
+</blockquote>
+<h3 id="getSnapshotBeforeUpdate"><a href="#getSnapshotBeforeUpdate" class="headerlink" title="getSnapshotBeforeUpdate"></a>getSnapshotBeforeUpdate</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScrollingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  listRef = React.createRef();</span><br><span class="line"></span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    <span class="comment">// Are we adding new items to the list?</span></span><br><span class="line">    <span class="comment">// Capture the current height of the list so we can adjust scroll later.</span></span><br><span class="line">    <span class="keyword">if</span> (prevProps.list.length &lt; <span class="keyword">this</span>.props.list.length) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.listRef.current.scrollHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidUpdate(prevProps, prevState, snapshot) &#123;</span><br><span class="line">    <span class="comment">// If we have a snapshot value, we've just added new items.</span></span><br><span class="line">    <span class="comment">// Adjust scroll so these new items don't push the old ones out of view.</span></span><br><span class="line">    <span class="keyword">if</span> (snapshot !== <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.listRef.current.scrollTop +=</span><br><span class="line">        <span class="keyword">this</span>.listRef.current.scrollHeight - snapshot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div ref=&#123;<span class="keyword">this</span>.listRef&#125;&gt;&#123;<span class="comment">/* ...contents... */</span>&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="componentDidCatch"><a href="#componentDidCatch" class="headerlink" title="componentDidCatch"></a>componentDidCatch</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ErrorBoundary</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">hasError</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidCatch(error, info) &#123;</span><br><span class="line">    <span class="comment">// Display fallback UI</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">hasError</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">    <span class="comment">// You can also log the error to an error reporting service</span></span><br><span class="line">    logErrorToMyService(error, info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasError) &#123;</span><br><span class="line">      <span class="comment">// You can render any custom fallback UI</span></span><br><span class="line">      <span class="keyword">return</span> &lt;h1&gt;Something went wrong.&lt;/h1&gt;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.props.children;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;ErrorBoundary&gt;</span><br><span class="line">  &lt;MyWidget /&gt;</span><br><span class="line">&lt;<span class="regexp">/ErrorBoundary&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="ReactDom"><a href="#ReactDom" class="headerlink" title="ReactDom"></a>ReactDom</h2><h3 id="ReactDOMServer-renderToString-element"><a href="#ReactDOMServer-renderToString-element" class="headerlink" title="ReactDOMServer.renderToString(element)"></a>ReactDOMServer.renderToString(element)</h3><p>在服务端渲染react的html, 加速首屏渲染和SEO优化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOMServer <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line">ReactDOMServer.renderToString(element)</span><br></pre></td></tr></table></figure>
+<h3 id="ReactDOM-hydrate-element-container-callback"><a href="#ReactDOM-hydrate-element-container-callback" class="headerlink" title="ReactDOM.hydrate(element, container[, callback])"></a>ReactDOM.hydrate(element, container[, callback])</h3><p>可以对服务器渲染的容器挂载事件</p>
+<h2 id="React-与-DOM"><a href="#React-与-DOM" class="headerlink" title="React 与 DOM"></a>React 与 DOM</h2><ul>
+<li>findDOMNode 需要react节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line">class App extends Component &#123; </span><br><span class="line"> componentDidMount() &#123;</span><br><span class="line"> 	// this 为当前组件的实例</span><br><span class="line">	const dom = ReactDOM.findDOMNode(this); </span><br><span class="line"> &#125;</span><br><span class="line"> render() &#123;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>unmountComponentAtNode 卸载react节点</li>
+</ul>
+<h2 id="ReactDOM-的不稳定方法"><a href="#ReactDOM-的不稳定方法" class="headerlink" title="ReactDOM 的不稳定方法"></a>ReactDOM 的不稳定方法</h2><ul>
+<li>render: ReactMount._renderSubtreeIntoContainer(null, nextElement, container, callback)</li>
+<li>unstable_renderSubtreeIntoContainer: ReactMount._renderSubtreeIntoContainer(parentComponent,<br>nextElement, container, callback)</li>
+</ul>
+<blockquote>
+<p>unstable_renderSubtreeIntoContainer 与 render 方法很相似，但 render 方法缺少一个插入某个节点的参数</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/10/初入React世界/" data-id="cjgcxuq3t002fq8vn9ym2m1k6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-api" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/24/api/" class="article-date">
+  <time datetime="2017-09-24T12:52:11.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/24/api/">api</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Page-Visibility"><a href="#Page-Visibility" class="headerlink" title="Page Visibility"></a>Page Visibility</h2><ul>
+<li>document.hidden 表示页面是否隐藏</li>
+<li>document.visibilityState: 有4个状态的值</li>
+<li>visibiliteChagne事件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&apos;visibiliteChagne&apos;, function(event) &#123;</span><br><span class="line">	if (document.hidden) &#123;</span><br><span class="line">		//do something</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Geolocation-API"><a href="#Geolocation-API" class="headerlink" title="Geolocation API"></a>Geolocation API</h2><blockquote>
+<p>获取用户地理位置</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.getCurrentPosition(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	enableHighAccuracy: true, //尽可能使用精确的位置信息</span><br><span class="line">	timeout: 5000,//等待位置信息的最长时间</span><br><span class="line">	maximumAge: 25000//上一次获取的坐标信息的有效时间</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>watchPosition方法和getCurrentPosition类似, 但是它会定时调用getCurrentPosition的效果相同</li>
+<li>clearWatch 取消监听</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var watchId = navigator.geolocation.watchPosition方法和getCurrentPosition类似(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//取消监听</span><br><span class="line">clearWatch(watchId);</span><br></pre></td></tr></table></figure>
+<h2 id="FileReader-类型"><a href="#FileReader-类型" class="headerlink" title="FileReader 类型"></a>FileReader 类型</h2><blockquote>
+<p>可以异步读取上传文件中的数据</p>
+</blockquote>
+<ul>
+<li>readAsText(file, encoding) 以纯文本形式读取文件</li>
+<li>readAsDataURL(file) 读取文件以URI的形式保存</li>
+<li>readAsBinaryString(file) 获取字符串, 每个字符表示一个字节</li>
+<li>readAsArrayBuffer(file) 获取ArrayBuffer类型的内容</li>
+</ul>
+<p><img src="https://img.alicdn.com/tfs/TB1b_bwggoQMeJjy0FoXXcShVXa-1224-1480.png" alt="应用"></p>
+<h2 id="对象URL"><a href="#对象URL" class="headerlink" title="对象URL"></a>对象URL</h2><blockquote>
+<p>可以不必将数据内容读取到JavaScript中而直接使用, 可以使用<code>window.URL.createObjectURL()</code>方法, 返回字符串, 指向内存地址</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var url = window.URL.createObjectURL(files[0])</span><br><span class="line">var output.innerHTML = &apos;&lt;img src=&quot;&apos; + url + &apos;&quot;&gt;&apos;;</span><br><span class="line"></span><br><span class="line">//释放内存</span><br><span class="line">window.URL.revokeObjectURL(url);</span><br></pre></td></tr></table></figure>
+<h2 id="读取拖放的文件"><a href="#读取拖放的文件" class="headerlink" title="读取拖放的文件"></a>读取拖放的文件</h2><blockquote>
+<p>html5可以直接拖入文件, 可以通过<code>files = event.dataTransfer.files;</code>获取拖入文件并获取文件信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var droptarget = document.getElementById(&quot;droptarget&quot;);</span><br><span class="line">function handleEvent(event) &#123;</span><br><span class="line">	var info = &quot;&quot;,</span><br><span class="line">		output = document.getElemntById(&quot;output&quot;),</span><br><span class="line">		files, i, len;</span><br><span class="line"></span><br><span class="line">	EvenUtil.preventDefault(event);</span><br><span class="line">	if (event.type == drop) &#123;</span><br><span class="line">		files = event.dataTransfer.files;</span><br><span class="line">		i = 0;</span><br><span class="line">		len = files.length;</span><br><span class="line"></span><br><span class="line">		while (i &lt; len) &#123;</span><br><span class="line">			//获取文件信息</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropenter&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropover&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;drop&quot;, handleEvent);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/24/api/" data-id="cjgcxuq3a001eq8vnsx2nw04j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-最佳实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/23/最佳实践/" class="article-date">
+  <time datetime="2017-09-23T11:31:55.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/23/最佳实践/">最佳实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><h3 id="避免全局查找"><a href="#避免全局查找" class="headerlink" title="避免全局查找"></a>避免全局查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function updateUI() &#123;</span><br><span class="line">	var imgs = document.getElementByTagName(&quot;img&quot;);</span><br><span class="line">	for (var i=0, len=imgs.length; i &lt; len; i++) &#123;</span><br><span class="line">		imgs[i].title = document.title + &quot; images &quot; + i;</span><br><span class="line">	&#125;</span><br><span class="line">	var msg = document.getElementById(&quot;msg&quot;);</span><br><span class="line">	msg.innerHTML = &quot;update complete.&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面代码包含了3次对全局document对象的引用, 如果for循环多次就会有多次的document作用域链的查找. 我们可以通过创建一个指向document对象的局部变量, 这边就避免了每次全局作用域的查找, 修改如下</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function updateUI() &#123;</span><br><span class="line">	var doc = document;</span><br><span class="line">	var imgs = doc.getElementsByTagName(&quot;img&quot;);</span><br><span class="line">	for (var i=0, len=imgs.length; i &lt; len; i++) &#123;</span><br><span class="line">		imgs[i].title = doc.title + &quot; images &quot; + i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	var msg = doc.getElmentById(&quot;msg&quot;);</span><br><span class="line">	msg.innerHTML = &quot;update complete.&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="避免with语句"><a href="#避免with语句" class="headerlink" title="避免with语句"></a>避免with语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function updateBody() &#123;</span><br><span class="line">	with (document.body) &#123;</span><br><span class="line">		innerHTML = &quot;hello world&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>with会创建自己的作用域, 由于额外的作用域查找, 在with里的代码肯定会比外面的代码执行的慢, 建议使用局部变量来完成相同的事情而不引入新的作用域.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function updateBody() &#123;</span><br><span class="line">	var body = document.body;</span><br><span class="line">	body.innerHTML = &quot;hello world&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/23/最佳实践/" data-id="cjgcxuq3z002oq8vnfsfw1bpr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Arkiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Siste innlegg</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/25/深入理解计算机系统/">深入理解计算机系统</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/23/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/23/cpp提高/">cpp提高</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/23/cpp/">cpp</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/11/c提高/">C提高</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
