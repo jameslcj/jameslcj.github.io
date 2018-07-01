@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
@@ -60,6 +60,297 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-c提高" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/11/c提高/" class="article-date">
+  <time datetime="2018-02-11T15:14:28.000Z" itemprop="datePublished">2018-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/11/c提高/">C提高</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="内存四区"><a href="#内存四区" class="headerlink" title="内存四区"></a>内存四区</h2><ul>
+<li>栈区: 由编译器自动分配释放, 主要存放函数的参数值, 局部变量的值, 遵循先进后出原则</li>
+<li>堆区: 程序猿malloc申请的内存存放区域</li>
+<li>全局区: 存放全局变量和静态变量, 常量, 比如字符串常量</li>
+<li>代码区: 存放函数体二进制代码</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> gl = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a = <span class="string">'a'</span>;</span><br><span class="line">    <span class="keyword">char</span> b = <span class="string">'b'</span>;</span><br><span class="line">    <span class="keyword">int</span> c = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> *p = <span class="string">"aaaa"</span>;</span><br><span class="line">    <span class="keyword">char</span> *p2 = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>) * <span class="number">100</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"a: %d , b: %d, c: %d, &amp;p: %d, &amp;p2: %d, p: %d, p2: %d, gl: %d\n"</span>, &amp;a, &amp;b, &amp;c, &amp;p, &amp;p2, p, p2, &amp;gl);</span><br><span class="line">    <span class="comment">//a: 1606416119 , b: 1606416118, c: 1606416112, &amp;p: 1606416104, &amp;p2: 1606416096, p: 7887, p2: 3186800, gl: 8436</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">getStr1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *p = <span class="string">"hello"</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">getStr2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *p = <span class="string">"hello"</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *p1 = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">char</span> *p2 = <span class="literal">NULL</span>;</span><br><span class="line">    p1 = getStr1();</span><br><span class="line">    p2 = getStr2();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"p1: %d, p2: %d\n"</span>, p1, p2);</span><br><span class="line">    <span class="comment">//p1: 3936, p2: 3943</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="memset-lt-void-b-gt-lt-int-c-gt-lt-size-t-len-gt"><a href="#memset-lt-void-b-gt-lt-int-c-gt-lt-size-t-len-gt" class="headerlink" title="memset(&lt;#void *b#&gt;, &lt;#int c#&gt;, &lt;#size_t __len#&gt;)"></a>memset(&lt;#void *<strong>b#&gt;, &lt;#int </strong>c#&gt;, &lt;#size_t __len#&gt;)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> buff[<span class="number">100</span>];</span><br><span class="line"><span class="comment">//刚申请的内存地址, 里面也许有脏数据, 可以通过memset初始化</span></span><br><span class="line"><span class="built_in">memset</span>(buff, <span class="number">0</span>, <span class="keyword">sizeof</span>(buff));</span><br></pre></td></tr></table></figure>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><h3 id="arr-1-与-amp-arr-1的区别"><a href="#arr-1-与-amp-arr-1的区别" class="headerlink" title="arr + 1 与 &amp;arr + 1的区别"></a>arr + 1 与 &amp;arr + 1的区别</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">10</span>];</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"arr: %d, arr+1: %d, &amp;arr: %d, $arr+1: %d"</span>, arr, arr + <span class="number">1</span>, &amp;arr, &amp;arr + <span class="number">1</span>); </span><br><span class="line"><span class="comment">//arr: 1606416032, arr+1: 1606416036, &amp;arr: 1606416032, $arr+1: 1606416072</span></span><br><span class="line"><span class="comment">//从上可知 arr+1会增加4字节, &amp;arr+1会增加40字节, 及跳过数组的大小</span></span><br></pre></td></tr></table></figure>
+<h3 id="const-char-p-与-char-const-p-的区别"><a href="#const-char-p-与-char-const-p-的区别" class="headerlink" title="const char p 与 char const p 的区别"></a>const char<em> p 与 char</em> const p 的区别</h3><blockquote>
+<p>const char<em>p 表示指针指针的内容不能修改<br>char</em> const p 表示指针不能被修改<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testConst</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* p)</span> </span>&#123;</span><br><span class="line">    p[<span class="number">0</span>] = <span class="number">1</span>;<span class="comment">//报错</span></span><br><span class="line">    p = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testConst</span><span class="params">(<span class="keyword">char</span>* <span class="keyword">const</span> p)</span> </span>&#123;</span><br><span class="line">    p[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    p = <span class="number">1</span>;<span class="comment">//报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="3中二级指针模型"><a href="#3中二级指针模型" class="headerlink" title="3中二级指针模型"></a>3中二级指针模型</h3><h4 id="指针数组-第一种二级指针模型"><a href="#指针数组-第一种二级指针模型" class="headerlink" title="指针数组 第一种二级指针模型"></a>指针数组 第一种二级指针模型</h4><blockquote>
+<p>数组中的每个元素是指针, 指针指向全局区里的字符串常量</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    <span class="keyword">char</span> * <span class="built_in">array</span>[] = &#123;<span class="string">"aaaa"</span>, <span class="string">"bbbb"</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="keyword">sizeof</span>(<span class="built_in">array</span>) / <span class="keyword">sizeof</span>(<span class="built_in">array</span>[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i ++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"array[i] = %s\n"</span>, <span class="built_in">array</span>[i]);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"*(array+i) = %s\n\n"</span>, *(<span class="built_in">array</span>+i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第二种二级指针模型"><a href="#第二种二级指针模型" class="headerlink" title="第二种二级指针模型"></a>第二种二级指针模型</h4><blockquote>
+<p>所有数据都存放在栈区, array步长为4</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">array</span>[<span class="number">3</span>][<span class="number">5</span>] = &#123;<span class="string">"aaaa"</span>, <span class="string">"bbbb"</span>, <span class="string">"cccc"</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"%d-%s \n"</span>, i, <span class="built_in">array</span>[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第三种二级指针模型"><a href="#第三种二级指针模型" class="headerlink" title="第三种二级指针模型"></a>第三种二级指针模型</h4><blockquote>
+<p>数据都存放在堆区</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span>** p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">5</span>;</span><br><span class="line">    p = (<span class="keyword">char</span>**)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>*)*num);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; num; i++) &#123;</span><br><span class="line">        *(p+i) = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>)*num);</span><br><span class="line">        <span class="built_in">sprintf</span>(p[i], <span class="string">"%d%d%d"</span>, i+<span class="number">1</span>, i+<span class="number">2</span>, i+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; num; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d-%s \n"</span>, i, p[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="数组类型指针"><a href="#数组类型指针" class="headerlink" title="数组类型指针"></a>数组类型指针</h3><h4 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    typedef int (myArray)[5];//定义了一个数组类型</span><br><span class="line">    <span class="comment">//myArray arr; //int arr[5];</span></span><br><span class="line">    myArray* p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> arr[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        arr[i] = i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    p = &amp;arr;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"(*p)[%d]: %d\n"</span>, i, (*p)[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    typedef int (*arrayTypeP)[5];</span><br><span class="line">    arrayTypeP p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> arr[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        arr[i] = i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    p = &amp;arr;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"(*p)[%d]: %d\n"</span>, i, (*p)[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> (*p)[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">int</span> arr[<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        arr[i] = i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    p = &amp;arr;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"(*p)[%d]: %d\n"</span>, i, (*p)[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><blockquote>
+<p>用函数指针实现多态<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一种</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*myFunc)</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line"><span class="comment">//void likeMultiPoly(myFunc p, int a, int b) &#123;</span></span><br><span class="line"><span class="comment">// 第二种</span></span><br><span class="line">void likeMultiPoly(void (*p)(int a, int b) , int a, int b) &#123;</span><br><span class="line">    p(a, b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"func2 a: %d, b: %d\n"</span>, a, b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func3</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"func3 a: %d, b: %d\n"</span>, a, b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func4</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"func4 a: %d, b: %d\n"</span>, a, b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    likeMultiPoly(func2, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">    likeMultiPoly(func3, <span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">    likeMultiPoly(func4, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><blockquote>
+<p>一旦定义好结构体, 其对应的内存也分配完毕, 可以根据偏移量算出各变量的地址, 一旦声明完毕, 就不要轻易修改变量位置</p>
+<h3 id="结构体的定义"><a href="#结构体的定义" class="headerlink" title="结构体的定义"></a>结构体的定义</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Teacher</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;;<span class="comment">//struct Teacher tearch;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Teacher2</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;t;<span class="comment">// t tearch;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Student</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;s1, s2;<span class="comment">//定义类型 同时定义变量</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;s3 = &#123;<span class="string">"s3"</span>, <span class="number">18</span>&#125;;<span class="comment">//定义匿名类型 同时定义变量</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[], <span class="keyword">char</span> ** env)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Teacher</span> <span class="title">t1</span> = &#123;</span><span class="string">"t1"</span>, <span class="number">18</span>&#125;;</span><br><span class="line">    t t2 = &#123;<span class="string">"t2"</span>, <span class="number">18</span>&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="结构体的操作"><a href="#结构体的操作" class="headerlink" title="结构体的操作"></a>结构体的操作</h3><blockquote>
+<p>t1.age t-&gt;age <code>.</code>和<code>-&gt;</code> 没有操作内存, 都是在cpu中, 相对于t1进行偏移量寻址操作</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[], <span class="keyword">char</span> ** env)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Teacher</span> <span class="title">t1</span> = &#123;</span><span class="string">"t1"</span>, <span class="number">18</span>&#125;;</span><br><span class="line">    t t2 = &#123;<span class="string">"t2"</span>, <span class="number">18</span>&#125;;</span><br><span class="line">    t* p = <span class="literal">NULL</span>;</span><br><span class="line">    p = &amp;t2;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"t2.age: %d\n"</span>, t2.age);</span><br><span class="line">    </span><br><span class="line">    p-&gt;age = <span class="number">20</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"t2.age: %d\n"</span>, t2.age);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"p-&gt;name: %s\n"</span>, p-&gt;name);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="数组首地址与数组地址的区别"><a href="#数组首地址与数组地址的区别" class="headerlink" title="数组首地址与数组地址的区别?"></a>数组首地址与数组地址的区别?</h3><blockquote>
+<p>c是数组的首元素的地址 c+1 步长为4字节<br>&amp;c是数组的地址 &amp;c+1 步长为200*4字节</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c[<span class="number">200</span>] = &#123;<span class="number">0</span>&#125;;<span class="comment">//编译时将所有的值设置为0</span></span><br><span class="line">    <span class="built_in">memset</span>(c, <span class="number">0</span>, <span class="keyword">sizeof</span>(c));<span class="comment">//运行时, 显示的将所有的值设置为0</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"c =&gt; %d \n c+1 =&gt; %d \n &amp;c =&gt; %d \n &amp;c+1 =&gt; %d "</span>, c, c+<span class="number">1</span>, &amp;c, &amp;c+<span class="number">1</span>);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">        c =&gt; 1606415264 </span></span><br><span class="line"><span class="comment">        c+1 =&gt; 1606415268 </span></span><br><span class="line"><span class="comment">        &amp;c =&gt; 1606415264 </span></span><br><span class="line"><span class="comment">        &amp;c+1 =&gt; 1606416064</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义数组类型"><a href="#定义数组类型" class="headerlink" title="定义数组类型"></a>定义数组类型</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">// insert code here...</span></span><br><span class="line">    typedef int (myArray)[5];//定义了一个数组类型</span><br><span class="line">    myArray arr; <span class="comment">//int arr[5];</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="程序默认参数"><a href="#程序默认参数" class="headerlink" title="程序默认参数"></a>程序默认参数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[], <span class="keyword">char</span> ** env)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//传递参数个数</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"argc: %d\n"</span>, argc);</span><br><span class="line">    <span class="comment">//调用程序是 传递是参数, 默认会传递文件路径</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; argc; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, argv[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//打印环境变量</span></span><br><span class="line">    <span class="keyword">while</span> (*env ++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, *env);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符串结束标志"><a href="#字符串结束标志" class="headerlink" title="字符串结束标志"></a>字符串结束标志</h3><blockquote>
+<p>字符串结束标志位 ‘\0’, NULL, 0<br>本质就是0</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/02/11/c提高/" data-id="cjj2c7df10024tvvnw2c8dqkp" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ModelsAndData" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/03/ModelsAndData/" class="article-date">
+  <time datetime="2018-02-03T07:05:14.000Z" itemprop="datePublished">2018-02-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/03/ModelsAndData/">Models And Data</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Math</span>.guid = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'</span>.replace(<span class="regexp">/[xy]/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">c</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> r = <span class="built_in">Math</span>.random()*<span class="number">16</span>|<span class="number">0</span>, v = c == <span class="string">'x'</span> ? r : (r&amp;<span class="number">0x3</span>|<span class="number">0x8</span>);</span><br><span class="line">        <span class="keyword">return</span> v.toString(<span class="number">16</span>); </span><br><span class="line">    &#125;).toUpperCase();</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> Model = &#123;</span><br><span class="line">    <span class="comment">//记录实例对象</span></span><br><span class="line">    records: &#123;&#125;,</span><br><span class="line">    inherited: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    created: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//让records不共享</span></span><br><span class="line">        <span class="keyword">this</span>.records = &#123;&#125;; </span><br><span class="line">    &#125;,</span><br><span class="line">    find: <span class="function"><span class="keyword">function</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> record = <span class="keyword">this</span>.records[id];</span><br><span class="line">        <span class="keyword">if</span> ( !record ) <span class="keyword">throw</span>(<span class="string">"Unknown record"</span>); </span><br><span class="line">        <span class="comment">//每次返回都重新复制一个对象 防止修改影响到records里的数据</span></span><br><span class="line">        <span class="keyword">return</span> record.dup();</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//实例所具有的方法</span></span><br><span class="line">    prototype: &#123;</span><br><span class="line">        newRecord: <span class="literal">true</span>,</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params">atts</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (atts) <span class="keyword">this</span>.load(atts);</span><br><span class="line">        &#125;,</span><br><span class="line">        load: <span class="function"><span class="keyword">function</span>(<span class="params">attributes</span>)</span>&#123; </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> name <span class="keyword">in</span> attributes)</span><br><span class="line">                <span class="keyword">this</span>[name] = attributes[name]; </span><br><span class="line">        &#125;,</span><br><span class="line">        create: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> ( !<span class="keyword">this</span>.id ) <span class="keyword">this</span>.id = <span class="built_in">Math</span>.guid(); </span><br><span class="line">            <span class="keyword">this</span>.newRecord = <span class="literal">false</span>; </span><br><span class="line">            <span class="keyword">this</span>.parent.records[<span class="keyword">this</span>.id] = <span class="keyword">this</span>.dup();</span><br><span class="line">        &#125;,</span><br><span class="line">        dup: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> $.extend(<span class="literal">true</span>, &#123;&#125;, <span class="keyword">this</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        destroy: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">delete</span> <span class="keyword">this</span>.parent.records[<span class="keyword">this</span>.id];</span><br><span class="line">        &#125;,</span><br><span class="line">        update: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.parent.records[<span class="keyword">this</span>.id] = <span class="keyword">this</span>.dup();</span><br><span class="line">        &#125;,</span><br><span class="line">        save: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.newRecord ? <span class="keyword">this</span>.create() : <span class="keyword">this</span>.update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    create: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> object = <span class="built_in">Object</span>.create(<span class="keyword">this</span>);</span><br><span class="line">        object.parent = <span class="keyword">this</span>;</span><br><span class="line">        object.prototype = object.fn = <span class="built_in">Object</span>.create(<span class="keyword">this</span>.prototype);</span><br><span class="line">        object.created(); </span><br><span class="line">        <span class="keyword">this</span>.inherited(object); </span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;,</span><br><span class="line">    init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> instance = <span class="built_in">Object</span>.create(<span class="keyword">this</span>.prototype); </span><br><span class="line">        instance.parent = <span class="keyword">this</span>; </span><br><span class="line">        <span class="comment">// console.log("init: ", instance.init)</span></span><br><span class="line">        instance.init.apply(instance, <span class="built_in">arguments</span>); </span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;,</span><br><span class="line">    include: <span class="function"><span class="keyword">function</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> included = o.included; </span><br><span class="line">        $.extend(<span class="keyword">this</span>.prototype, o); </span><br><span class="line">        <span class="keyword">if</span> (included) included(<span class="keyword">this</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    extend: <span class="function"><span class="keyword">function</span>(<span class="params">o</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> extended = o.extended; </span><br><span class="line">        $.extend(<span class="keyword">this</span>, o);</span><br><span class="line">        <span class="keyword">if</span> (extended) extended(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取一个User model</span></span><br><span class="line"><span class="keyword">var</span> User = Model.create();</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取一个user1实例</span></span><br><span class="line"><span class="keyword">var</span> user1 = User.init();</span><br><span class="line">user1.id = <span class="number">1</span>;</span><br><span class="line">user1.name = <span class="string">'hello'</span>;</span><br><span class="line">user1.save();</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取一个user2实例</span></span><br><span class="line"><span class="keyword">var</span> user2 = User.init(&#123;</span><br><span class="line">    id: <span class="number">2</span>,</span><br><span class="line">    name: <span class="string">'world'</span>,</span><br><span class="line">&#125;);</span><br><span class="line">user2.save();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Goods = Model.create();</span><br><span class="line"><span class="keyword">var</span> goods1 = Goods.init(&#123;</span><br><span class="line">    id:<span class="number">1</span>,</span><br><span class="line">    name: <span class="string">'computer'</span></span><br><span class="line">&#125;)</span><br><span class="line">goods1.save();</span><br><span class="line"><span class="keyword">var</span> goods2 = Goods.init(&#123;</span><br><span class="line">    id:<span class="number">2</span>,</span><br><span class="line">    name: <span class="string">'mobile'</span></span><br><span class="line">&#125;)</span><br><span class="line">goods2.save()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/02/03/ModelsAndData/" data-id="cjj2c7dem0019tvvn6v0ryb45" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-3d变换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/22/3d变换/" class="article-date">
+  <time datetime="2018-01-22T14:41:55.000Z" itemprop="datePublished">2018-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/22/3d变换/">3d变换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以知半径r和角度phi, theta求x, y, z</span></span><br><span class="line"><span class="comment">// phi是方位面（水平面）内的角度，范围0~360度</span></span><br><span class="line"><span class="comment">// theta是俯仰面（竖直面）内的角度，范围0~180度</span></span><br><span class="line"><span class="comment">// 极坐标系的xyz 对应浏览器里 </span></span><br><span class="line"><span class="keyword">var</span> x = r * <span class="built_in">Math</span>.sin(theta) * <span class="built_in">Math</span>.sin(phi);</span><br><span class="line"><span class="keyword">var</span> y = r * <span class="built_in">Math</span>.cos(theta);</span><br><span class="line"><span class="keyword">var</span> z = r * <span class="built_in">Math</span>.sin(theta) * <span class="built_in">Math</span>.cos(phi);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/01/22/3d变换/" data-id="cjj2c7ddw0001tvvn7vau0apo" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/git/" class="article-date">
+  <time datetime="2018-01-14T11:56:55.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/git/">git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git difftool //使用对比工具</span><br><span class="line">git log -p -2//查看最近2次提交的详细信息</span><br><span class="line">git log -stat //可以看到变更的文件</span><br><span class="line">git log --since=2.weeks//2周内的日志</span><br><span class="line">git log --author zhichen//指定作者</span><br><span class="line">git log -S function_name //找出有对function_name的修改日志</span><br><span class="line">git remote -v//git 地址</span><br><span class="line">git push origin --tags//推送所有tag</span><br><span class="line">git branch -vv//查看各分支head情况</span><br><span class="line">git push origin --delete serverfix//删除线上分支</span><br><span class="line">git rebase master branchName; gitmerge branchName;//将branchName分支变基为master 在合并到master 这样功能和合并分支一样, 但是提交历史看起来像是线性开发而不是并行开发再合并的 </span><br><span class="line">git reset --hard HEAD; //取消本地操作 恢复成上一次提交记录</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/01/14/git/" data-id="cjj2c7df30028tvvno0t9jy5t" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MVCAndClasses" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/MVCAndClasses/" class="article-date">
+  <time datetime="2018-01-14T08:11:51.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/MVCAndClasses/">MVCandClasses</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="What-Is-MVC"><a href="#What-Is-MVC" class="headerlink" title="What Is MVC?"></a>What Is MVC?</h2><h3 id="The-Model"><a href="#The-Model" class="headerlink" title="The Model"></a>The Model</h3><p>主要存储对象数据的地方</p>
+<p>因为是面向对象编程, 因此我们任何数据被model对象封装后, 都可以直接调用其方法, 而不依赖全局方法, 这样可以减少很多全局方法冲突<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用全局变量的方法</span></span><br><span class="line"><span class="keyword">var</span> user = users[<span class="string">"foo"</span>]; </span><br><span class="line">destroyUser(user);</span><br><span class="line"></span><br><span class="line"><span class="comment">//建议封装为如下</span></span><br><span class="line"><span class="keyword">var</span> user = User.find(<span class="string">"foo"</span>); </span><br><span class="line">user.destroy();</span><br></pre></td></tr></table></figure></p>
+<h3 id="The-View"><a href="#The-View" class="headerlink" title="The View"></a>The View</h3><p>主要是展示页面, 和其他逻辑解耦</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// helper.js</span></span><br><span class="line"><span class="keyword">var</span> helper = &#123;&#125;;</span><br><span class="line">helper.formatDate = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">/* ... */</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// template.html </span></span><br><span class="line">&lt;div&gt;</span><br><span class="line">    $&#123; helper.formatDate(<span class="keyword">this</span>.date) &#125; </span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="The-Controller"><a href="#The-Controller" class="headerlink" title="The Controller"></a>The Controller</h3><p>controller是model和view的中间粘合剂, 它从view中获取events和input, 再从model中获取相应数据, 返回给view展示</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Use a anonymous function to enscapulate scope </span></span><br><span class="line">(Controller.users = <span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> nameClick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">    <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Attach event listeners on page load $(function()&#123;</span></span><br><span class="line">$(<span class="string">"#view .name"</span>).click(nameClick); &#125;);</span><br><span class="line">&#125;)(jQuery);</span><br></pre></td></tr></table></figure>
+<h2 id="Toward-Modularity-Creating-Classes"><a href="#Toward-Modularity-Creating-Classes" class="headerlink" title="Toward Modularity, Creating Classes"></a>Toward Modularity, Creating Classes</h2><p>js中的class是用原型链模拟的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">parent</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> klass = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.init.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (parent) &#123;</span><br><span class="line">          <span class="keyword">var</span> subClass = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">          subClass.prototype = parent.prototype;</span><br><span class="line">          klass.prototype = <span class="keyword">new</span> subClass();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      klass.fn = klass.prototype;</span><br><span class="line"></span><br><span class="line">      klass.fn.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">      klass.fn.parent = klass;</span><br><span class="line"></span><br><span class="line">      klass.fn._super = klass.__proto__;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Adding a proxy function </span></span><br><span class="line">      klass.proxy = <span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>; </span><br><span class="line">        <span class="keyword">return</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> func.apply(self, <span class="built_in">arguments</span>); </span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// Add the function on instances too </span></span><br><span class="line">      klass.fn.proxy = klass.proxy;  </span><br><span class="line"></span><br><span class="line">      klass.extend = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj) &#123;</span><br><span class="line">              klass[i] = obj[i];</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      klass.include = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj) &#123;</span><br><span class="line">              klass.prototype[i] = obj[i];</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> klass;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> Animal = <span class="keyword">new</span> Class;</span><br><span class="line">Animal.include(&#123; </span><br><span class="line">    init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'I am animal'</span>)  </span><br><span class="line">    &#125;,</span><br><span class="line">    breath: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'breath'</span>); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> animal = <span class="keyword">new</span> Animal;</span><br><span class="line">animal.breath(); <span class="comment">//I am animal //breath</span></span><br><span class="line"><span class="keyword">var</span> Cat = <span class="keyword">new</span> Class(Animal)</span><br><span class="line">Cat.prototype.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I am Cat'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Usage</span></span><br><span class="line"><span class="keyword">var</span> tommy = <span class="keyword">new</span> Cat; </span><br><span class="line">tommy.breath();<span class="comment">//I am Cat //breath</span></span><br></pre></td></tr></table></figure>
+<h3 id="bind-polyfill"><a href="#bind-polyfill" class="headerlink" title="bind polyfill"></a>bind polyfill</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.bind) &#123;</span><br><span class="line">    <span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//self 就是bind的调用者 context是调用者想绑定上下文</span></span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>,</span><br><span class="line">            slice = [].prototype.slice,</span><br><span class="line">            <span class="comment">//获取额外要传递的参数</span></span><br><span class="line">            args = slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>),</span><br><span class="line">            <span class="comment">//用来做间接继承的</span></span><br><span class="line">            nop = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">        <span class="comment">//将bind的调用者的原型 赋值给nop</span></span><br><span class="line">        nop.prototype = self.prototype;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//bound 会覆盖bind调用者</span></span><br><span class="line">        <span class="keyword">var</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">//这里是函数被调用时 会生效的逻辑</span></span><br><span class="line">            <span class="comment">//通过apply将上下文 指向 nop(因为继承了bind调用者的原型)或者context</span></span><br><span class="line">            <span class="comment">//然后函数调用时传递的参数合并到之前传递进来的参数数组里</span></span><br><span class="line">            <span class="keyword">return</span> self.apply(<span class="keyword">this</span> <span class="keyword">instanceof</span> nop ? <span class="keyword">this</span> : (context || &#123;&#125;), args.concat(slice(<span class="built_in">arguments</span>)))</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将bind调用者的原型赋值给bound的原型, 这样bound也拥有了bind调用者的属性和方法, 而且具有改变上下文指向的能力</span></span><br><span class="line">        bound.prototype = <span class="keyword">new</span> nop();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> bound;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/01/14/MVCAndClasses/" data-id="cjj2c7deg000vtvvnk1yy7clg" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-node-js模块机制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/13/node-js模块机制/" class="article-date">
+  <time datetime="2018-01-13T07:53:23.000Z" itemprop="datePublished">2018-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/13/node-js模块机制/">node.js模块机制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="模块编译"><a href="#模块编译" class="headerlink" title="模块编译"></a>模块编译</h2><p>module的定义<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Module</span>(<span class="params">id, parent</span>) </span>&#123; </span><br><span class="line">    <span class="keyword">this</span>.id = id;</span><br><span class="line">    <span class="keyword">this</span>.exports = &#123;&#125;; </span><br><span class="line">    <span class="keyword">this</span>.parent = parent;</span><br><span class="line">    <span class="keyword">if</span> (parent &amp;&amp; parent.children) &#123;</span><br><span class="line">         parent.children.push(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.filename = <span class="literal">null</span>; </span><br><span class="line">    <span class="keyword">this</span>.loaded = <span class="literal">false</span>; t</span><br><span class="line">    his.children = [];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> <span class="built_in">module</span> = <span class="keyword">new</span> Module()</span><br></pre></td></tr></table></figure></p>
+<p>node会对引入的不同扩展类型的文件进行不同方式解析</p>
+<ul>
+<li>.js文件. 通过fs模块同步读取文件后编译执行</li>
+<li>.node文件. 这是C/C++编写的扩展文件, 通过dlopen()方法加载最后编译生成的文件</li>
+<li>.json文件. 通过JSON.parse获取结果</li>
+<li>其他扩展类型. 它们都被当做js文件引入<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Module._extensions[<span class="string">'.json'</span>] = <span class="function"><span class="keyword">function</span>(<span class="params">module, filename</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> content = NativeModule.require(<span class="string">'fs'</span>).readFileSync(filename, <span class="string">'utf8'</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="built_in">module</span>.exports = <span class="built_in">JSON</span>.parse(stripBOM(content));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        err.message = filename + <span class="string">': '</span> + err.message;</span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//最后Module._extensions 会被赋值给require, 这样require可以在引入文件的时候, 根据不同类型进行解析</span></span><br><span class="line"><span class="built_in">require</span>.extensions = Module._extensions</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果想对特殊的扩展进行处理, 可进行如下操作</span></span><br><span class="line"><span class="built_in">require</span>.extensions[<span class="string">'.ext'</span>] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//...do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="node中的module-require等变量从何而来"><a href="#node中的module-require等变量从何而来" class="headerlink" title="node中的module, require等变量从何而来?"></a>node中的module, require等变量从何而来?</h3><p>其实node对获取数据通过字符的形式拼接如下, 然后再调用vm原生模块的<code>runInThisContext()</code>方法(类似eval, 只是具有明确的上下文, 不污染全局), 返回一个function对象, 最后将<code>exports, require, module, __filename, __dirname</code>通过参数传入, 这样每个模块就可以独立作用域了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">exports, require, module, __filename, __dirname</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> math = <span class="built_in">require</span>(<span class="string">'math'</span>);</span><br><span class="line">    exports.area = <span class="function"><span class="keyword">function</span> (<span class="params">radius</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.PI * radius * radius; &#125;;</span><br><span class="line">&#125;)(exports, <span class="built_in">require</span>, <span class="built_in">module</span>, __filename, __dirname)</span><br></pre></td></tr></table></figure></p>
+<h3 id="为什么需要同时传入exports和module"><a href="#为什么需要同时传入exports和module" class="headerlink" title="为什么需要同时传入exports和module?"></a>为什么需要同时传入exports和module?</h3><p>因为<code>exports = module.exports</code>, <code>exports</code>只是一个引用, 当赋值一个对象时, 这个引用就会被覆盖掉, 因此只能使用<code>module.exports</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/01/13/node-js模块机制/" data-id="cjj2c7df5002dtvvnr0m2adic" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-解读React源码" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -176,7 +467,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/01/06/解读React源码/" data-id="cjgcxuq43002wq8vnz621k0va" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/01/06/解读React源码/" data-id="cjj2c7dfm0038tvvnjkscvji5" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
@@ -229,7 +520,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/12/30/ProgramPerformance/" data-id="cjgcxuq350014q8vns4lldokl" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/12/30/ProgramPerformance/" data-id="cjj2c7dek0014tvvndpx9hc8g" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
@@ -286,7 +577,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/12/02/Generators/" data-id="cjgcxuq2o000bq8vnl94ln74j" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/12/02/Generators/" data-id="cjj2c7de5000ctvvnftsq0uiw" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
@@ -415,471 +706,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/22/Coercion/" data-id="cjgcxuq2j0004q8vnkergfnhz" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/10/22/Coercion/" data-id="cjj2c7de00004tvvniuez3v8a" class="article-share-link">Partager</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Natives" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/20/Natives/" class="article-date">
-  <time datetime="2017-10-20T01:53:15.000Z" itemprop="datePublished">2017-10-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/20/Natives/">Natives</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new Array(1, 2, 3);// [1, 2, 3]</span><br><span class="line">Array(1, 2, 3);// [1, 2, 3]</span><br><span class="line">[1, 2, 3];//[1, 2, 3]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上是3种, 初始化数组的方式</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(3);</span><br><span class="line">arr.length;//3</span><br><span class="line">arr;//[empty x 3]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上是一个奇怪的现象, 当我们给数组初始化时, 只传递一个数值时, 它不是初始化一个数组包含这个值, 而是初始化了长度为这个值的数组</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = new Array( 3 );//[empty x 3]</span><br><span class="line">var b = [undefined, undefined, undefined ];//[undefined, undefined, undefined ]</span><br><span class="line">var c = [];</span><br><span class="line">c.length = 3; //[empty x 3]</span><br><span class="line">var d = [, , ,]; //[empty x 3]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上数组, 看似好像都是3个位置的数组, 但其实他们的值不全一样, 请看下面</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.map(function(v, key)&#123; return key; &#125;); // [ undefined x 3 ]</span><br><span class="line">b.map(function(v, key)&#123; return key; &#125;); // [ 0, 1, 2 ]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上, 我们发现a居然没有key值, 所以以后要undefined填充的数组使用b的方式声明</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = Array.apply( null, &#123; length: 3 &#125; );</span><br><span class="line">a; // [ undefined, undefined, undefined ]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上是快速获取由undefined填充的数组</p>
-<p>总结: 我们应该尽量避免使用对象形式创建数组, 应该使用 <code>var arr = []</code> 这种字面量形式</p>
-</blockquote>
-<h2 id="Object-Function-and-RegExp"><a href="#Object-Function-and-RegExp" class="headerlink" title="Object(..), Function(..), and RegExp(..)"></a>Object(..), Function(..), and RegExp(..)</h2><blockquote>
-<p>字面量的/正则表达式/比 <code>new RegExp</code>方式性能会好很多, 因为js引擎会对其进行提前编译和缓存</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function isThisCool(vals,fn,rx) &#123;</span><br><span class="line">    vals = vals || Array.prototype;</span><br><span class="line">    fn = fn || Function.prototype;</span><br><span class="line">    rx = rx || RegExp.prototype;</span><br><span class="line">    return rx.test(</span><br><span class="line">        vals.map( fn ).join( &quot;&quot; )</span><br><span class="line">	); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isThisCool();       // true</span><br><span class="line"></span><br><span class="line">isThisCool(</span><br><span class="line">        [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],</span><br><span class="line">		function(v)&#123; return v.toUpperCase(); &#125;,</span><br><span class="line">		/D/</span><br><span class="line">		);// false</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上, 是一种初始化类似的方式, 比<code>[], function(){},  /(?:)/</code>在性能上会好一点, 但是尽量避免有修改属性的操作, 因为那样有可能影响到元素属性, 导致bug</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/20/Natives/" data-id="cjgcxuq33000zq8vnje9g18im" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Values" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/17/Values/" class="article-date">
-  <time datetime="2017-10-17T12:01:54.000Z" itemprop="datePublished">2017-10-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/17/Values/">Values</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">arr[0] = 0;</span><br><span class="line">arr[2] = 2;</span><br><span class="line">arr.length; //3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上当我们跳过1索引位, 但是数组的长度还是变成了3而不是2, 索引1位置的值为<code>undefined</code></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">arr[&quot;hello&quot;] = &quot;world&quot;;</span><br><span class="line">arr.length; //0</span><br><span class="line">arr[&quot;2&quot;] = 2;</span><br><span class="line">arr.length; //3</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上当设置为字符串为key时, 不会算在数组长度里, 但是如果设置的是一个字符串的数值, 会为强转成数值</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.slice.call(arrayLike);</span><br><span class="line">//等价于es6</span><br><span class="line">Array.from(arrayLike)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上是将类数组(dom对象数组或者函数的arguments参数数组)的数组转换为数组</p>
-</blockquote>
-<h2 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h2><blockquote>
-<p>字符串, 有点像字符数组, 他们有一些公用方法, 但不完全一样, 比如字符串是无法改变自身位置, 但数组是可以的</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;hello&quot;;</span><br><span class="line">str.concat(&quot;~~&quot;, &quot;world&quot;);//hello~~world</span><br><span class="line"></span><br><span class="line">str.join;//undefined</span><br><span class="line">Array.prototype.join.call(str, &apos;-&apos;);//h-e-l-l-o</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上我们发现我们能使用部分数组的方法, 但是不能使用有些数组方法(比如reverse), 这是为什么呢? 因为join方法是返回一个新数组的, 而reverse是改变数组本身, 又因为字符串是无法改变自身位置的, 所以reverse无法使用</p>
-</blockquote>
-<p>##Numbers<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var num = .42;</span><br><span class="line">//等价于如下</span><br><span class="line">num = 0.42</span><br><span class="line"></span><br><span class="line">var num2 = 42.;</span><br><span class="line">//等价于如下</span><br><span class="line">num2 = 42.0;</span><br><span class="line"></span><br><span class="line">var num3 = 4E2; //400</span><br><span class="line"></span><br><span class="line">//.toFiex保留几位小数</span><br><span class="line">var num4 = 42.59;</span><br><span class="line">num4.toFixed(0)//43</span><br><span class="line">num4.toFixed(1)//42.6</span><br><span class="line">num4.toFixed(2)//42.59</span><br><span class="line">num4.toFixed(4)//42.590</span><br><span class="line">num4.toFixed(5)//42.5900</span><br><span class="line"></span><br><span class="line">//.toPrecision保留几位数</span><br><span class="line">var a = 42.59;</span><br><span class="line">a.toPrecision( 1 ); // &quot;4e+1&quot;</span><br><span class="line">a.toPrecision( 2 ); // &quot;43&quot;</span><br><span class="line">a.toPrecision( 3 ); // &quot;42.6&quot;</span><br><span class="line">a.toPrecision( 4 ); // &quot;42.59&quot;</span><br><span class="line">a.toPrecision( 5 ); // &quot;42.590&quot;</span><br><span class="line">a.toPrecision( 6 ); // &quot;42.5900&quot;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0x12//十六进制</span><br><span class="line">0o12//八进制 在非严格模式下可以使用012, 但已废弃, 不建议再使用</span><br><span class="line">0b11//二进制</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0.1 + 0.2 == 0.30000000000000004</span><br><span class="line"></span><br><span class="line">function numbersCloseEnoughToEqual(n1,n2) &#123;</span><br><span class="line">        return Math.abs( n1 - n2 ) &lt; Number.EPSILON;</span><br><span class="line">&#125;</span><br><span class="line">var a = 0.1 + 0.2;</span><br><span class="line">var b = 0.3;</span><br><span class="line">numbersCloseEnoughToEqual( a, b );</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上得知, js的小数计算结果有偏差, 所以可以使用<code>Number.EPSILON</code>来计算是否相等</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number.MAX_VALUE;//1.798e+308</span><br><span class="line">Number.MIN_VALUE;//5e-324</span><br><span class="line">Number.MAX_SAFE_INTEGER;//9007199254740991= 2^53 - 1</span><br><span class="line">Number.MIN_SAFE_INTEGER;//-9007199254740991</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>js整数最大用53位表示, 所以如果计算64位数时需要额外引入库</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number.isInteger( 42 );     // true</span><br><span class="line">Number.isInteger( 42.000 ); // true</span><br><span class="line">Number.isInteger( 42.3 );   // false</span><br></pre></td></tr></table></figure>
-<h2 id="undefined"><a href="#undefined" class="headerlink" title="undefined"></a>undefined</h2><blockquote>
-<p>undefined是一个标识符, 而null是关键字</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    var undefined = 2;</span><br><span class="line">    console.log( undefined ); // 2</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var foo = void 0;</span><br><span class="line">foo;//undefined</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>可以通过void获取undefined值, void _ 会一直返回undefined值</p>
-</blockquote>
-<h2 id="NaN-Not-a-Number"><a href="#NaN-Not-a-Number" class="headerlink" title="NaN - Not a Number"></a>NaN - Not a Number</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">typeof NaN // number</span><br><span class="line"></span><br><span class="line">NaN == NaN; //undefined</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">isNaN(NaN); //true</span><br><span class="line">isNaN(1); //false</span><br><span class="line">isNaN(&apos;1&apos;); //false</span><br><span class="line">isNaN(&apos;hello&apos;); //true</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上得知, isNaN是用来判别是不是数字, 如果不是数字就返回true, 否则就是true</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number.isNaN(NaN); //true</span><br><span class="line">Number.isNaN(1); //false</span><br><span class="line">Number.isNaN(&apos;1&apos;); //false</span><br><span class="line">Number.isNaN(&apos;hello&apos;); //false</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>es6提供的<code>Number.isNaN</code>修复了这个问题</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">if (!Number.isNaN) &#123;</span><br><span class="line">        Number.isNaN = function(n) &#123;</span><br><span class="line">            return (</span><br><span class="line">                typeof n === &quot;number&quot; &amp;&amp;</span><br><span class="line">                window.isNaN( n )</span><br><span class="line">			); </span><br><span class="line">		&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (!Number.isNaN) &#123;</span><br><span class="line">	 Number.isNaN = function(n) &#123;</span><br><span class="line">	 	//只有NaN不等于自身</span><br><span class="line">        return n !== n;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>两种es6 isNaN的polyfill</p>
-</blockquote>
-<h3 id="Zeros"><a href="#Zeros" class="headerlink" title="Zeros"></a>Zeros</h3><blockquote>
-<p>js里有0和-0, 它的用处不是很大, 但是在某些运动时刻, 可以通过正负值, 来判断运动方向</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 0 / -3; // -0</span><br><span class="line">var b = 0 * -3; // -0</span><br><span class="line"></span><br><span class="line">a.toString(); //&quot;0&quot;</span><br><span class="line">a + &quot;&quot;; //&quot;0&quot;</span><br><span class="line">String( a ); //&quot;0&quot;</span><br><span class="line"></span><br><span class="line">JSON.stringify( a );   // &quot;0&quot;</span><br><span class="line">JSON.parse( &quot;-0&quot; ); // -0</span><br><span class="line"></span><br><span class="line">Number( &quot;-0&quot; );     // -0</span><br><span class="line"></span><br><span class="line">-0 === 0;//true</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function isNegZero(n) &#123;</span><br><span class="line">    n = Number( n );</span><br><span class="line">    return (n === 0) &amp;&amp; (1 / n === -Infinity);</span><br><span class="line">&#125;</span><br><span class="line">isNegZero( -0 );// true</span><br><span class="line">isNegZero( 0 / -3 );// true</span><br><span class="line">isNegZero( 0 );// false</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>可以通过上面的方法判断是否为负0</p>
-</blockquote>
-<h3 id="Special-Equality"><a href="#Special-Equality" class="headerlink" title="Special Equality"></a>Special Equality</h3><blockquote>
-<p>es6提供的提供了<code>Object.is</code>方法可以来判断两值是否相等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 2 / &quot;foo&quot;;</span><br><span class="line">var b = -3 * 0;</span><br><span class="line"></span><br><span class="line">Object.is( a, NaN ); //true</span><br><span class="line">Object.is( b, -0 ); //true</span><br><span class="line">Object.is( b, 0 ); // false</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if (!Object.is) &#123;</span><br><span class="line">        Object.is = function(v1, v2) &#123;</span><br><span class="line">            // test for `-0`</span><br><span class="line">            if (v1 === 0 &amp;&amp; v2 === 0) &#123;</span><br><span class="line">                return 1 / v1 === 1 / v2;</span><br><span class="line">            &#125;</span><br><span class="line">            // test for `NaN`</span><br><span class="line">            if (v1 !== v1) &#123;</span><br><span class="line">                return v2 !== v2;</span><br><span class="line">            &#125;</span><br><span class="line">            // everything else</span><br><span class="line">            return v1 === v2;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>polyfill如上</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/17/Values/" data-id="cjgcxuq370016q8vnn1temch6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-漫谈React" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/11/漫谈React/" class="article-date">
-  <time datetime="2017-10-11T01:01:17.000Z" itemprop="datePublished">2017-10-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/11/漫谈React/">漫谈React</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="事件系统"><a href="#事件系统" class="headerlink" title="事件系统"></a>事件系统</h2><h3 id="事件委派"><a href="#事件委派" class="headerlink" title="事件委派"></a>事件委派</h3><blockquote>
-<p>它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数</p>
-</blockquote>
-<h3 id="在React中使用原生事件"><a href="#在React中使用原生事件" class="headerlink" title="在React中使用原生事件"></a>在React中使用原生事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class NativeEventDemo extends Component &#123; </span><br><span class="line">	componentDidMount() &#123;</span><br><span class="line">		this.refs.button.addEventListener(&apos;click&apos;, e =&gt; &#123; this.handleClick(e);&#125;); </span><br><span class="line">	&#125;</span><br><span class="line">	handleClick(e) &#123; </span><br><span class="line">		console.log(e);</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillUnmount() &#123; </span><br><span class="line">		this.refs.button.removeEventListener(&apos;click&apos;);</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;button ref=&quot;button&quot;&gt;Test&lt;/button&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><h3 id="跨级组件通信通信"><a href="#跨级组件通信通信" class="headerlink" title="跨级组件通信通信"></a>跨级组件通信通信</h3><blockquote>
-<p>父级组件申明<code>getChildContext</code>方法和<code>childContextTypes</code>对象属性, 子组件申明<code>contextTypes</code>再可以通过<code>this.context</code>跨级获取对应的属性, 类似全局变量的概念, 但是这样比较混乱, react不建议这样使用</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">	static childContextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;</span><br><span class="line">	getChildContext() &#123; </span><br><span class="line">		return &#123;</span><br><span class="line">			color: &apos;red&apos;, </span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;Son /&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Son extends Component &#123;</span><br><span class="line">	static contextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &#123;this.context.color&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="没有嵌套关系的组件通信"><a href="#没有嵌套关系的组件通信" class="headerlink" title="没有嵌套关系的组件通信"></a>没有嵌套关系的组件通信</h3><blockquote>
-<p>通过<code>EventEmitter</code>对象</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import &#123; EventEmitter &#125; from &apos;events&apos;;</span><br><span class="line">const emitter = new EventEmitter();</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.btnClick = emitter.on(&apos;btnClick&apos;, (data) =&gt; &#123; </span><br><span class="line">      console.log(data);</span><br><span class="line">      alert(data)</span><br><span class="line">    &#125;); </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    emitter.removeListener(this.btnClick);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class OtherComp extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">    	super(props);</span><br><span class="line">	&#125;</span><br><span class="line">	onClickEvent() &#123;</span><br><span class="line">	    emitter.emit(&apos;btnClick&apos;, &apos;click...&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		</span><br><span class="line">		return &lt;button onClick=&#123;this.onClickEvent.bind(this)&#125;&gt;按钮&lt;/button&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h2><h3 id="属性代理"><a href="#属性代理" class="headerlink" title="属性代理"></a>属性代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		const newProps = &#123;</span><br><span class="line">			text: newText, </span><br><span class="line">		&#125;;</span><br><span class="line">		return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt;</span><br><span class="line">	class extends Component &#123;</span><br><span class="line">		constructor(props) &#123; </span><br><span class="line">			super(props); </span><br><span class="line">			this.state = &#123;</span><br><span class="line">		  		name: &apos;&apos;,</span><br><span class="line">		  	&#125;;</span><br><span class="line">			this.onNameChange = this.onNameChange.bind(this); </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		onNameChange(event) &#123; </span><br><span class="line">			this.setState(&#123;</span><br><span class="line">				name: event.target.value, </span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">		render() &#123;</span><br><span class="line">			const newProps = &#123;</span><br><span class="line">				name: &#123;</span><br><span class="line">					value: this.state.name,</span><br><span class="line">					onChange: this.onNameChange,</span><br><span class="line">				&#125;, </span><br><span class="line">			&#125;</span><br><span class="line">			return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MyContainer</span><br><span class="line">class MyComponent extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;input name=&quot;name&quot; &#123;...this.props.name&#125; /&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>通过以上的封装，我们就得到了一个被控制的 input 组件。</p>
-</blockquote>
-<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><blockquote>
-<p>高阶组件集成传递进来的组件WrappedComponent, 然后通过super去反向调用</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends WrappedComponent &#123;</span><br><span class="line">		render() &#123;</span><br><span class="line">			return super.render();</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="组件性能优化"><a href="#组件性能优化" class="headerlink" title="组件性能优化"></a>组件性能优化</h2><h3 id="PureRender"><a href="#PureRender" class="headerlink" title="PureRender"></a>PureRender</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Account style=&#123;&#123; color: &apos;black&apos; &#125;&#125; /&gt;</span><br><span class="line"></span><br><span class="line">//优化为如下</span><br><span class="line"></span><br><span class="line">const defaultStyle = &#123;&#123;color: &apos;black&apos;&#125;&#125;;</span><br><span class="line">&lt;Account style=&#123;this.props.style || defaultStyle&#125; /&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上, 我们知道，每次调用 React 组件其实都会重新创建组件。就算传入的数组或对象的值没有改变, 但它引用的地址改变, 因此对象和数组类型的数据, 应该用一个变量传入</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class NameItem extends Component &#123; </span><br><span class="line">	render() &#123;</span><br><span class="line">		//翻译成jsx为: &lt;Item children=&#123;React.createElement(&apos;span&apos;, &#123;&#125;, &apos;Arcthur&apos;)&#125;/&gt;</span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;Item/&gt;</span><br><span class="line">		 )</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">import PureRenderMixin from &apos;react-addons-pure-render-mixin&apos;;</span><br><span class="line">class NameItem extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this); </span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123; </span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;/Item&gt;</span><br><span class="line">		); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上, Item 组件不论什么情况下都会重新渲染。那么，怎么避免 Item 组件的重复渲染呢? 很简单，我们给 NameItem 设置 PureRender</p>
-</blockquote>
-<h3 id="Immutable"><a href="#Immutable" class="headerlink" title="Immutable"></a>Immutable</h3><blockquote>
-<p>Immutable提供了很多类似es6工具方法, 它最大的亮点是提供了Map(对象), List(数据)这2个方法, 它可以得到不会被改变的对象和数组, 就可以防止数据被在某些黑盒里修改</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let a = Map(&#123;</span><br><span class="line">	select: &apos;users&apos;,</span><br><span class="line">	filter: Map(&#123; name: &apos;Cam&apos; &#125;),</span><br><span class="line">&#125;);</span><br><span class="line">let b = a.set(&apos;select&apos;, &apos;people&apos;);</span><br><span class="line">a === b // false</span><br><span class="line"></span><br><span class="line">let map1 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">let map2 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">map1 === map2; // =&gt; false</span><br><span class="line">Immutable.is(map1, map2); // =&gt; true</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以上为Immutable的map简单用法, Immutable.is 比较的是两个对象的 hashCode 或 valueOf(对于 JavaScript 对象)。由于 Immutable 内部使用了 trie 数据结构来存储，只要两个对象的 hashCode 相等，值就是一样的。 这样的算法避免了深度遍历比较，因此性能非常好。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;; </span><br><span class="line">import &#123; is &#125; from &apos;immutable&apos;;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123; </span><br><span class="line">	shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">		const thisProps = this.props || &#123;&#125;;</span><br><span class="line">		const thisState = this.state || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">		if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) &#123;</span><br><span class="line">			return true; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextProps) &#123;</span><br><span class="line">			if (nextProps.hasOwnProperty(key) &amp;&amp; !is(thisProps[key], nextProps[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextState) &#123;</span><br><span class="line">			if (nextState.hasOwnProperty(key) &amp;&amp; !is(thisState[key], nextState[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return false; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如上优化shouldComponentUpdate, Immutable.js提供了简洁、高效的判断数据是否变化的方法，只需 === 和 is 比较就能知 道是否需要执行 render，而这个操作几乎零成本，所以可以极大提高性能</p>
-</blockquote>
-<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><blockquote>
-<p>我们迭代渲染数组时, 如果不给组件设置key或是设置了相同的key会有警告, 但是设置的key, 尽量根据组件自身属性而产生的唯一性key, 比如id, 尽量避免使用数组的key, 这样效率会很低, 因为所有组件基本都会重新渲染</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import createFragment from &apos;react-addons-create-fragment&apos;;</span><br><span class="line">function Rank(&#123; first, second &#125;) &#123; </span><br><span class="line">	const children = createFragment(&#123;</span><br><span class="line">		first: first,</span><br><span class="line">		second: second, </span><br><span class="line">	&#125;);</span><br><span class="line">	return ( &lt;ul&gt;&#123;children&#125; &lt;/ul&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>关于 key，我们还需要知道的一种情况是，有两个子组件需要渲染的时候，我们没法给它们<br>设 key。这时需要用到 React 插件 createFragment 来解决, 如上</p>
-</blockquote>
-<h3 id="react-addons-perf-性能检测工具"><a href="#react-addons-perf-性能检测工具" class="headerlink" title="react-addons-perf 性能检测工具"></a>react-addons-perf 性能检测工具</h3><blockquote>
-<p>通过 Perf.start() 和 Perf.stop() 两个 API 设置 开始和结束的状态来作分析</p>
-</blockquote>
-<ul>
-<li>Perf.printInclusive(measurements):所有阶段的时间。 </li>
-<li>Perf.printExclusive(measurements):不包含挂载组件的时间，即初始化 props、state，调用 componentWillMount 和 componentDidMount 方法的时间等。</li>
-<li>Perf.printWasted(measurements):监测渲染的内容保持不变的组件(可以查看哪些组件<br>没有被 shouldComponentUpdate 命中)。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/11/漫谈React/" data-id="cjgcxuq40002rq8vnvacjamhs" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-初入React世界" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/10/初入React世界/" class="article-date">
-  <time datetime="2017-10-10T00:47:18.000Z" itemprop="datePublished">2017-10-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/10/初入React世界/">初入React世界</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="React生命周期"><a href="#React生命周期" class="headerlink" title="React生命周期"></a>React生命周期</h2><ul>
-<li>constructor</li>
-<li>static getDerivedStateFromProps</li>
-<li>componentWillMount / UNSAFE_componentWillMount</li>
-<li>render</li>
-<li>componnetDidMount</li>
-<li>componentWillReceiveProps / UNSAFE_componentWillReceiveProps</li>
-<li>static getDerivedStateFromProps</li>
-<li>shouldComponentUpdate</li>
-<li>componentWillUpdate / UNSAFE_componentWillUpdate</li>
-<li>render</li>
-<li>getSnapshotBeforeUpdate</li>
-<li>componnetDidUpdate</li>
-<li>componentWillUnmount</li>
-<li>componentDidCatch</li>
-</ul>
-<h3 id="componnetDidMount"><a href="#componnetDidMount" class="headerlink" title="componnetDidMount"></a>componnetDidMount</h3><blockquote>
-<p>绑定事件, ajax请求尽量在这个阶段调用; 此阶段虽然在render之后被调用, 实质上仅仅生成了dom树, 还没有被渲染到页面上, 因此在调用setState, 页面上不会出现重复渲染</p>
-</blockquote>
-<h3 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h3><blockquote>
-<p>此阶段控制页面是否重新渲染; 可以通过继承 <code>React.PureComponent</code>, 它实现了prop和state的浅比较; react不推荐我们在这阶段进行深度比较, 或是通过json.stringify进行比较, 这样很耗性能;</p>
-</blockquote>
-<h3 id="getSnapshotBeforeUpdate"><a href="#getSnapshotBeforeUpdate" class="headerlink" title="getSnapshotBeforeUpdate"></a>getSnapshotBeforeUpdate</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScrollingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  listRef = React.createRef();</span><br><span class="line"></span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    <span class="comment">// Are we adding new items to the list?</span></span><br><span class="line">    <span class="comment">// Capture the current height of the list so we can adjust scroll later.</span></span><br><span class="line">    <span class="keyword">if</span> (prevProps.list.length &lt; <span class="keyword">this</span>.props.list.length) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.listRef.current.scrollHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidUpdate(prevProps, prevState, snapshot) &#123;</span><br><span class="line">    <span class="comment">// If we have a snapshot value, we've just added new items.</span></span><br><span class="line">    <span class="comment">// Adjust scroll so these new items don't push the old ones out of view.</span></span><br><span class="line">    <span class="keyword">if</span> (snapshot !== <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.listRef.current.scrollTop +=</span><br><span class="line">        <span class="keyword">this</span>.listRef.current.scrollHeight - snapshot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div ref=&#123;<span class="keyword">this</span>.listRef&#125;&gt;&#123;<span class="comment">/* ...contents... */</span>&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="componentDidCatch"><a href="#componentDidCatch" class="headerlink" title="componentDidCatch"></a>componentDidCatch</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ErrorBoundary</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">hasError</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidCatch(error, info) &#123;</span><br><span class="line">    <span class="comment">// Display fallback UI</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">hasError</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">    <span class="comment">// You can also log the error to an error reporting service</span></span><br><span class="line">    logErrorToMyService(error, info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasError) &#123;</span><br><span class="line">      <span class="comment">// You can render any custom fallback UI</span></span><br><span class="line">      <span class="keyword">return</span> &lt;h1&gt;Something went wrong.&lt;/h1&gt;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.props.children;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;ErrorBoundary&gt;</span><br><span class="line">  &lt;MyWidget /&gt;</span><br><span class="line">&lt;<span class="regexp">/ErrorBoundary&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="ReactDom"><a href="#ReactDom" class="headerlink" title="ReactDom"></a>ReactDom</h2><h3 id="ReactDOMServer-renderToString-element"><a href="#ReactDOMServer-renderToString-element" class="headerlink" title="ReactDOMServer.renderToString(element)"></a>ReactDOMServer.renderToString(element)</h3><p>在服务端渲染react的html, 加速首屏渲染和SEO优化</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOMServer <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line">ReactDOMServer.renderToString(element)</span><br></pre></td></tr></table></figure>
-<h3 id="ReactDOM-hydrate-element-container-callback"><a href="#ReactDOM-hydrate-element-container-callback" class="headerlink" title="ReactDOM.hydrate(element, container[, callback])"></a>ReactDOM.hydrate(element, container[, callback])</h3><p>可以对服务器渲染的容器挂载事件</p>
-<h2 id="React-与-DOM"><a href="#React-与-DOM" class="headerlink" title="React 与 DOM"></a>React 与 DOM</h2><ul>
-<li>findDOMNode 需要react节点</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line">class App extends Component &#123; </span><br><span class="line"> componentDidMount() &#123;</span><br><span class="line"> 	// this 为当前组件的实例</span><br><span class="line">	const dom = ReactDOM.findDOMNode(this); </span><br><span class="line"> &#125;</span><br><span class="line"> render() &#123;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>unmountComponentAtNode 卸载react节点</li>
-</ul>
-<h2 id="ReactDOM-的不稳定方法"><a href="#ReactDOM-的不稳定方法" class="headerlink" title="ReactDOM 的不稳定方法"></a>ReactDOM 的不稳定方法</h2><ul>
-<li>render: ReactMount._renderSubtreeIntoContainer(null, nextElement, container, callback)</li>
-<li>unstable_renderSubtreeIntoContainer: ReactMount._renderSubtreeIntoContainer(parentComponent,<br>nextElement, container, callback)</li>
-</ul>
-<blockquote>
-<p>unstable_renderSubtreeIntoContainer 与 render 方法很相似，但 render 方法缺少一个插入某个节点的参数</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/10/初入React世界/" data-id="cjgcxuq3t002fq8vn9ym2m1k6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-api" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/24/api/" class="article-date">
-  <time datetime="2017-09-24T12:52:11.000Z" itemprop="datePublished">2017-09-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/24/api/">api</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Page-Visibility"><a href="#Page-Visibility" class="headerlink" title="Page Visibility"></a>Page Visibility</h2><ul>
-<li>document.hidden 表示页面是否隐藏</li>
-<li>document.visibilityState: 有4个状态的值</li>
-<li>visibiliteChagne事件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&apos;visibiliteChagne&apos;, function(event) &#123;</span><br><span class="line">	if (document.hidden) &#123;</span><br><span class="line">		//do something</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="Geolocation-API"><a href="#Geolocation-API" class="headerlink" title="Geolocation API"></a>Geolocation API</h2><blockquote>
-<p>获取用户地理位置</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.getCurrentPosition(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	enableHighAccuracy: true, //尽可能使用精确的位置信息</span><br><span class="line">	timeout: 5000,//等待位置信息的最长时间</span><br><span class="line">	maximumAge: 25000//上一次获取的坐标信息的有效时间</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>watchPosition方法和getCurrentPosition类似, 但是它会定时调用getCurrentPosition的效果相同</li>
-<li>clearWatch 取消监听</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var watchId = navigator.geolocation.watchPosition方法和getCurrentPosition类似(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//取消监听</span><br><span class="line">clearWatch(watchId);</span><br></pre></td></tr></table></figure>
-<h2 id="FileReader-类型"><a href="#FileReader-类型" class="headerlink" title="FileReader 类型"></a>FileReader 类型</h2><blockquote>
-<p>可以异步读取上传文件中的数据</p>
-</blockquote>
-<ul>
-<li>readAsText(file, encoding) 以纯文本形式读取文件</li>
-<li>readAsDataURL(file) 读取文件以URI的形式保存</li>
-<li>readAsBinaryString(file) 获取字符串, 每个字符表示一个字节</li>
-<li>readAsArrayBuffer(file) 获取ArrayBuffer类型的内容</li>
-</ul>
-<p><img src="https://img.alicdn.com/tfs/TB1b_bwggoQMeJjy0FoXXcShVXa-1224-1480.png" alt="应用"></p>
-<h2 id="对象URL"><a href="#对象URL" class="headerlink" title="对象URL"></a>对象URL</h2><blockquote>
-<p>可以不必将数据内容读取到JavaScript中而直接使用, 可以使用<code>window.URL.createObjectURL()</code>方法, 返回字符串, 指向内存地址</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var url = window.URL.createObjectURL(files[0])</span><br><span class="line">var output.innerHTML = &apos;&lt;img src=&quot;&apos; + url + &apos;&quot;&gt;&apos;;</span><br><span class="line"></span><br><span class="line">//释放内存</span><br><span class="line">window.URL.revokeObjectURL(url);</span><br></pre></td></tr></table></figure>
-<h2 id="读取拖放的文件"><a href="#读取拖放的文件" class="headerlink" title="读取拖放的文件"></a>读取拖放的文件</h2><blockquote>
-<p>html5可以直接拖入文件, 可以通过<code>files = event.dataTransfer.files;</code>获取拖入文件并获取文件信息</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var droptarget = document.getElementById(&quot;droptarget&quot;);</span><br><span class="line">function handleEvent(event) &#123;</span><br><span class="line">	var info = &quot;&quot;,</span><br><span class="line">		output = document.getElemntById(&quot;output&quot;),</span><br><span class="line">		files, i, len;</span><br><span class="line"></span><br><span class="line">	EvenUtil.preventDefault(event);</span><br><span class="line">	if (event.type == drop) &#123;</span><br><span class="line">		files = event.dataTransfer.files;</span><br><span class="line">		i = 0;</span><br><span class="line">		len = files.length;</span><br><span class="line"></span><br><span class="line">		while (i &lt; len) &#123;</span><br><span class="line">			//获取文件信息</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropenter&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropover&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;drop&quot;, handleEvent);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/24/api/" data-id="cjgcxuq3a001eq8vnsx2nw04j" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-最佳实践" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/23/最佳实践/" class="article-date">
-  <time datetime="2017-09-23T11:31:55.000Z" itemprop="datePublished">2017-09-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/23/最佳实践/">最佳实践</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><h3 id="避免全局查找"><a href="#避免全局查找" class="headerlink" title="避免全局查找"></a>避免全局查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function updateUI() &#123;</span><br><span class="line">	var imgs = document.getElementByTagName(&quot;img&quot;);</span><br><span class="line">	for (var i=0, len=imgs.length; i &lt; len; i++) &#123;</span><br><span class="line">		imgs[i].title = document.title + &quot; images &quot; + i;</span><br><span class="line">	&#125;</span><br><span class="line">	var msg = document.getElementById(&quot;msg&quot;);</span><br><span class="line">	msg.innerHTML = &quot;update complete.&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>上面代码包含了3次对全局document对象的引用, 如果for循环多次就会有多次的document作用域链的查找. 我们可以通过创建一个指向document对象的局部变量, 这边就避免了每次全局作用域的查找, 修改如下</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function updateUI() &#123;</span><br><span class="line">	var doc = document;</span><br><span class="line">	var imgs = doc.getElementsByTagName(&quot;img&quot;);</span><br><span class="line">	for (var i=0, len=imgs.length; i &lt; len; i++) &#123;</span><br><span class="line">		imgs[i].title = doc.title + &quot; images &quot; + i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	var msg = doc.getElmentById(&quot;msg&quot;);</span><br><span class="line">	msg.innerHTML = &quot;update complete.&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="避免with语句"><a href="#避免with语句" class="headerlink" title="避免with语句"></a>避免with语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function updateBody() &#123;</span><br><span class="line">	with (document.body) &#123;</span><br><span class="line">		innerHTML = &quot;hello world&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>with会创建自己的作用域, 由于额外的作用域查找, 在with里的代码肯定会比外面的代码执行的慢, 建议使用局部变量来完成相同的事情而不引入新的作用域.</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function updateBody() &#123;</span><br><span class="line">	var body = document.body;</span><br><span class="line">	body.innerHTML = &quot;hello world&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/23/最佳实践/" data-id="cjgcxuq3z002oq8vnfsfw1bpr" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
 
     </footer>
   </div>
@@ -891,7 +721,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -902,9 +732,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Mot-clés</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -912,18 +742,18 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nuage de mot-clés</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a>
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -931,28 +761,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2018/02/25/深入理解计算机系统/">深入理解计算机系统</a>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
           </li>
         
           <li>
-            <a href="/2018/02/23/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
           </li>
         
           <li>
-            <a href="/2018/02/23/cpp提高/">cpp提高</a>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
           </li>
         
           <li>
-            <a href="/2018/02/23/cpp/">cpp</a>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
           </li>
         
           <li>
-            <a href="/2018/02/11/c提高/">C提高</a>
+            <a href="/2018/05/01/The-canvas-Element/">The canvas Element</a>
           </li>
         
       </ul>
@@ -968,7 +798,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2018 lichen<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
