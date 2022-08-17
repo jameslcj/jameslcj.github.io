@@ -83,9 +83,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#一、背景介绍<br>背景需求是这样的， 需要将下面的json字符串转换成TopicOutputItem对象，对象的字段在字符串里都是有的， 但是解析后， 发现其他字段都可以成功获取， 唯独topic字段是空的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;__topic__&quot;:&quot;&quot;,&quot;outputReqs&quot;:&quot;0.0&quot;,&quot;__tag__:__receive_time__&quot;:&quot;1644412388&quot;,&quot;__tag__:__user_defined_id__&quot;:&quot;kafka_service&quot;,&quot;outputBytes&quot;:&quot;0.0&quot;,&quot;userId&quot;:&quot;1005544009935328&quot;,&quot;outputConvs&quot;:&quot;0.0&quot;,&quot;instanceId&quot;:&quot;alikafka_post-cn-n6w1u1i5200d&quot;,&quot;__tag__:__hostname__&quot;:&quot;use1.kafka.alikafka_post-cn-n6w1u1i5200d.102.zonea&quot;,&quot;name&quot;:&quot;topicOutputItem&quot;,&quot;outputFailedReqs&quot;:&quot;0.0&quot;,&quot;topic&quot;:&quot;ods_hk4e_stat_log_1_usa_qa03&quot;,&quot;time&quot;:&quot;1644412385458&quot;,&quot;logtime&quot;:1644412385,&quot;__tag__:__path__&quot;:&quot;/home/admin/logs/alikafka/agentMetrics.log&quot;,&quot;__tag__:__pack_id__&quot;:&quot;7EB43615ED8680F7-9FB&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+        <h1 id="一、背景介绍"><a href="#一、背景介绍" class="headerlink" title="一、背景介绍"></a>一、背景介绍</h1><p>背景需求是这样的， 需要将下面的json字符串转换成TopicOutputItem对象，对象的字段在字符串里都是有的， 但是解析后， 发现其他字段都可以成功获取， 唯独topic字段是空的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;__topic__&quot;:&quot;&quot;,&quot;outputReqs&quot;:&quot;0.0&quot;,&quot;__tag__:__receive_time__&quot;:&quot;1644412388&quot;,&quot;__tag__:__user_defined_id__&quot;:&quot;xxx&quot;,&quot;outputBytes&quot;:&quot;0.0&quot;,&quot;userId&quot;:&quot;xxxx&quot;,&quot;outputConvs&quot;:&quot;0.0&quot;,&quot;instanceId&quot;:&quot;xxx&quot;,&quot;__tag__:__hostname__&quot;:&quot;xxx&quot;,&quot;name&quot;:&quot;topicOutputItem&quot;,&quot;outputFailedReqs&quot;:&quot;0.0&quot;,&quot;topic&quot;:&quot;test&quot;,&quot;time&quot;:&quot;1644412385458&quot;,&quot;logtime&quot;:1644412385,&quot;__tag__:__path__&quot;:&quot;&quot;,&quot;__tag__:__pack_id__&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class TopicOutputItem &#123;</span><br><span class="line">    private String topic;</span><br><span class="line">    private double outputBytes;</span><br><span class="line">    private double outputReqs;</span><br><span class="line">    private String name;</span><br><span class="line">    private String instanceId;</span><br><span class="line">    private String userId;</span><br><span class="line">    private Long time;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>#二、问题分析<br>这个字符串数据是从sls上获取的， 原本json字符串只有我对象的字段， 但从sls获取时， 被加上了很多sls内部字段， 都是以<strong>开头， 比如</strong>topic__。刚好此值是空的， 因此我把这个值手动赋值后， 居然能成功映射到对象的topic上， 因此断定fastJson解析逻辑出了问题， 因此顺着fastJson源码找了一下原因。</p>
+<h1 id="二、问题分析"><a href="#二、问题分析" class="headerlink" title="二、问题分析"></a>二、问题分析</h1><p>这个字符串数据是从sls上获取的， 原本json字符串只有我对象的字段， 但从sls获取时， 被加上了很多sls内部字段， 都是以<strong>开头， 比如</strong>topic__。刚好此值是空的， 因此我把这个值手动赋值后， 居然能成功映射到对象的topic上， 因此断定fastJson解析逻辑出了问题， 因此顺着fastJson源码找了一下原因。</p>
 <h2 id="解析流程"><a href="#解析流程" class="headerlink" title="解析流程"></a>解析流程</h2><p>首先了解一下fastJson解析的大致流程，fastJson的代码比较冗长， 但主要分为3个步骤</p>
 <ol>
 <li>通过ASM获取我们的对象的字节码</li>
@@ -104,7 +104,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2021/10/20/FastJSON Key Hash冲突问题/" data-id="cl6xlsdn4000gow5wtoaiqr2m" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2021/10/20/FastJSON Key Hash冲突问题/" data-id="cl6xm2uhr00062f5wb2qogbyn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA/">JAVA</a></li></ul>
@@ -144,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/05/18/设计模式/" data-id="cl6xlsdoo003aow5wprr4qozd" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/05/18/设计模式/" data-id="cl6xm2ujo00382f5wbv0jngm6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -204,7 +204,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/05/09/数据结构/" data-id="cl6xlsdob002tow5wklredjut" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/05/09/数据结构/" data-id="cl6xm2ujk002y2f5wb0nr9ew8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li></ul>
@@ -264,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/05/06/Drawing/" data-id="cl6xlsdmw0005ow5wiuzeb55c" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/05/06/Drawing/" data-id="cl6xm2uht000a2f5wy19p0sxu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li></ul>
@@ -762,7 +762,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/05/02/Vim实用技巧/" data-id="cl6xlsdnp001eow5whtqrrqs9" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/05/02/Vim实用技巧/" data-id="cl6xm2uio001e2f5wivrksp5x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li></ul>
@@ -807,7 +807,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/05/01/The-canvas-Element/" data-id="cl6xlsdnk0017ow5w9tcuh7e3" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/05/01/The-canvas-Element/" data-id="cl6xm2ujh002t2f5w50scgcoy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li></ul>
@@ -865,7 +865,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/04/25/linux进程/" data-id="cl6xlsdo5002fow5wcpj4h45a" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/04/25/linux进程/" data-id="cl6xm2uj7002e2f5wus96eby2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li></ul>
@@ -1140,7 +1140,7 @@ ret
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/02/25/深入理解计算机系统/" data-id="cl6xlsdou003how5wmyud6meh" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/02/25/深入理解计算机系统/" data-id="cl6xm2ujo003a2f5wsjrp6n4f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li></ul>
@@ -1202,7 +1202,7 @@ ret
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/02/23/JavaScript设计模式与开发实践/" data-id="cl6xlsdnf000vow5w57h0dlz0" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/02/23/JavaScript设计模式与开发实践/" data-id="cl6xm2ui8000s2f5wligkz8vw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li></ul>
@@ -1271,7 +1271,7 @@ ret
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2018/02/23/cpp提高/" data-id="cl6xlsdo00023ow5w88l8bre5" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2018/02/23/cpp提高/" data-id="cl6xm2uj400272f5w9wnxceje" class="article-share-link">Share</a>
       
       
     </footer>
