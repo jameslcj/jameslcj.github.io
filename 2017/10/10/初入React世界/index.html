@@ -1,16 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>初入React世界 | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="React生命周期 constructor static getDerivedStateFromProps componentWillMount / UNSAFE_componentWillMount render componnetDidMount componentWillReceiveProps / UNSAFE_componentWillReceiveProps static getDer">
+<meta name="keywords" content="深入React技术栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初入React世界">
+<meta property="og:url" content="http://blog.hellolc.com/2017/10/10/初入React世界/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="React生命周期 constructor static getDerivedStateFromProps componentWillMount / UNSAFE_componentWillMount render componnetDidMount componentWillReceiveProps / UNSAFE_componentWillReceiveProps static getDer">
+<meta property="og:updated_time" content="2018-04-28T03:19:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初入React世界">
+<meta name="twitter:description" content="React生命周期 constructor static getDerivedStateFromProps componentWillMount / UNSAFE_componentWillMount render componnetDidMount componentWillReceiveProps / UNSAFE_componentWillReceiveProps static getDer">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-初入React世界" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/10/初入React世界/" class="article-date">
+  <time datetime="2017-10-10T00:47:18.000Z" itemprop="datePublished">2017-10-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      初入React世界
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React生命周期"><a href="#React生命周期" class="headerlink" title="React生命周期"></a>React生命周期</h2><ul>
+<li>constructor</li>
+<li>static getDerivedStateFromProps</li>
+<li>componentWillMount / UNSAFE_componentWillMount</li>
+<li>render</li>
+<li>componnetDidMount</li>
+<li>componentWillReceiveProps / UNSAFE_componentWillReceiveProps</li>
+<li>static getDerivedStateFromProps</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate / UNSAFE_componentWillUpdate</li>
+<li>render</li>
+<li>getSnapshotBeforeUpdate</li>
+<li>componnetDidUpdate</li>
+<li>componentWillUnmount</li>
+<li>componentDidCatch</li>
+</ul>
+<h3 id="componnetDidMount"><a href="#componnetDidMount" class="headerlink" title="componnetDidMount"></a>componnetDidMount</h3><blockquote>
+<p>绑定事件, ajax请求尽量在这个阶段调用; 此阶段虽然在render之后被调用, 实质上仅仅生成了dom树, 还没有被渲染到页面上, 因此在调用setState, 页面上不会出现重复渲染</p>
+</blockquote>
+<h3 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h3><blockquote>
+<p>此阶段控制页面是否重新渲染; 可以通过继承 <code>React.PureComponent</code>, 它实现了prop和state的浅比较; react不推荐我们在这阶段进行深度比较, 或是通过json.stringify进行比较, 这样很耗性能;</p>
+</blockquote>
+<h3 id="getSnapshotBeforeUpdate"><a href="#getSnapshotBeforeUpdate" class="headerlink" title="getSnapshotBeforeUpdate"></a>getSnapshotBeforeUpdate</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScrollingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  listRef = React.createRef();</span><br><span class="line"></span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    <span class="comment">// Are we adding new items to the list?</span></span><br><span class="line">    <span class="comment">// Capture the current height of the list so we can adjust scroll later.</span></span><br><span class="line">    <span class="keyword">if</span> (prevProps.list.length &lt; <span class="keyword">this</span>.props.list.length) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.listRef.current.scrollHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidUpdate(prevProps, prevState, snapshot) &#123;</span><br><span class="line">    <span class="comment">// If we have a snapshot value, we've just added new items.</span></span><br><span class="line">    <span class="comment">// Adjust scroll so these new items don't push the old ones out of view.</span></span><br><span class="line">    <span class="keyword">if</span> (snapshot !== <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.listRef.current.scrollTop +=</span><br><span class="line">        <span class="keyword">this</span>.listRef.current.scrollHeight - snapshot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div ref=&#123;<span class="keyword">this</span>.listRef&#125;&gt;&#123;<span class="comment">/* ...contents... */</span>&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="componentDidCatch"><a href="#componentDidCatch" class="headerlink" title="componentDidCatch"></a>componentDidCatch</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ErrorBoundary</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">hasError</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidCatch(error, info) &#123;</span><br><span class="line">    <span class="comment">// Display fallback UI</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">hasError</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">    <span class="comment">// You can also log the error to an error reporting service</span></span><br><span class="line">    logErrorToMyService(error, info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasError) &#123;</span><br><span class="line">      <span class="comment">// You can render any custom fallback UI</span></span><br><span class="line">      <span class="keyword">return</span> &lt;h1&gt;Something went wrong.&lt;/h1&gt;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.props.children;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;ErrorBoundary&gt;</span><br><span class="line">  &lt;MyWidget /&gt;</span><br><span class="line">&lt;<span class="regexp">/ErrorBoundary&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="ReactDom"><a href="#ReactDom" class="headerlink" title="ReactDom"></a>ReactDom</h2><h3 id="ReactDOMServer-renderToString-element"><a href="#ReactDOMServer-renderToString-element" class="headerlink" title="ReactDOMServer.renderToString(element)"></a>ReactDOMServer.renderToString(element)</h3><p>在服务端渲染react的html, 加速首屏渲染和SEO优化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOMServer <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line">ReactDOMServer.renderToString(element)</span><br></pre></td></tr></table></figure>
+<h3 id="ReactDOM-hydrate-element-container-callback"><a href="#ReactDOM-hydrate-element-container-callback" class="headerlink" title="ReactDOM.hydrate(element, container[, callback])"></a>ReactDOM.hydrate(element, container[, callback])</h3><p>可以对服务器渲染的容器挂载事件</p>
+<h2 id="React-与-DOM"><a href="#React-与-DOM" class="headerlink" title="React 与 DOM"></a>React 与 DOM</h2><ul>
+<li>findDOMNode 需要react节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line">class App extends Component &#123; </span><br><span class="line"> componentDidMount() &#123;</span><br><span class="line"> 	// this 为当前组件的实例</span><br><span class="line">	const dom = ReactDOM.findDOMNode(this); </span><br><span class="line"> &#125;</span><br><span class="line"> render() &#123;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>unmountComponentAtNode 卸载react节点</li>
+</ul>
+<h2 id="ReactDOM-的不稳定方法"><a href="#ReactDOM-的不稳定方法" class="headerlink" title="ReactDOM 的不稳定方法"></a>ReactDOM 的不稳定方法</h2><ul>
+<li>render: ReactMount._renderSubtreeIntoContainer(null, nextElement, container, callback)</li>
+<li>unstable_renderSubtreeIntoContainer: ReactMount._renderSubtreeIntoContainer(parentComponent,<br>nextElement, container, callback)</li>
+</ul>
+<blockquote>
+<p>unstable_renderSubtreeIntoContainer 与 render 方法很相似，但 render 方法缺少一个插入某个节点的参数</p>
+</blockquote>
+<h3 id="ReactDOM-render-与-ReactDOM-createPortal-的区别"><a href="#ReactDOM-render-与-ReactDOM-createPortal-的区别" class="headerlink" title="ReactDOM.render 与 ReactDOM.createPortal 的区别"></a>ReactDOM.render 与 ReactDOM.createPortal 的区别</h3><ol>
+<li>createPortal 可以获取父级的context</li>
+<li>createPortal 的事件可以被传递给父级</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/10/初入React世界/" data-id="cl6xk2y8b002qc65wif1gj6zk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/11/漫谈React/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          漫谈React
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/24/api/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">api</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

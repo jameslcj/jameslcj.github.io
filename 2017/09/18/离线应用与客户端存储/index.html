@@ -1,16 +1,264 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>离线应用与客户端存储 | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="离线检测 navigator.onLine检测浏览器能否访问网络; 也可以监听online, offline事件来获取网络变化情况  123456window.online = function(event) &amp;#123;&amp;#125;window.offline = function(event) &amp;#123;&amp;#125; 应用缓存 applicationCache专为离线web设计, appli">
+<meta name="keywords" content="javaScript高级程序设计笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="离线应用与客户端存储">
+<meta property="og:url" content="http://blog.hellolc.com/2017/09/18/离线应用与客户端存储/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="离线检测 navigator.onLine检测浏览器能否访问网络; 也可以监听online, offline事件来获取网络变化情况  123456window.online = function(event) &amp;#123;&amp;#125;window.offline = function(event) &amp;#123;&amp;#125; 应用缓存 applicationCache专为离线web设计, appli">
+<meta property="og:updated_time" content="2017-09-21T03:02:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="离线应用与客户端存储">
+<meta name="twitter:description" content="离线检测 navigator.onLine检测浏览器能否访问网络; 也可以监听online, offline事件来获取网络变化情况  123456window.online = function(event) &amp;#123;&amp;#125;window.offline = function(event) &amp;#123;&amp;#125; 应用缓存 applicationCache专为离线web设计, appli">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-离线应用与客户端存储" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/18/离线应用与客户端存储/" class="article-date">
+  <time datetime="2017-09-18T01:54:26.000Z" itemprop="datePublished">2017-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      离线应用与客户端存储
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="离线检测"><a href="#离线检测" class="headerlink" title="离线检测"></a>离线检测</h2><blockquote>
+<p><code>navigator.onLine</code>检测浏览器能否访问网络; 也可以监听<code>online</code>, <code>offline</code>事件来获取网络变化情况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">window.online = function(event) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">window.offline = function(event) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="应用缓存"><a href="#应用缓存" class="headerlink" title="应用缓存"></a>应用缓存</h2><blockquote>
+<p><code>applicationCache</code>专为离线web设计, <code>applicationCache</code>的status能够检测缓存情况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//将缓存与页面关联起来</span><br><span class="line">&lt;html manifest=&quot;/offline.manifest&quot;&gt;</span><br><span class="line"></span><br><span class="line">//缓存状况</span><br><span class="line">console.log(applicationCache.status);</span><br><span class="line"></span><br><span class="line">//监听缓存变化情况</span><br><span class="line">applicationCache.updateready = function() &#123;</span><br><span class="line">	applicationCache.swapCache();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//查看cookie</span><br><span class="line">console.log(document.cookie)</span><br><span class="line"></span><br><span class="line">//设置cookie</span><br><span class="line">document.cookie = encodeURIComponent(&quot;test&quot;) + &quot;=&quot; + encodeURIComponent(&quot;value&quot;)</span><br><span class="line"></span><br><span class="line">//删除cookie 其实就是让时间过期</span><br><span class="line">document.cookie = encodeURIComponent(&quot;test&quot;) + &quot;=&quot; + encodeURIComponent(&quot;value&quot;) + &quot;; expires=&quot; + new Date(0)</span><br></pre></td></tr></table></figure>
+<h3 id="子cookie"><a href="#子cookie" class="headerlink" title="子cookie"></a>子cookie</h3><blockquote>
+<p>每个域设置的cookie是有上限的, 每条长度也有上限, 各浏览器各不一样; 我们可以设置子cookie增加cookie上限</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//我们可以先获取parent, 先根据&amp;split, 然后通过各sub获取对应的子cookie值</span><br><span class="line">document.cookie = &quot;parent=sub1=val1&amp;sub2=val2&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="IE用户数据"><a href="#IE用户数据" class="headerlink" title="IE用户数据"></a>IE用户数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var dataStore = document.getElementById(&quot;dataStore&quot;);</span><br><span class="line">dataStore.setAttribute(&quot;name&quot;, &quot;test&quot;);</span><br><span class="line">dataStore.setAttribute(&quot;book&quot;, &quot;val&quot;);</span><br><span class="line">dataStore.save(&quot;bookInfo&quot;);</span><br><span class="line"></span><br><span class="line">//下一次加载页面 调用load 即可加载数据</span><br><span class="line">dataStore.load(&quot;book&quot;)</span><br><span class="line">//获取</span><br><span class="line">dataStore.getAttribute(&quot;name&quot;);</span><br><span class="line">//删除</span><br><span class="line">dataStore.removeAttribute(&quot;name&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><blockquote>
+<p>浏览器对每个源存储的大小在 2.5M-5M之间</p>
+</blockquote>
+<h3 id="storage事件"><a href="#storage事件" class="headerlink" title="storage事件"></a>storage事件</h3><blockquote>
+<p><code>setItem</code>, <code>clear</code>, <code>removeItem</code>都会触发<code>storage事件</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.addEventListener(&apos;storage&apos;, function(event) &#123;</span><br><span class="line">	console.log(event.domain)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h3><h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//打开一个名为admin的数据库</span><br><span class="line">var database;</span><br><span class="line">var request = indexedDB.open(&quot;admin&quot;);</span><br><span class="line">request.onsuccess = function(event) &#123;</span><br><span class="line">	console.log(&quot;success&quot;)</span><br><span class="line">	database = event.target.result;</span><br><span class="line">&#125;</span><br><span class="line">request.onerror = function(event) &#123;</span><br><span class="line">	console.log(event.target.errorCode)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//给数据库设置版本号, 默认是没有版本号的</span><br><span class="line">if (database.version != &quot;1.0&quot; &amp;&amp; database.serVersion) &#123;</span><br><span class="line">	request = database.serVersion(&quot;1.0&quot;);</span><br><span class="line">	request.onerror = function(event) &#123;</span><br><span class="line">		console.log(event.target.errorCode);</span><br><span class="line">	&#125;</span><br><span class="line">	request.onsuccess = function(event) &#123;</span><br><span class="line">		console.log(database.version)</span><br><span class="line">	&#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	console.log(database.version)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="对象存储空间"><a href="#对象存储空间" class="headerlink" title="对象存储空间"></a>对象存储空间</h4><ul>
+<li>database.createObjectStore(表名, 指定主键)</li>
+<li>store.add(obj) 添加数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var user = &#123;</span><br><span class="line">	username: &quot;007&quot;,</span><br><span class="line">	firstName: &quot;James&quot;,</span><br><span class="line">	lastName: &quot;Bond&quot;,</span><br><span class="line">	password: &quot;foo&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var store = database.createObjectStore(&quot;users&quot;, &#123;keypath: &quot;username&quot;&#125;)</span><br><span class="line">store.add(user)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="事物"><a href="#事物" class="headerlink" title="事物"></a>事物</h4><ul>
+<li>database.transaction([表名, …], 访问模式)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var transaction = database.transaction([&quot;users&quot;, &quot;anotherStore&quot;], READ_WRITE)</span><br><span class="line">//获取相应的表 获取相应的数据</span><br><span class="line">transaction.objectStore(&quot;users&quot;).get(&quot;007&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="使用游标查询"><a href="#使用游标查询" class="headerlink" title="使用游标查询"></a>使用游标查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var store = database.transaction([&quot;users&quot;, &quot;anotherStore&quot;], READ_WRITE).objectStore(&quot;users&quot;), value, updateRequest;</span><br><span class="line">request.onsuccess = function(event) &#123;</span><br><span class="line">	var cursor = event.target.result;</span><br><span class="line">	if (cursor) &#123;</span><br><span class="line">		if (cursor.key == &quot;foo&quot;) &#123;</span><br><span class="line">			value = cursor.value;</span><br><span class="line">			value.password = &quot;magic&quot;</span><br><span class="line"></span><br><span class="line">			updateRequest = cursor.update(value);</span><br><span class="line">			updateRequest.onsuccess = function() &#123;&#125;</span><br><span class="line">			updateRequest.onerror = function() &#123;&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		//游标移动到下一个</span><br><span class="line">		cursor.continue();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="键范围"><a href="#键范围" class="headerlink" title="键范围"></a>键范围</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var IDBKeyRange = window.IDBKeyRange</span><br><span class="line"></span><br><span class="line">//和上面的get(&quot;007&quot;) 功能类似</span><br><span class="line">IDBKeyRange.only(&quot;007&quot;)</span><br></pre></td></tr></table></figure>
+<h4 id="并发问题"><a href="#并发问题" class="headerlink" title="并发问题"></a>并发问题</h4><blockquote>
+<p>当同一个来源的另一个标签页调用<code>setVersion()</code>时, 会触发<code>onversionchange</code>事件, 我们此时需要立即将数据库, 这样另一个页面的执行才能成功, 因为只有一个标签页使用数据库才能修改版本, 如果有其他tab开着数据库导致改变版本失败, 会触发<code>onblock</code>事件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var database;</span><br><span class="line">var request = indexedDB.open(&quot;admin&quot;);</span><br><span class="line">request.onsuccess = function(event) &#123;</span><br><span class="line">	console.log(&quot;success&quot;)</span><br><span class="line">	database = event.target.result;</span><br><span class="line"></span><br><span class="line">	database.onversionchange = function() &#123;</span><br><span class="line">		database.close()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	database.onblock = function() &#123;</span><br><span class="line">		alert(&quot;请先关闭其他tab的数据库&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h4><blockquote>
+<p>数据库也是有大小限制的, 根据每个浏览器而不同, 大小在5mb-50mb之间</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/18/离线应用与客户端存储/" data-id="cl6xk2y8i0032c65wqph1dvdu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/23/最佳实践/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          最佳实践
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/12/高级技巧/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">高级技巧</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

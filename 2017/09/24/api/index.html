@@ -1,16 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>api | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Page Visibility document.hidden 表示页面是否隐藏 document.visibilityState: 有4个状态的值 visibiliteChagne事件  12345document.addEventListener(&amp;apos;visibiliteChagne&amp;apos;, function(event) &amp;#123;	if (document.hidden)">
+<meta name="keywords" content="javaScript高级程序设计笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="api">
+<meta property="og:url" content="http://blog.hellolc.com/2017/09/24/api/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="Page Visibility document.hidden 表示页面是否隐藏 document.visibilityState: 有4个状态的值 visibiliteChagne事件  12345document.addEventListener(&amp;apos;visibiliteChagne&amp;apos;, function(event) &amp;#123;	if (document.hidden)">
+<meta property="og:image" content="https://img.alicdn.com/tfs/TB1b_bwggoQMeJjy0FoXXcShVXa-1224-1480.png">
+<meta property="og:updated_time" content="2017-09-25T02:33:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="api">
+<meta name="twitter:description" content="Page Visibility document.hidden 表示页面是否隐藏 document.visibilityState: 有4个状态的值 visibiliteChagne事件  12345document.addEventListener(&amp;apos;visibiliteChagne&amp;apos;, function(event) &amp;#123;	if (document.hidden)">
+<meta name="twitter:image" content="https://img.alicdn.com/tfs/TB1b_bwggoQMeJjy0FoXXcShVXa-1224-1480.png">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-api" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/24/api/" class="article-date">
+  <time datetime="2017-09-24T12:52:11.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      api
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Page-Visibility"><a href="#Page-Visibility" class="headerlink" title="Page Visibility"></a>Page Visibility</h2><ul>
+<li>document.hidden 表示页面是否隐藏</li>
+<li>document.visibilityState: 有4个状态的值</li>
+<li>visibiliteChagne事件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&apos;visibiliteChagne&apos;, function(event) &#123;</span><br><span class="line">	if (document.hidden) &#123;</span><br><span class="line">		//do something</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Geolocation-API"><a href="#Geolocation-API" class="headerlink" title="Geolocation API"></a>Geolocation API</h2><blockquote>
+<p>获取用户地理位置</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.getCurrentPosition(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	enableHighAccuracy: true, //尽可能使用精确的位置信息</span><br><span class="line">	timeout: 5000,//等待位置信息的最长时间</span><br><span class="line">	maximumAge: 25000//上一次获取的坐标信息的有效时间</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>watchPosition方法和getCurrentPosition类似, 但是它会定时调用getCurrentPosition的效果相同</li>
+<li>clearWatch 取消监听</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var watchId = navigator.geolocation.watchPosition方法和getCurrentPosition类似(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//取消监听</span><br><span class="line">clearWatch(watchId);</span><br></pre></td></tr></table></figure>
+<h2 id="FileReader-类型"><a href="#FileReader-类型" class="headerlink" title="FileReader 类型"></a>FileReader 类型</h2><blockquote>
+<p>可以异步读取上传文件中的数据</p>
+</blockquote>
+<ul>
+<li>readAsText(file, encoding) 以纯文本形式读取文件</li>
+<li>readAsDataURL(file) 读取文件以URI的形式保存</li>
+<li>readAsBinaryString(file) 获取字符串, 每个字符表示一个字节</li>
+<li>readAsArrayBuffer(file) 获取ArrayBuffer类型的内容</li>
+</ul>
+<p><img src="https://img.alicdn.com/tfs/TB1b_bwggoQMeJjy0FoXXcShVXa-1224-1480.png" alt="应用"></p>
+<h2 id="对象URL"><a href="#对象URL" class="headerlink" title="对象URL"></a>对象URL</h2><blockquote>
+<p>可以不必将数据内容读取到JavaScript中而直接使用, 可以使用<code>window.URL.createObjectURL()</code>方法, 返回字符串, 指向内存地址</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var url = window.URL.createObjectURL(files[0])</span><br><span class="line">var output.innerHTML = &apos;&lt;img src=&quot;&apos; + url + &apos;&quot;&gt;&apos;;</span><br><span class="line"></span><br><span class="line">//释放内存</span><br><span class="line">window.URL.revokeObjectURL(url);</span><br></pre></td></tr></table></figure>
+<h2 id="读取拖放的文件"><a href="#读取拖放的文件" class="headerlink" title="读取拖放的文件"></a>读取拖放的文件</h2><blockquote>
+<p>html5可以直接拖入文件, 可以通过<code>files = event.dataTransfer.files;</code>获取拖入文件并获取文件信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var droptarget = document.getElementById(&quot;droptarget&quot;);</span><br><span class="line">function handleEvent(event) &#123;</span><br><span class="line">	var info = &quot;&quot;,</span><br><span class="line">		output = document.getElemntById(&quot;output&quot;),</span><br><span class="line">		files, i, len;</span><br><span class="line"></span><br><span class="line">	EvenUtil.preventDefault(event);</span><br><span class="line">	if (event.type == drop) &#123;</span><br><span class="line">		files = event.dataTransfer.files;</span><br><span class="line">		i = 0;</span><br><span class="line">		len = files.length;</span><br><span class="line"></span><br><span class="line">		while (i &lt; len) &#123;</span><br><span class="line">			//获取文件信息</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropenter&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropover&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;drop&quot;, handleEvent);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/24/api/" data-id="cl6xk2y7v001pc65wws34gvq9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/10/初入React世界/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          初入React世界
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/23/最佳实践/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">最佳实践</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

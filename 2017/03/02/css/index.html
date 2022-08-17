@@ -1,16 +1,283 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>css | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="border border-width, outline, box-shadow, text-shadow等不支持百分比 border-width默认medium(3px) chrome/firefox 虚线比例3:1; IE 2:1 border-style:dotted 是原型的, 所以利用此功能实现圆形1234567891011.box &amp;#123;    width: 150px;">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css">
+<meta property="og:url" content="http://blog.hellolc.com/2017/03/02/css/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="border border-width, outline, box-shadow, text-shadow等不支持百分比 border-width默认medium(3px) chrome/firefox 虚线比例3:1; IE 2:1 border-style:dotted 是原型的, 所以利用此功能实现圆形1234567891011.box &amp;#123;    width: 150px;">
+<meta property="og:updated_time" content="2017-06-28T13:39:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css">
+<meta name="twitter:description" content="border border-width, outline, box-shadow, text-shadow等不支持百分比 border-width默认medium(3px) chrome/firefox 虚线比例3:1; IE 2:1 border-style:dotted 是原型的, 所以利用此功能实现圆形1234567891011.box &amp;#123;    width: 150px;">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-css" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/02/css/" class="article-date">
+  <time datetime="2017-03-02T13:25:22.000Z" itemprop="datePublished">2017-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      css
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="border"><a href="#border" class="headerlink" title="border"></a>border</h3><ul>
+<li>border-width, outline, box-shadow, text-shadow等不支持百分比</li>
+<li>border-width默认medium(3px)</li>
+<li>chrome/firefox 虚线比例3:1; IE 2:1</li>
+<li>border-style:dotted 是原型的, 所以利用此功能实现圆形<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.box &#123;</span><br><span class="line">    width: 150px;</span><br><span class="line">    height: 150px;</span><br><span class="line">    /*超出区域隐藏, 只显示一个圆*/</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">.dotted &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">    border: 149px dotted #cd0000;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><h4 id="包含选择符-与-子选择符的区别"><a href="#包含选择符-与-子选择符的区别" class="headerlink" title="包含选择符 与 子选择符的区别"></a>包含选择符 与 子选择符的区别</h4><ul>
+<li>包含选择器只要是后代就生效</li>
+<li>子选择必须是儿子(IE7+)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 包含选择器</span><br><span class="line">div p</span><br><span class="line">&#123;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br><span class="line">//子选择器</span><br><span class="line">div &gt; p</span><br><span class="line">&#123;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="相邻选择器"><a href="#相邻选择器" class="headerlink" title="相邻选择器"></a>相邻选择器</h4><ul>
+<li>只有相邻才生效(IE7+)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div + p</span><br><span class="line">&#123;</span><br><span class="line">    color: blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="属性选择符："><a href="#属性选择符：" class="headerlink" title="属性选择符："></a>属性选择符：</h4><ul>
+<li>E[attr]、E[attr=“value”]、E[attr~=“value”]、E[attr|=“value”]、E[attr^=“value”]</li>
+</ul>
+<h4 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h4><ul>
+<li>可以在目前前面或后面添加内容, 但在dom节点上看不到相应的内容</li>
+<li>hover这些可以配合before,after使用, 但是必须先申明hover<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.test:hover::after &#123;</span><br><span class="line">    content: &apos; hello &apos;;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br><span class="line">// 可以使用自身的属性</span><br><span class="line">.test:hover::after &#123;</span><br><span class="line">    content: attr(title);</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;div class=&quot;test&quot; title=&quot;hello&quot;&gt;aaa&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="CSS样式采用的优先顺序："><a href="#CSS样式采用的优先顺序：" class="headerlink" title="CSS样式采用的优先顺序："></a>CSS样式采用的优先顺序：</h4><ul>
+<li>标有!important关键字声明的属性。</li>
+<li>html中的CSS样式属性。</li>
+<li>作者编辑的CSS文件样式属性。</li>
+<li>用户设置的样式。</li>
+<li>浏览器默认的样式。</li>
+</ul>
+<h4 id="选择符优先级积分："><a href="#选择符优先级积分：" class="headerlink" title="选择符优先级积分："></a>选择符优先级积分：</h4><ul>
+<li>标签选择符、伪类及伪对象：优先级积分为1。</li>
+<li>类选择符、属性选择符：优先级积分为10。</li>
+<li>ID选择符：优先级积分为100。</li>
+<li>style属性：优先级积分为1000。</li>
+<li>其他选择符，如通配符选择符等：优先级积分为0。</li>
+</ul>
+<h4 id="清楚浮动"><a href="#清楚浮动" class="headerlink" title="清楚浮动"></a>清楚浮动</h4><ol>
+<li>clear属性–常用clear: both;</li>
+<li>添加额外标签: <div style="clear:both;"></div></li>
+<li>使用 br标签和其自身的 html属性: <br clear="all"></li>
+<li>父元素设置: overflow: hidden; *zoom:1; (在IE6中还需要触发 hasLayout ，例如 zoom：1)</li>
+<li>父元素设置: display: table;</li>
+<li>父元素设置 :after 伪类 (推荐)：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">.clearFix:after &#123;</span><br><span class="line">    clear: both; /* 清除伪类层以上的浮动 */</span><br><span class="line">    display: block;   /* 使生成的元素以块级元素显示,占满剩余空间; */</span><br><span class="line">    visibility: hidden; /* 设置伪类层内容为块级元素且不可见 */   </span><br><span class="line">    height: 0;</span><br><span class="line">    line-height: 0; /* 设置伪类层中的高度和行高为0 */</span><br><span class="line">    content: &quot; &quot;; /* 将伪类层中的内容清空 */</span><br><span class="line">&#125;</span><br><span class="line">.clearFix &#123;</span><br><span class="line">    zoom: 1; /* 针对IE浏览器产生hasLayout效果清除浮动 */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 更简洁的写法 */</span><br><span class="line">.clearFix:before,</span><br><span class="line">.clearFix:after &#123;</span><br><span class="line">    content: &quot;&quot;;</span><br><span class="line">    display: table;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.clearFix:after &#123;</span><br><span class="line">    clear: both;</span><br><span class="line">&#125;</span><br><span class="line">.clearFix&#123;</span><br><span class="line">    zoom:1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="滚动条"><a href="#滚动条" class="headerlink" title="滚动条"></a>滚动条</h4><ul>
+<li>默认的滚动条是html的 (body的滚动条会与边框相差8个像素)</li>
+</ul>
+<h4 id="元素宽度"><a href="#元素宽度" class="headerlink" title="元素宽度"></a>元素宽度</h4><ul>
+<li>元素宽度 = width + borderWidth + padding + margin</li>
+</ul>
+<h3 id="布局经验"><a href="#布局经验" class="headerlink" title="布局经验"></a>布局经验</h3><ul>
+<li>浮动的父级尽量设置高度, 这样不会整体上移</li>
+<li>块级元素, 左右居中可以用<code>margin: 0 auto</code>; 但是上下居中只能靠<code>margin/padding</code>调整</li>
+<li>当div漂浮起来后, 这行高度就变化了, 不在按这个div高度来算了</li>
+<li>如何让文字居中, 设置宽度, 再设置 <code>text-align:center</code></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/03/02/css/" data-id="cl6xk2y7y001zc65wxai1hw4q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/02/webpack/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webpack
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/02/bootstrap/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">bootstrap</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

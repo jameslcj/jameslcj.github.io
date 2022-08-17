@@ -1,16 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>客户端检测 | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="因为历史的原因, 每个浏览器都会给自己的ua上添加Mozilla的标识, 来伪装成Mozilla浏览器, 能够让服务器响应, 然后再添加上自己浏览器的内核信息以及版本, 所以只能通过这些信息识别, 而且必须按照一定顺序判断, 才能识别真实的浏览器信息; 识别方法如下:  123456789101112131415161718192021222324252627282930313233343536">
+<meta name="keywords" content="javaScript高级程序设计笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="客户端检测">
+<meta property="og:url" content="http://blog.hellolc.com/2017/07/13/客户端检测/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="因为历史的原因, 每个浏览器都会给自己的ua上添加Mozilla的标识, 来伪装成Mozilla浏览器, 能够让服务器响应, 然后再添加上自己浏览器的内核信息以及版本, 所以只能通过这些信息识别, 而且必须按照一定顺序判断, 才能识别真实的浏览器信息; 识别方法如下:  123456789101112131415161718192021222324252627282930313233343536">
+<meta property="og:updated_time" content="2017-07-14T01:42:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="客户端检测">
+<meta name="twitter:description" content="因为历史的原因, 每个浏览器都会给自己的ua上添加Mozilla的标识, 来伪装成Mozilla浏览器, 能够让服务器响应, 然后再添加上自己浏览器的内核信息以及版本, 所以只能通过这些信息识别, 而且必须按照一定顺序判断, 才能识别真实的浏览器信息; 识别方法如下:  123456789101112131415161718192021222324252627282930313233343536">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-客户端检测" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/13/客户端检测/" class="article-date">
+  <time datetime="2017-07-13T01:29:54.000Z" itemprop="datePublished">2017-07-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      客户端检测
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>因为历史的原因, 每个浏览器都会给自己的ua上添加<code>Mozilla</code>的标识, 来伪装成<code>Mozilla</code>浏览器, 能够让服务器响应, 然后再添加上自己浏览器的内核信息以及版本, 所以只能通过这些信息识别, 而且必须按照一定顺序判断, 才能识别真实的浏览器信息; 识别方法如下:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line">var client = function() &#123;</span><br><span class="line">  var engine = &#123;</span><br><span class="line">      // 呈现引擎</span><br><span class="line">      ie: 0,</span><br><span class="line">      gecko:0,</span><br><span class="line">      webkit: 0,</span><br><span class="line">      khtml:0,</span><br><span class="line">      opera:0,</span><br><span class="line">      //其他版本号</span><br><span class="line">      ver: null</span><br><span class="line">  &#125;;</span><br><span class="line">  var browser = &#123;</span><br><span class="line">      // 浏览器</span><br><span class="line">      ie: 0,</span><br><span class="line">      firefox:0,</span><br><span class="line">      safari:0,</span><br><span class="line">      konq:0,</span><br><span class="line">      opera:0,</span><br><span class="line">      chrome:0,</span><br><span class="line">      // 其他的版本</span><br><span class="line">      ver: null</span><br><span class="line">  &#125;;</span><br><span class="line">  var system = &#123;</span><br><span class="line">      win: false,</span><br><span class="line">      mac: false,</span><br><span class="line">      xll: false,</span><br><span class="line">      // 移动设备</span><br><span class="line">      iphone: false,</span><br><span class="line">      ipod: false,</span><br><span class="line">      ipad: false,</span><br><span class="line">      ios: false,</span><br><span class="line">      android:false</span><br><span class="line">      // 游戏系统</span><br><span class="line">      wii: false,</span><br><span class="line">      ps: false</span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line">   var ua = navigator.userAgent.toLowerCase();</span><br><span class="line">   if(ua.match(/opr\/([\d\.]+)/) || window.opera) &#123;</span><br><span class="line">       var result = ua.match(/opr\/([\d\.]+)/);</span><br><span class="line">       engine.ver = browser.ver = result[1];</span><br><span class="line">       engine.opera = browser.opera = parseFloat(engine.ver);</span><br><span class="line">       if(window.opera) &#123;</span><br><span class="line">            engine.ver = browser.ver = window.opera.version();</span><br><span class="line">            engine.opera = browser.opera = parseFloat(engine.ver);</span><br><span class="line">        &#125;</span><br><span class="line">   &#125; else if(/applewebkit\/(\S+)/.test(ua)) &#123;</span><br><span class="line">       engine.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">       engine.webkit = parseFloat(engine.ver);</span><br><span class="line">       // 确定是chrome还是safari</span><br><span class="line">       /*</span><br><span class="line">        * chrome用户代理字符串</span><br><span class="line">        * Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)</span><br><span class="line">        * Chrome/42.0.2311.152 Safari/537.36</span><br><span class="line">        */</span><br><span class="line">        if(/chrome\/(\S+)/.test(ua)) &#123;</span><br><span class="line">             browser.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">             browser.chrome = parseFloat(browser.ver);</span><br><span class="line">        &#125;else if(/version\/(\S+)/.test(ua)) &#123;</span><br><span class="line">             /*</span><br><span class="line">              * safari用户代理字符串</span><br><span class="line">              * Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.57.2 (KHTML, like Gecko)</span><br><span class="line">              * Version/5.1.7 Safari/534.57.2</span><br><span class="line">              */</span><br><span class="line">             browser.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">             browser.safari = parseFloat(browser.ver);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">             //近似地确定版本号</span><br><span class="line">             var safariVersion = 1;</span><br><span class="line">             if (engine.webkit &lt; 100)&#123;</span><br><span class="line">                 safariVersion = 1;</span><br><span class="line">             &#125; else if (engine.webkit &lt; 312)&#123;</span><br><span class="line">                 safariVersion = 1.2;</span><br><span class="line">             &#125; else if (engine.webkit &lt; 412)&#123;</span><br><span class="line">                 safariVersion = 1.3;</span><br><span class="line">             &#125; else &#123;</span><br><span class="line">                 safariVersion = 2;</span><br><span class="line">             &#125;</span><br><span class="line">             browser.safari = browser.ver = safariVersion;</span><br><span class="line">         &#125;</span><br><span class="line">   &#125;else if (/khtml\/(\S+)/.test(ua) || /konqueror\/([^;]+)/.test(ua))&#123;</span><br><span class="line">         engine.ver = browser.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">         engine.khtml = browser.konq =  parseFloat(engine.ver);</span><br><span class="line"></span><br><span class="line">   &#125;else if(/rv:([^\)]+)\) gecko\/\d&#123;8&#125;/.test(ua))&#123;</span><br><span class="line">         engine.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">         engine.gecko = parseFloat(engine.ver);</span><br><span class="line">         /*</span><br><span class="line">          * firefox的用户代理的字符串</span><br><span class="line">          * Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0)</span><br><span class="line">          * Gecko/20100101 Firefox/38.0</span><br><span class="line">          */</span><br><span class="line">         // 确定是不是firefox</span><br><span class="line">         if(/firefox\/(\S+)/.test(ua)) &#123;</span><br><span class="line">             browser.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">             browser.firefox = parseFloat(browser.ver);</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;else if (/msie ([^;]+)/.test(ua) || &quot;ActiveXObject&quot; in window)&#123;</span><br><span class="line">         if(&quot;ActiveXObject&quot; in window) &#123;</span><br><span class="line">            if(/msie ([^;]+)/.test(ua)) &#123;</span><br><span class="line">               engine.ver = browser.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">               engine.ie = browser.ie = parseFloat(engine.ver);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">               if(/rv:([^\)]+)\)/.test(ua)) &#123;</span><br><span class="line">                   engine.ver = browser.ver = RegExp[&quot;$1&quot;];</span><br><span class="line">                   engine.ie = browser.ie = parseFloat(engine.ver);</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    //检测浏览器</span><br><span class="line">    browser.ie = engine.id;</span><br><span class="line">    browser.opera = engine.opera;</span><br><span class="line">    // 检测平台</span><br><span class="line">    var platform = navigator.platform;</span><br><span class="line">    system.win = platform.indexOf(&quot;Win&quot;) == 0;</span><br><span class="line">    system.mac = platform.indexOf(&quot;Mac&quot;) == 0;</span><br><span class="line">    system.x11 = (platform.indexOf(&quot;X11&quot;) == 0) || (platform.indexOf(&quot;Linux&quot;) == 0);</span><br><span class="line"></span><br><span class="line">    // 移动设备</span><br><span class="line">    system.iphone = ua.indexOf(&quot;iphone&quot;) &gt; -1;</span><br><span class="line">    system.ipod = ua.indexOf(&quot;ipod&quot;) &gt; -1;</span><br><span class="line">    system.ipad = ua.indexOf(&quot;ipad&quot;) &gt; -1;</span><br><span class="line">    //检测iOS 版本</span><br><span class="line">    if (system.mac &amp;&amp; ua.indexOf(&quot;mobile&quot;) &gt; -1)&#123;</span><br><span class="line">         if (/cpu (?:iphone )?os (\d+_\d+)/.test(ua))&#123;</span><br><span class="line">             system.ios = parseFloat(RegExp.$1.replace(&quot;_&quot;, &quot;.&quot;));</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             system.ios = 2; //不能真正检测出来，所以只能猜测</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     //检测Android 版本</span><br><span class="line">     if (/android (\d+\.\d+)/.test(ua))&#123;</span><br><span class="line">         system.android = parseFloat(RegExp.$1);</span><br><span class="line">     &#125;</span><br><span class="line">     system.wii = ua.indexOf(&apos;wii&apos;) &gt; -1;</span><br><span class="line">     system.ps = /playstation/i.test(ua);</span><br><span class="line"></span><br><span class="line">     return &#123;</span><br><span class="line">       engine: engine,</span><br><span class="line">       browser: browser,</span><br><span class="line">       system: system,</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/07/13/客户端检测/" data-id="cl6xk2y8f002xc65wdmpzozmk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/14/DOM/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DOM
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/11/BOM/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">BOM</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

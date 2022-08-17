@@ -1,16 +1,977 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="hellolc">
+<meta property="og:url" content="http://blog.hellolc.com/page/3/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hellolc">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Coercion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/22/Coercion/" class="article-date">
+  <time datetime="2017-10-22T06:28:26.000Z" itemprop="datePublished">2017-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/22/Coercion/">Coercion</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Abstract-Value-Operations"><a href="#Abstract-Value-Operations" class="headerlink" title="Abstract Value Operations"></a>Abstract Value Operations</h2><h3 id="JSON-stringify"><a href="#JSON-stringify" class="headerlink" title="JSON.stringify"></a>JSON.stringify</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JSON.stringify( undefined ); //&quot;undefined&quot;</span><br><span class="line">JSON.stringify( function()&#123;&#125; ); //&quot;undefined&quot;</span><br><span class="line">JSON.stringify( null ); //&quot;null&quot;</span><br><span class="line">JSON.stringify(</span><br><span class="line">   [1,undefined,function()&#123;&#125;,4]</span><br><span class="line">); // &quot;[1,null,null,4]&quot;</span><br><span class="line">JSON.stringify(</span><br><span class="line">   &#123; a:2, b:function()&#123;&#125; &#125;</span><br><span class="line">);// &quot;&#123;&quot;a&quot;:2&#125;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从上可以看出, 不同类型的值在不同类型中, <code>JSON.stringify</code>的结果表现形式也不一样, 在数组的<code>undefined</code>, <code>function</code>会被转换成<code>null</code>, 在对象里值为<code>undefined, function</code>的属性会被过滤掉</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123; </span><br><span class="line">	b: 42,</span><br><span class="line">	c: o,</span><br><span class="line">    d: function()&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">// create a circular reference inside `a`</span><br><span class="line">o.e = a;</span><br><span class="line"></span><br><span class="line">// would throw an error on the circular reference</span><br><span class="line">// JSON.stringify( a );</span><br><span class="line"></span><br><span class="line">// define a custom JSON value serialization</span><br><span class="line">a.toJSON = function() &#123;</span><br><span class="line">    // only include the `b` property for serialization</span><br><span class="line">    return &#123; b: this.b &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">JSON.stringify( a ); // &quot;&#123;&quot;b&quot;:42&#125;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果我们对象引用了自身, 再执行<code>JSON.stringify</code>时会报异常, 我们可以给这个对象定义一个<code>toJSON</code>的方法, 返回一个默认对象, 来避免这种情况</p>
+</blockquote>
+<h2 id="Explicit-Coercion"><a href="#Explicit-Coercion" class="headerlink" title="Explicit Coercion"></a>Explicit Coercion</h2><h3 id="ToNumber"><a href="#ToNumber" class="headerlink" title="ToNumber"></a>ToNumber</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Nubmer(true);//1</span><br><span class="line">Nubmer(false);//0</span><br><span class="line">Nubmer(undefined);//NaN</span><br><span class="line">Nubmer(null);//0</span><br><span class="line">Nubmer(&quot;&quot;);//0</span><br><span class="line">Nubmer(&quot;false&quot;);//NaN</span><br><span class="line">Nubmer([]);//0</span><br><span class="line">Nubmer([&quot;&quot;]);//0</span><br><span class="line">Nubmer([&quot;&quot;, &quot;&quot;]);//NaN</span><br><span class="line">Nubmer(&#123;&#125;);//NaN</span><br><span class="line">Nubmer(function()&#123;&#125;);//NaN</span><br><span class="line"></span><br><span class="line">var num1 = true + 1; // 1 + 1 = 2</span><br><span class="line">var num2 = false + 1; //0 + 1 = 1</span><br><span class="line">var num3 = undefined + 1; //NaN + 1 = NaN</span><br><span class="line">var num4 = null + 1; // 0 + 1 = 1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>综上可知, <code>true, false, undefined, null</code>在数学计算中, 强转后的数值不一, 格外需要注意的是<code>undefined</code>和非空字符串会被转换为<code>NaN</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> var a = &#123;</span><br><span class="line">        valueOf: function()&#123;</span><br><span class="line">            return &quot;42&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        toString: function()&#123;</span><br><span class="line">            return &quot;4221&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">    var b = &#123;</span><br><span class="line">        toString: function()&#123;</span><br><span class="line">            return &quot;42&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var c = [4,2];</span><br><span class="line">c.toString = function()&#123;</span><br><span class="line">    return this.join( &quot;&quot; ); // &quot;42&quot;</span><br><span class="line">&#125;;</span><br><span class="line">Number( a ); //42</span><br><span class="line">Number( b ); //42</span><br><span class="line">Number( c ); //42</span><br><span class="line">a + &apos;&apos;;//42</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果定义了<code>valueOf</code>, <code>toString</code>, 在强转的时候, 会优先调用<code>valueOf</code>, 如果没有<code>valueOf</code>, 再调用<code>toString</code></p>
+</blockquote>
+<h3 id="ToBoolean"><a href="#ToBoolean" class="headerlink" title="ToBoolean"></a>ToBoolean</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Boolean(&quot;&quot;);//false</span><br><span class="line">Boolean(NaN);//false</span><br><span class="line">Boolean(undefined);//false</span><br><span class="line">Boolean(null);//false</span><br><span class="line">Boolean(0);//false</span><br><span class="line">Boolean(-0);//false</span><br><span class="line"></span><br><span class="line">Boolean(new Boolean( false ));//true</span><br><span class="line">Boolean(new Number( 0 ));//true</span><br><span class="line">Boolean(new String( &quot;&quot; ));//true</span><br><span class="line">Boolean(&quot;0&quot;);//true</span><br><span class="line">Boolean([]);//true</span><br><span class="line">Boolean(&#123;&#125;);//true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>只有上面几种情况会返回<code>false</code>, 其余都会返回<code>true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Boolean(document.all)//false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>Boolean(document.all)</code>居然返回false, 似乎和上面的结论矛盾, 其实是因为历史原因, <code>document.all</code>其实已经被废弃, 但是又为了兼容有些代码, 浏览器又不能把他删除, 但又不想让<code>if(document.all){}</code>这样的代码执行, 因此让<code>Boolean(document.all)</code>为<code>false</code>, 即使<code>document.all</code>返回的是一个类数组</p>
+</blockquote>
+<h3 id="Explicitly-Parsing-Numeric-Strings"><a href="#Explicitly-Parsing-Numeric-Strings" class="headerlink" title="Explicitly: Parsing Numeric Strings"></a>Explicitly: Parsing Numeric Strings</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = &quot;42&quot;;</span><br><span class="line">var b = &quot;42px&quot;;</span><br><span class="line">Number( a );    // 42</span><br><span class="line">parseInt( a );  // 42</span><br><span class="line">Number( b );    // NaN</span><br><span class="line">parseInt( b );  // 42</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>parseInt</code>只要解析是值, 第一个是数字就能解析, 否则就返回<code>NaN</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parseInt(1/0, 19);//18</span><br><span class="line">parseInt( 0.000008 );// 0   (&quot;0&quot; from &quot;0.000008&quot;)</span><br><span class="line">parseInt( 0.0000008 );// 8   (&quot;8&quot; from &quot;8e-7&quot;)</span><br><span class="line">parseInt( false, 16 );// 250 (&quot;fa&quot; from &quot;false&quot;)</span><br><span class="line">parseInt( parseInt, 16 );// 15  (&quot;f&quot; from &quot;function..&quot;)</span><br><span class="line">parseInt( &quot;0x10&quot; );// 16</span><br><span class="line">parseInt( &quot;103&quot;, 2 ); // 2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>parseInt()</code>的一些奇怪现象</p>
+</blockquote>
+<h2 id="Implicit-Coercion"><a href="#Implicit-Coercion" class="headerlink" title="Implicit Coercion"></a>Implicit Coercion</h2><h3 id="Implicitly-Strings-lt-–-gt-Numbers"><a href="#Implicitly-Strings-lt-–-gt-Numbers" class="headerlink" title="Implicitly: Strings &lt;–&gt; Numbers"></a>Implicitly: Strings &lt;–&gt; Numbers</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = [1,2];</span><br><span class="line">var b = [3,4];</span><br><span class="line">a + b; // &quot;1,23,4&quot;</span><br><span class="line"></span><br><span class="line">&#123;&#125; + [];//0 这里&#123;&#125;其实不是表示空对象, 而是表示一个块作用域, 因此没有任务作用, 所以 +[] 转换为数字为0</span><br><span class="line">[] + &#123;&#125;;//&quot;[object Object]&quot; 这里&#123;&#125;表示对象被强转成了字符串</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是一些比较奇怪的现象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> var a = &#123;</span><br><span class="line">        valueOf: function() &#123; return 42; &#125;,</span><br><span class="line">        toString: function() &#123; return 4; &#125;</span><br><span class="line">&#125;</span><br><span class="line">a + &quot;&quot;; // &quot;42&quot;</span><br><span class="line">String( a );    // &quot;4&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上两者转换是有区别的, <code>a + &quot;&quot;</code>这种形式会优先调用<code>valueOf</code>方法, 而<code>String()</code>直接调用<code>toString</code>方法</p>
+</blockquote>
+<h2 id="Loose-Equals-Versus-Strict-Equals"><a href="#Loose-Equals-Versus-Strict-Equals" class="headerlink" title="Loose Equals Versus Strict Equals"></a>Loose Equals Versus Strict Equals</h2><blockquote>
+<p>我们经常会说<code>==</code>表示检测两者的值否是相等, <code>===</code>表示检测两者的值相等的同时再检测类型是否相同, 这种说法不是完全正确, 正确理解应该是, <code>==</code>会将两值转换成同一类型再进行比较, 而<code>===</code>不会将两值类型做转换而直接进行比较<br>当一个<code>String</code>类型和一个<code>Number</code>类型进行<code>==</code>比较, <code>String</code>类型会转换为<code>Number</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var num = 42;</span><br><span class="line">num == true;//false ==&gt; 42 == Number(true) ==&gt; 42 == 1</span><br><span class="line">num == false;//false ==&gt; 42 == Number(false) ==&gt; 42 == 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的比较结果居然都是<code>false</code>, 据我们上面分析得知, 42被转换为布尔值为<code>true</code>, 但实际上, 当一个<code>Number</code>类型和一个<code>Boolean</code>类型做比较时, <code>Boolean</code>类型会被转换成<code>Number</code>类型</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;42&quot;</span><br><span class="line">num == true;//false ==&gt; Number(&quot;42&quot;) == Number(true) ==&gt; 42 == 1</span><br><span class="line">num == false;//false ==&gt; Number(&quot;42&quot;) == Number(false) ==&gt; 42 == 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当2个非数字类型的变量进行比较时, 两者都会转换成<code>Number</code>类型再进行比较</p>
+</blockquote>
+<h3 id="Comparing-nulls-to-unde-neds"><a href="#Comparing-nulls-to-unde-neds" class="headerlink" title="Comparing: nulls to unde neds"></a>Comparing: nulls to unde neds</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">null == undefined;//true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>null</code>和<code>undefined</code>这两者与其他类型比较都是返回<code>false</code>, 只有以上情况, 会返回<code>true</code>,</p>
+</blockquote>
+<h3 id="Comparing-objects-to-nonobjects"><a href="#Comparing-objects-to-nonobjects" class="headerlink" title="Comparing: objects to nonobjects"></a>Comparing: objects to nonobjects</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = 42;</span><br><span class="line">var b = [42];</span><br><span class="line">a == b; //true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上结果得知, 所有对象类型与原始标量类型做比较时, 对象类型都会被转换成原始标量类型再进行比较</p>
+</blockquote>
+<h3 id="Edge-Cases"><a href="#Edge-Cases" class="headerlink" title="Edge Cases"></a>Edge Cases</h3><blockquote>
+<p>一些比较奇怪的bug</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Number.prototype.valueOf = function() &#123;</span><br><span class="line">    return 3;</span><br><span class="line">&#125;;</span><br><span class="line">new Nubmer( 2 ); //2 </span><br><span class="line">new Number( 2 ) == 3;   // true</span><br><span class="line">new Number( 2 ) == 2;   // false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面是比较奇怪的<code>bug</code>, 返回是2, 但是与2不相等</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var i = 2;</span><br><span class="line">    Number.prototype.valueOf = function() &#123;</span><br><span class="line">        return i++;</span><br><span class="line">&#125;;</span><br><span class="line">var a = new Number( 42 );</span><br><span class="line">if (a == 2 &amp;&amp; a == 3) &#123;</span><br><span class="line">    console.log( &quot;Yep, this happened.&quot; );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上<code>if</code>结果是<code>true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&quot;0&quot; == false; //true 两者类型不同, 都会转换成Number类型再进行比较</span><br><span class="line">&quot;0&quot; == &quot;&quot;; //false 都是字符串类型, 不进行转换直接比较</span><br><span class="line"></span><br><span class="line">false == []; //true //转换成数字类型再进行比较</span><br><span class="line">false == &#123;&#125;; //false //转换成数字类型再进行比较</span><br><span class="line"></span><br><span class="line">&quot;&quot; == []; //true</span><br><span class="line">&quot;&quot; == &#123;&#125;; //false</span><br><span class="line"></span><br><span class="line">0 == []; //true</span><br><span class="line">0 == &#123;&#125;; //false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面为何 <code>[]``{}</code> 比较结果不一样呢? 因为<code>Number([]) === 0</code> <code>Number({})</code>结果为NaN; <code>String([]) === &#39;&#39;</code> <code>String({}) === [object Object]</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[] == ![]; //true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>非常奇怪, 上面结果是<code>true</code>, 因为上面的转换规则如下 <code>==&gt; [] == false ==&gt; ==&gt; Number([]) == Number(false) ==&gt; 0 == 0 ==&gt; true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2 == [2];       // true  Number([2]) ==&gt; 2</span><br><span class="line">&quot;&quot; == [null];   // true  String([null]) ==&gt; &quot;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面, 只要按照对象类型与原始类型比较时, 对象类型会被转换成原始类型再进行比较</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 == &quot;\n&quot; //==&gt; 0 == Number(&quot;\n&quot;) ==&gt; 0 == 0</span><br></pre></td></tr></table></figure>
+<h3 id="Abstract-Relational-Comparison"><a href="#Abstract-Relational-Comparison" class="headerlink" title="Abstract Relational Comparison"></a>Abstract Relational Comparison</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[42] &lt; [&quot;43&quot;]; //true</span><br><span class="line">[&quot;42&quot;] &lt; [&quot;043&quot;]; //false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面第一条是可以理解的, 第二条是因为两者都是字符串数组, 所以就转换成字符串比较, 字符串比较是按位比较的, 他们各自的第一位分别是4与0, 所有<code>[&quot;42&quot;] &gt; [&quot;043&quot;]</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123; b: 42 &#125;;</span><br><span class="line">var b = &#123; b: 43 &#125;;</span><br><span class="line"></span><br><span class="line">a &lt; b;  // false</span><br><span class="line">a == b; // false</span><br><span class="line">a &gt; b;  // false</span><br><span class="line"></span><br><span class="line">a &lt;= b; // true</span><br><span class="line">a &gt;= b; // true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面真是个奇怪的现象, 为什么会这样呢? 因为js判断<code>a &lt;= b</code>的时候其实是转换成<code>!(a&gt;b)</code> 判断<code>a&gt;=b</code>的时候其实是转换成<code>!(a&lt;b)</code></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/22/Coercion/" data-id="cl6xk2y700004c65ws5bvhd4e" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Natives" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/20/Natives/" class="article-date">
+  <time datetime="2017-10-20T01:53:15.000Z" itemprop="datePublished">2017-10-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/20/Natives/">Natives</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new Array(1, 2, 3);// [1, 2, 3]</span><br><span class="line">Array(1, 2, 3);// [1, 2, 3]</span><br><span class="line">[1, 2, 3];//[1, 2, 3]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是3种, 初始化数组的方式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var arr = new Array(3);</span><br><span class="line">arr.length;//3</span><br><span class="line">arr;//[empty x 3]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是一个奇怪的现象, 当我们给数组初始化时, 只传递一个数值时, 它不是初始化一个数组包含这个值, 而是初始化了长度为这个值的数组</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = new Array( 3 );//[empty x 3]</span><br><span class="line">var b = [undefined, undefined, undefined ];//[undefined, undefined, undefined ]</span><br><span class="line">var c = [];</span><br><span class="line">c.length = 3; //[empty x 3]</span><br><span class="line">var d = [, , ,]; //[empty x 3]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上数组, 看似好像都是3个位置的数组, 但其实他们的值不全一样, 请看下面</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.map(function(v, key)&#123; return key; &#125;); // [ undefined x 3 ]</span><br><span class="line">b.map(function(v, key)&#123; return key; &#125;); // [ 0, 1, 2 ]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上, 我们发现a居然没有key值, 所以以后要undefined填充的数组使用b的方式声明</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = Array.apply( null, &#123; length: 3 &#125; );</span><br><span class="line">a; // [ undefined, undefined, undefined ]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上是快速获取由undefined填充的数组</p>
+<p>总结: 我们应该尽量避免使用对象形式创建数组, 应该使用 <code>var arr = []</code> 这种字面量形式</p>
+</blockquote>
+<h2 id="Object-Function-and-RegExp"><a href="#Object-Function-and-RegExp" class="headerlink" title="Object(..), Function(..), and RegExp(..)"></a>Object(..), Function(..), and RegExp(..)</h2><blockquote>
+<p>字面量的/正则表达式/比 <code>new RegExp</code>方式性能会好很多, 因为js引擎会对其进行提前编译和缓存</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function isThisCool(vals,fn,rx) &#123;</span><br><span class="line">    vals = vals || Array.prototype;</span><br><span class="line">    fn = fn || Function.prototype;</span><br><span class="line">    rx = rx || RegExp.prototype;</span><br><span class="line">    return rx.test(</span><br><span class="line">        vals.map( fn ).join( &quot;&quot; )</span><br><span class="line">	); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isThisCool();       // true</span><br><span class="line"></span><br><span class="line">isThisCool(</span><br><span class="line">        [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],</span><br><span class="line">		function(v)&#123; return v.toUpperCase(); &#125;,</span><br><span class="line">		/D/</span><br><span class="line">		);// false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, 是一种初始化类似的方式, 比<code>[], function(){},  /(?:)/</code>在性能上会好一点, 但是尽量避免有修改属性的操作, 因为那样有可能影响到元素属性, 导致bug</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/20/Natives/" data-id="cl6xk2y7n0013c65wv7azpuds" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Values" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/17/Values/" class="article-date">
+  <time datetime="2017-10-17T12:01:54.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/17/Values/">Values</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">arr[0] = 0;</span><br><span class="line">arr[2] = 2;</span><br><span class="line">arr.length; //3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上当我们跳过1索引位, 但是数组的长度还是变成了3而不是2, 索引1位置的值为<code>undefined</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">arr[&quot;hello&quot;] = &quot;world&quot;;</span><br><span class="line">arr.length; //0</span><br><span class="line">arr[&quot;2&quot;] = 2;</span><br><span class="line">arr.length; //3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上当设置为字符串为key时, 不会算在数组长度里, 但是如果设置的是一个字符串的数值, 会为强转成数值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.slice.call(arrayLike);</span><br><span class="line">//等价于es6</span><br><span class="line">Array.from(arrayLike)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上是将类数组(dom对象数组或者函数的arguments参数数组)的数组转换为数组</p>
+</blockquote>
+<h2 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h2><blockquote>
+<p>字符串, 有点像字符数组, 他们有一些公用方法, 但不完全一样, 比如字符串是无法改变自身位置, 但数组是可以的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;hello&quot;;</span><br><span class="line">str.concat(&quot;~~&quot;, &quot;world&quot;);//hello~~world</span><br><span class="line"></span><br><span class="line">str.join;//undefined</span><br><span class="line">Array.prototype.join.call(str, &apos;-&apos;);//h-e-l-l-o</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上我们发现我们能使用部分数组的方法, 但是不能使用有些数组方法(比如reverse), 这是为什么呢? 因为join方法是返回一个新数组的, 而reverse是改变数组本身, 又因为字符串是无法改变自身位置的, 所以reverse无法使用</p>
+</blockquote>
+<p>##Numbers<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var num = .42;</span><br><span class="line">//等价于如下</span><br><span class="line">num = 0.42</span><br><span class="line"></span><br><span class="line">var num2 = 42.;</span><br><span class="line">//等价于如下</span><br><span class="line">num2 = 42.0;</span><br><span class="line"></span><br><span class="line">var num3 = 4E2; //400</span><br><span class="line"></span><br><span class="line">//.toFiex保留几位小数</span><br><span class="line">var num4 = 42.59;</span><br><span class="line">num4.toFixed(0)//43</span><br><span class="line">num4.toFixed(1)//42.6</span><br><span class="line">num4.toFixed(2)//42.59</span><br><span class="line">num4.toFixed(4)//42.590</span><br><span class="line">num4.toFixed(5)//42.5900</span><br><span class="line"></span><br><span class="line">//.toPrecision保留几位数</span><br><span class="line">var a = 42.59;</span><br><span class="line">a.toPrecision( 1 ); // &quot;4e+1&quot;</span><br><span class="line">a.toPrecision( 2 ); // &quot;43&quot;</span><br><span class="line">a.toPrecision( 3 ); // &quot;42.6&quot;</span><br><span class="line">a.toPrecision( 4 ); // &quot;42.59&quot;</span><br><span class="line">a.toPrecision( 5 ); // &quot;42.590&quot;</span><br><span class="line">a.toPrecision( 6 ); // &quot;42.5900&quot;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0x12//十六进制</span><br><span class="line">0o12//八进制 在非严格模式下可以使用012, 但已废弃, 不建议再使用</span><br><span class="line">0b11//二进制</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0.1 + 0.2 == 0.30000000000000004</span><br><span class="line"></span><br><span class="line">function numbersCloseEnoughToEqual(n1,n2) &#123;</span><br><span class="line">        return Math.abs( n1 - n2 ) &lt; Number.EPSILON;</span><br><span class="line">&#125;</span><br><span class="line">var a = 0.1 + 0.2;</span><br><span class="line">var b = 0.3;</span><br><span class="line">numbersCloseEnoughToEqual( a, b );</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上得知, js的小数计算结果有偏差, 所以可以使用<code>Number.EPSILON</code>来计算是否相等</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number.MAX_VALUE;//1.798e+308</span><br><span class="line">Number.MIN_VALUE;//5e-324</span><br><span class="line">Number.MAX_SAFE_INTEGER;//9007199254740991= 2^53 - 1</span><br><span class="line">Number.MIN_SAFE_INTEGER;//-9007199254740991</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>js整数最大用53位表示, 所以如果计算64位数时需要额外引入库</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number.isInteger( 42 );     // true</span><br><span class="line">Number.isInteger( 42.000 ); // true</span><br><span class="line">Number.isInteger( 42.3 );   // false</span><br></pre></td></tr></table></figure>
+<h2 id="undefined"><a href="#undefined" class="headerlink" title="undefined"></a>undefined</h2><blockquote>
+<p>undefined是一个标识符, 而null是关键字</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    var undefined = 2;</span><br><span class="line">    console.log( undefined ); // 2</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var foo = void 0;</span><br><span class="line">foo;//undefined</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以通过void获取undefined值, void _ 会一直返回undefined值</p>
+</blockquote>
+<h2 id="NaN-Not-a-Number"><a href="#NaN-Not-a-Number" class="headerlink" title="NaN - Not a Number"></a>NaN - Not a Number</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">typeof NaN // number</span><br><span class="line"></span><br><span class="line">NaN == NaN; //undefined</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">isNaN(NaN); //true</span><br><span class="line">isNaN(1); //false</span><br><span class="line">isNaN(&apos;1&apos;); //false</span><br><span class="line">isNaN(&apos;hello&apos;); //true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上得知, isNaN是用来判别是不是数字, 如果不是数字就返回true, 否则就是true</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Number.isNaN(NaN); //true</span><br><span class="line">Number.isNaN(1); //false</span><br><span class="line">Number.isNaN(&apos;1&apos;); //false</span><br><span class="line">Number.isNaN(&apos;hello&apos;); //false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>es6提供的<code>Number.isNaN</code>修复了这个问题</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">if (!Number.isNaN) &#123;</span><br><span class="line">        Number.isNaN = function(n) &#123;</span><br><span class="line">            return (</span><br><span class="line">                typeof n === &quot;number&quot; &amp;&amp;</span><br><span class="line">                window.isNaN( n )</span><br><span class="line">			); </span><br><span class="line">		&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (!Number.isNaN) &#123;</span><br><span class="line">	 Number.isNaN = function(n) &#123;</span><br><span class="line">	 	//只有NaN不等于自身</span><br><span class="line">        return n !== n;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>两种es6 isNaN的polyfill</p>
+</blockquote>
+<h3 id="Zeros"><a href="#Zeros" class="headerlink" title="Zeros"></a>Zeros</h3><blockquote>
+<p>js里有0和-0, 它的用处不是很大, 但是在某些运动时刻, 可以通过正负值, 来判断运动方向</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 0 / -3; // -0</span><br><span class="line">var b = 0 * -3; // -0</span><br><span class="line"></span><br><span class="line">a.toString(); //&quot;0&quot;</span><br><span class="line">a + &quot;&quot;; //&quot;0&quot;</span><br><span class="line">String( a ); //&quot;0&quot;</span><br><span class="line"></span><br><span class="line">JSON.stringify( a );   // &quot;0&quot;</span><br><span class="line">JSON.parse( &quot;-0&quot; ); // -0</span><br><span class="line"></span><br><span class="line">Number( &quot;-0&quot; );     // -0</span><br><span class="line"></span><br><span class="line">-0 === 0;//true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function isNegZero(n) &#123;</span><br><span class="line">    n = Number( n );</span><br><span class="line">    return (n === 0) &amp;&amp; (1 / n === -Infinity);</span><br><span class="line">&#125;</span><br><span class="line">isNegZero( -0 );// true</span><br><span class="line">isNegZero( 0 / -3 );// true</span><br><span class="line">isNegZero( 0 );// false</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以通过上面的方法判断是否为负0</p>
+</blockquote>
+<h3 id="Special-Equality"><a href="#Special-Equality" class="headerlink" title="Special Equality"></a>Special Equality</h3><blockquote>
+<p>es6提供的提供了<code>Object.is</code>方法可以来判断两值是否相等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 2 / &quot;foo&quot;;</span><br><span class="line">var b = -3 * 0;</span><br><span class="line"></span><br><span class="line">Object.is( a, NaN ); //true</span><br><span class="line">Object.is( b, -0 ); //true</span><br><span class="line">Object.is( b, 0 ); // false</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if (!Object.is) &#123;</span><br><span class="line">        Object.is = function(v1, v2) &#123;</span><br><span class="line">            // test for `-0`</span><br><span class="line">            if (v1 === 0 &amp;&amp; v2 === 0) &#123;</span><br><span class="line">                return 1 / v1 === 1 / v2;</span><br><span class="line">            &#125;</span><br><span class="line">            // test for `NaN`</span><br><span class="line">            if (v1 !== v1) &#123;</span><br><span class="line">                return v2 !== v2;</span><br><span class="line">            &#125;</span><br><span class="line">            // everything else</span><br><span class="line">            return v1 === v2;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>polyfill如上</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/17/Values/" data-id="cl6xk2y7q001dc65wefyneqiq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-漫谈React" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/11/漫谈React/" class="article-date">
+  <time datetime="2017-10-11T01:01:17.000Z" itemprop="datePublished">2017-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/11/漫谈React/">漫谈React</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="事件系统"><a href="#事件系统" class="headerlink" title="事件系统"></a>事件系统</h2><h3 id="事件委派"><a href="#事件委派" class="headerlink" title="事件委派"></a>事件委派</h3><blockquote>
+<p>它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数</p>
+</blockquote>
+<h3 id="在React中使用原生事件"><a href="#在React中使用原生事件" class="headerlink" title="在React中使用原生事件"></a>在React中使用原生事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class NativeEventDemo extends Component &#123; </span><br><span class="line">	componentDidMount() &#123;</span><br><span class="line">		this.refs.button.addEventListener(&apos;click&apos;, e =&gt; &#123; this.handleClick(e);&#125;); </span><br><span class="line">	&#125;</span><br><span class="line">	handleClick(e) &#123; </span><br><span class="line">		console.log(e);</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillUnmount() &#123; </span><br><span class="line">		this.refs.button.removeEventListener(&apos;click&apos;);</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;button ref=&quot;button&quot;&gt;Test&lt;/button&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><h3 id="跨级组件通信通信"><a href="#跨级组件通信通信" class="headerlink" title="跨级组件通信通信"></a>跨级组件通信通信</h3><blockquote>
+<p>父级组件申明<code>getChildContext</code>方法和<code>childContextTypes</code>对象属性, 子组件申明<code>contextTypes</code>再可以通过<code>this.context</code>跨级获取对应的属性, 类似全局变量的概念, 但是这样比较混乱, react不建议这样使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">	static childContextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;</span><br><span class="line">	getChildContext() &#123; </span><br><span class="line">		return &#123;</span><br><span class="line">			color: &apos;red&apos;, </span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;Son /&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Son extends Component &#123;</span><br><span class="line">	static contextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &#123;this.context.color&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="没有嵌套关系的组件通信"><a href="#没有嵌套关系的组件通信" class="headerlink" title="没有嵌套关系的组件通信"></a>没有嵌套关系的组件通信</h3><blockquote>
+<p>通过<code>EventEmitter</code>对象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import &#123; EventEmitter &#125; from &apos;events&apos;;</span><br><span class="line">const emitter = new EventEmitter();</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.btnClick = emitter.on(&apos;btnClick&apos;, (data) =&gt; &#123; </span><br><span class="line">      console.log(data);</span><br><span class="line">      alert(data)</span><br><span class="line">    &#125;); </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    emitter.removeListener(this.btnClick);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class OtherComp extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">    	super(props);</span><br><span class="line">	&#125;</span><br><span class="line">	onClickEvent() &#123;</span><br><span class="line">	    emitter.emit(&apos;btnClick&apos;, &apos;click...&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		</span><br><span class="line">		return &lt;button onClick=&#123;this.onClickEvent.bind(this)&#125;&gt;按钮&lt;/button&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h2><h3 id="属性代理"><a href="#属性代理" class="headerlink" title="属性代理"></a>属性代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		const newProps = &#123;</span><br><span class="line">			text: newText, </span><br><span class="line">		&#125;;</span><br><span class="line">		return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt;</span><br><span class="line">	class extends Component &#123;</span><br><span class="line">		constructor(props) &#123; </span><br><span class="line">			super(props); </span><br><span class="line">			this.state = &#123;</span><br><span class="line">		  		name: &apos;&apos;,</span><br><span class="line">		  	&#125;;</span><br><span class="line">			this.onNameChange = this.onNameChange.bind(this); </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		onNameChange(event) &#123; </span><br><span class="line">			this.setState(&#123;</span><br><span class="line">				name: event.target.value, </span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">		render() &#123;</span><br><span class="line">			const newProps = &#123;</span><br><span class="line">				name: &#123;</span><br><span class="line">					value: this.state.name,</span><br><span class="line">					onChange: this.onNameChange,</span><br><span class="line">				&#125;, </span><br><span class="line">			&#125;</span><br><span class="line">			return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MyContainer</span><br><span class="line">class MyComponent extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;input name=&quot;name&quot; &#123;...this.props.name&#125; /&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过以上的封装，我们就得到了一个被控制的 input 组件。</p>
+</blockquote>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><blockquote>
+<p>高阶组件集成传递进来的组件WrappedComponent, 然后通过super去反向调用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends WrappedComponent &#123;</span><br><span class="line">		render() &#123;</span><br><span class="line">			return super.render();</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件性能优化"><a href="#组件性能优化" class="headerlink" title="组件性能优化"></a>组件性能优化</h2><h3 id="PureRender"><a href="#PureRender" class="headerlink" title="PureRender"></a>PureRender</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Account style=&#123;&#123; color: &apos;black&apos; &#125;&#125; /&gt;</span><br><span class="line"></span><br><span class="line">//优化为如下</span><br><span class="line"></span><br><span class="line">const defaultStyle = &#123;&#123;color: &apos;black&apos;&#125;&#125;;</span><br><span class="line">&lt;Account style=&#123;this.props.style || defaultStyle&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, 我们知道，每次调用 React 组件其实都会重新创建组件。就算传入的数组或对象的值没有改变, 但它引用的地址改变, 因此对象和数组类型的数据, 应该用一个变量传入</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class NameItem extends Component &#123; </span><br><span class="line">	render() &#123;</span><br><span class="line">		//翻译成jsx为: &lt;Item children=&#123;React.createElement(&apos;span&apos;, &#123;&#125;, &apos;Arcthur&apos;)&#125;/&gt;</span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;Item/&gt;</span><br><span class="line">		 )</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">import PureRenderMixin from &apos;react-addons-pure-render-mixin&apos;;</span><br><span class="line">class NameItem extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this); </span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123; </span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;/Item&gt;</span><br><span class="line">		); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, Item 组件不论什么情况下都会重新渲染。那么，怎么避免 Item 组件的重复渲染呢? 很简单，我们给 NameItem 设置 PureRender</p>
+</blockquote>
+<h3 id="Immutable"><a href="#Immutable" class="headerlink" title="Immutable"></a>Immutable</h3><blockquote>
+<p>Immutable提供了很多类似es6工具方法, 它最大的亮点是提供了Map(对象), List(数据)这2个方法, 它可以得到不会被改变的对象和数组, 就可以防止数据被在某些黑盒里修改</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let a = Map(&#123;</span><br><span class="line">	select: &apos;users&apos;,</span><br><span class="line">	filter: Map(&#123; name: &apos;Cam&apos; &#125;),</span><br><span class="line">&#125;);</span><br><span class="line">let b = a.set(&apos;select&apos;, &apos;people&apos;);</span><br><span class="line">a === b // false</span><br><span class="line"></span><br><span class="line">let map1 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">let map2 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">map1 === map2; // =&gt; false</span><br><span class="line">Immutable.is(map1, map2); // =&gt; true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上为Immutable的map简单用法, Immutable.is 比较的是两个对象的 hashCode 或 valueOf(对于 JavaScript 对象)。由于 Immutable 内部使用了 trie 数据结构来存储，只要两个对象的 hashCode 相等，值就是一样的。 这样的算法避免了深度遍历比较，因此性能非常好。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;; </span><br><span class="line">import &#123; is &#125; from &apos;immutable&apos;;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123; </span><br><span class="line">	shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">		const thisProps = this.props || &#123;&#125;;</span><br><span class="line">		const thisState = this.state || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">		if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) &#123;</span><br><span class="line">			return true; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextProps) &#123;</span><br><span class="line">			if (nextProps.hasOwnProperty(key) &amp;&amp; !is(thisProps[key], nextProps[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextState) &#123;</span><br><span class="line">			if (nextState.hasOwnProperty(key) &amp;&amp; !is(thisState[key], nextState[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return false; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上优化shouldComponentUpdate, Immutable.js提供了简洁、高效的判断数据是否变化的方法，只需 === 和 is 比较就能知 道是否需要执行 render，而这个操作几乎零成本，所以可以极大提高性能</p>
+</blockquote>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><blockquote>
+<p>我们迭代渲染数组时, 如果不给组件设置key或是设置了相同的key会有警告, 但是设置的key, 尽量根据组件自身属性而产生的唯一性key, 比如id, 尽量避免使用数组的key, 这样效率会很低, 因为所有组件基本都会重新渲染</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import createFragment from &apos;react-addons-create-fragment&apos;;</span><br><span class="line">function Rank(&#123; first, second &#125;) &#123; </span><br><span class="line">	const children = createFragment(&#123;</span><br><span class="line">		first: first,</span><br><span class="line">		second: second, </span><br><span class="line">	&#125;);</span><br><span class="line">	return ( &lt;ul&gt;&#123;children&#125; &lt;/ul&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于 key，我们还需要知道的一种情况是，有两个子组件需要渲染的时候，我们没法给它们<br>设 key。这时需要用到 React 插件 createFragment 来解决, 如上</p>
+</blockquote>
+<h3 id="react-addons-perf-性能检测工具"><a href="#react-addons-perf-性能检测工具" class="headerlink" title="react-addons-perf 性能检测工具"></a>react-addons-perf 性能检测工具</h3><blockquote>
+<p>通过 Perf.start() 和 Perf.stop() 两个 API 设置 开始和结束的状态来作分析</p>
+</blockquote>
+<ul>
+<li>Perf.printInclusive(measurements):所有阶段的时间。 </li>
+<li>Perf.printExclusive(measurements):不包含挂载组件的时间，即初始化 props、state，调用 componentWillMount 和 componentDidMount 方法的时间等。</li>
+<li>Perf.printWasted(measurements):监测渲染的内容保持不变的组件(可以查看哪些组件<br>没有被 shouldComponentUpdate 命中)。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/11/漫谈React/" data-id="cl6xk2y8k0034c65w851ln56s" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-初入React世界" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/10/初入React世界/" class="article-date">
+  <time datetime="2017-10-10T00:47:18.000Z" itemprop="datePublished">2017-10-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/10/初入React世界/">初入React世界</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="React生命周期"><a href="#React生命周期" class="headerlink" title="React生命周期"></a>React生命周期</h2><ul>
+<li>constructor</li>
+<li>static getDerivedStateFromProps</li>
+<li>componentWillMount / UNSAFE_componentWillMount</li>
+<li>render</li>
+<li>componnetDidMount</li>
+<li>componentWillReceiveProps / UNSAFE_componentWillReceiveProps</li>
+<li>static getDerivedStateFromProps</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate / UNSAFE_componentWillUpdate</li>
+<li>render</li>
+<li>getSnapshotBeforeUpdate</li>
+<li>componnetDidUpdate</li>
+<li>componentWillUnmount</li>
+<li>componentDidCatch</li>
+</ul>
+<h3 id="componnetDidMount"><a href="#componnetDidMount" class="headerlink" title="componnetDidMount"></a>componnetDidMount</h3><blockquote>
+<p>绑定事件, ajax请求尽量在这个阶段调用; 此阶段虽然在render之后被调用, 实质上仅仅生成了dom树, 还没有被渲染到页面上, 因此在调用setState, 页面上不会出现重复渲染</p>
+</blockquote>
+<h3 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h3><blockquote>
+<p>此阶段控制页面是否重新渲染; 可以通过继承 <code>React.PureComponent</code>, 它实现了prop和state的浅比较; react不推荐我们在这阶段进行深度比较, 或是通过json.stringify进行比较, 这样很耗性能;</p>
+</blockquote>
+<h3 id="getSnapshotBeforeUpdate"><a href="#getSnapshotBeforeUpdate" class="headerlink" title="getSnapshotBeforeUpdate"></a>getSnapshotBeforeUpdate</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScrollingList</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  listRef = React.createRef();</span><br><span class="line"></span><br><span class="line">  getSnapshotBeforeUpdate(prevProps, prevState) &#123;</span><br><span class="line">    <span class="comment">// Are we adding new items to the list?</span></span><br><span class="line">    <span class="comment">// Capture the current height of the list so we can adjust scroll later.</span></span><br><span class="line">    <span class="keyword">if</span> (prevProps.list.length &lt; <span class="keyword">this</span>.props.list.length) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.listRef.current.scrollHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidUpdate(prevProps, prevState, snapshot) &#123;</span><br><span class="line">    <span class="comment">// If we have a snapshot value, we've just added new items.</span></span><br><span class="line">    <span class="comment">// Adjust scroll so these new items don't push the old ones out of view.</span></span><br><span class="line">    <span class="keyword">if</span> (snapshot !== <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.listRef.current.scrollTop +=</span><br><span class="line">        <span class="keyword">this</span>.listRef.current.scrollHeight - snapshot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div ref=&#123;<span class="keyword">this</span>.listRef&#125;&gt;&#123;<span class="comment">/* ...contents... */</span>&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="componentDidCatch"><a href="#componentDidCatch" class="headerlink" title="componentDidCatch"></a>componentDidCatch</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ErrorBoundary</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">hasError</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidCatch(error, info) &#123;</span><br><span class="line">    <span class="comment">// Display fallback UI</span></span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">hasError</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">    <span class="comment">// You can also log the error to an error reporting service</span></span><br><span class="line">    logErrorToMyService(error, info);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasError) &#123;</span><br><span class="line">      <span class="comment">// You can render any custom fallback UI</span></span><br><span class="line">      <span class="keyword">return</span> &lt;h1&gt;Something went wrong.&lt;/h1&gt;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.props.children;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;ErrorBoundary&gt;</span><br><span class="line">  &lt;MyWidget /&gt;</span><br><span class="line">&lt;<span class="regexp">/ErrorBoundary&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="ReactDom"><a href="#ReactDom" class="headerlink" title="ReactDom"></a>ReactDom</h2><h3 id="ReactDOMServer-renderToString-element"><a href="#ReactDOMServer-renderToString-element" class="headerlink" title="ReactDOMServer.renderToString(element)"></a>ReactDOMServer.renderToString(element)</h3><p>在服务端渲染react的html, 加速首屏渲染和SEO优化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOMServer <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line">ReactDOMServer.renderToString(element)</span><br></pre></td></tr></table></figure>
+<h3 id="ReactDOM-hydrate-element-container-callback"><a href="#ReactDOM-hydrate-element-container-callback" class="headerlink" title="ReactDOM.hydrate(element, container[, callback])"></a>ReactDOM.hydrate(element, container[, callback])</h3><p>可以对服务器渲染的容器挂载事件</p>
+<h2 id="React-与-DOM"><a href="#React-与-DOM" class="headerlink" title="React 与 DOM"></a>React 与 DOM</h2><ul>
+<li>findDOMNode 需要react节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line">class App extends Component &#123; </span><br><span class="line"> componentDidMount() &#123;</span><br><span class="line"> 	// this 为当前组件的实例</span><br><span class="line">	const dom = ReactDOM.findDOMNode(this); </span><br><span class="line"> &#125;</span><br><span class="line"> render() &#123;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>unmountComponentAtNode 卸载react节点</li>
+</ul>
+<h2 id="ReactDOM-的不稳定方法"><a href="#ReactDOM-的不稳定方法" class="headerlink" title="ReactDOM 的不稳定方法"></a>ReactDOM 的不稳定方法</h2><ul>
+<li>render: ReactMount._renderSubtreeIntoContainer(null, nextElement, container, callback)</li>
+<li>unstable_renderSubtreeIntoContainer: ReactMount._renderSubtreeIntoContainer(parentComponent,<br>nextElement, container, callback)</li>
+</ul>
+<blockquote>
+<p>unstable_renderSubtreeIntoContainer 与 render 方法很相似，但 render 方法缺少一个插入某个节点的参数</p>
+</blockquote>
+<h3 id="ReactDOM-render-与-ReactDOM-createPortal-的区别"><a href="#ReactDOM-render-与-ReactDOM-createPortal-的区别" class="headerlink" title="ReactDOM.render 与 ReactDOM.createPortal 的区别"></a>ReactDOM.render 与 ReactDOM.createPortal 的区别</h3><ol>
+<li>createPortal 可以获取父级的context</li>
+<li>createPortal 的事件可以被传递给父级</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/10/初入React世界/" data-id="cl6xk2y8b002qc65wif1gj6zk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-api" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/24/api/" class="article-date">
+  <time datetime="2017-09-24T12:52:11.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/24/api/">api</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Page-Visibility"><a href="#Page-Visibility" class="headerlink" title="Page Visibility"></a>Page Visibility</h2><ul>
+<li>document.hidden 表示页面是否隐藏</li>
+<li>document.visibilityState: 有4个状态的值</li>
+<li>visibiliteChagne事件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&apos;visibiliteChagne&apos;, function(event) &#123;</span><br><span class="line">	if (document.hidden) &#123;</span><br><span class="line">		//do something</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Geolocation-API"><a href="#Geolocation-API" class="headerlink" title="Geolocation API"></a>Geolocation API</h2><blockquote>
+<p>获取用户地理位置</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">navigator.geolocation.getCurrentPosition(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;, &#123;</span><br><span class="line">	enableHighAccuracy: true, //尽可能使用精确的位置信息</span><br><span class="line">	timeout: 5000,//等待位置信息的最长时间</span><br><span class="line">	maximumAge: 25000//上一次获取的坐标信息的有效时间</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>watchPosition方法和getCurrentPosition类似, 但是它会定时调用getCurrentPosition的效果相同</li>
+<li>clearWatch 取消监听</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var watchId = navigator.geolocation.watchPosition方法和getCurrentPosition类似(function(position) &#123;</span><br><span class="line">	console.log(position.coords.latitude, position.coords.longitude);</span><br><span class="line">&#125;, function(error) &#123;</span><br><span class="line">	console.log(error)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//取消监听</span><br><span class="line">clearWatch(watchId);</span><br></pre></td></tr></table></figure>
+<h2 id="FileReader-类型"><a href="#FileReader-类型" class="headerlink" title="FileReader 类型"></a>FileReader 类型</h2><blockquote>
+<p>可以异步读取上传文件中的数据</p>
+</blockquote>
+<ul>
+<li>readAsText(file, encoding) 以纯文本形式读取文件</li>
+<li>readAsDataURL(file) 读取文件以URI的形式保存</li>
+<li>readAsBinaryString(file) 获取字符串, 每个字符表示一个字节</li>
+<li>readAsArrayBuffer(file) 获取ArrayBuffer类型的内容</li>
+</ul>
+<p><img src="https://img.alicdn.com/tfs/TB1b_bwggoQMeJjy0FoXXcShVXa-1224-1480.png" alt="应用"></p>
+<h2 id="对象URL"><a href="#对象URL" class="headerlink" title="对象URL"></a>对象URL</h2><blockquote>
+<p>可以不必将数据内容读取到JavaScript中而直接使用, 可以使用<code>window.URL.createObjectURL()</code>方法, 返回字符串, 指向内存地址</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var url = window.URL.createObjectURL(files[0])</span><br><span class="line">var output.innerHTML = &apos;&lt;img src=&quot;&apos; + url + &apos;&quot;&gt;&apos;;</span><br><span class="line"></span><br><span class="line">//释放内存</span><br><span class="line">window.URL.revokeObjectURL(url);</span><br></pre></td></tr></table></figure>
+<h2 id="读取拖放的文件"><a href="#读取拖放的文件" class="headerlink" title="读取拖放的文件"></a>读取拖放的文件</h2><blockquote>
+<p>html5可以直接拖入文件, 可以通过<code>files = event.dataTransfer.files;</code>获取拖入文件并获取文件信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var droptarget = document.getElementById(&quot;droptarget&quot;);</span><br><span class="line">function handleEvent(event) &#123;</span><br><span class="line">	var info = &quot;&quot;,</span><br><span class="line">		output = document.getElemntById(&quot;output&quot;),</span><br><span class="line">		files, i, len;</span><br><span class="line"></span><br><span class="line">	EvenUtil.preventDefault(event);</span><br><span class="line">	if (event.type == drop) &#123;</span><br><span class="line">		files = event.dataTransfer.files;</span><br><span class="line">		i = 0;</span><br><span class="line">		len = files.length;</span><br><span class="line"></span><br><span class="line">		while (i &lt; len) &#123;</span><br><span class="line">			//获取文件信息</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropenter&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;dropover&quot;, handleEvent);</span><br><span class="line">EvenUtil.addHandle(droptarget, &quot;drop&quot;, handleEvent);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/24/api/" data-id="cl6xk2y7v001pc65wws34gvq9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-最佳实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/23/最佳实践/" class="article-date">
+  <time datetime="2017-09-23T11:31:55.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/23/最佳实践/">最佳实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><h3 id="避免全局查找"><a href="#避免全局查找" class="headerlink" title="避免全局查找"></a>避免全局查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function updateUI() &#123;</span><br><span class="line">	var imgs = document.getElementByTagName(&quot;img&quot;);</span><br><span class="line">	for (var i=0, len=imgs.length; i &lt; len; i++) &#123;</span><br><span class="line">		imgs[i].title = document.title + &quot; images &quot; + i;</span><br><span class="line">	&#125;</span><br><span class="line">	var msg = document.getElementById(&quot;msg&quot;);</span><br><span class="line">	msg.innerHTML = &quot;update complete.&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面代码包含了3次对全局document对象的引用, 如果for循环多次就会有多次的document作用域链的查找. 我们可以通过创建一个指向document对象的局部变量, 这边就避免了每次全局作用域的查找, 修改如下</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function updateUI() &#123;</span><br><span class="line">	var doc = document;</span><br><span class="line">	var imgs = doc.getElementsByTagName(&quot;img&quot;);</span><br><span class="line">	for (var i=0, len=imgs.length; i &lt; len; i++) &#123;</span><br><span class="line">		imgs[i].title = doc.title + &quot; images &quot; + i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	var msg = doc.getElmentById(&quot;msg&quot;);</span><br><span class="line">	msg.innerHTML = &quot;update complete.&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="避免with语句"><a href="#避免with语句" class="headerlink" title="避免with语句"></a>避免with语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function updateBody() &#123;</span><br><span class="line">	with (document.body) &#123;</span><br><span class="line">		innerHTML = &quot;hello world&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>with会创建自己的作用域, 由于额外的作用域查找, 在with里的代码肯定会比外面的代码执行的慢, 建议使用局部变量来完成相同的事情而不引入新的作用域.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function updateBody() &#123;</span><br><span class="line">	var body = document.body;</span><br><span class="line">	body.innerHTML = &quot;hello world&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/23/最佳实践/" data-id="cl6xk2y8i0030c65wxnv1k9x4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-离线应用与客户端存储" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/18/离线应用与客户端存储/" class="article-date">
+  <time datetime="2017-09-18T01:54:26.000Z" itemprop="datePublished">2017-09-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/18/离线应用与客户端存储/">离线应用与客户端存储</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="离线检测"><a href="#离线检测" class="headerlink" title="离线检测"></a>离线检测</h2><blockquote>
+<p><code>navigator.onLine</code>检测浏览器能否访问网络; 也可以监听<code>online</code>, <code>offline</code>事件来获取网络变化情况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">window.online = function(event) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">window.offline = function(event) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="应用缓存"><a href="#应用缓存" class="headerlink" title="应用缓存"></a>应用缓存</h2><blockquote>
+<p><code>applicationCache</code>专为离线web设计, <code>applicationCache</code>的status能够检测缓存情况</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//将缓存与页面关联起来</span><br><span class="line">&lt;html manifest=&quot;/offline.manifest&quot;&gt;</span><br><span class="line"></span><br><span class="line">//缓存状况</span><br><span class="line">console.log(applicationCache.status);</span><br><span class="line"></span><br><span class="line">//监听缓存变化情况</span><br><span class="line">applicationCache.updateready = function() &#123;</span><br><span class="line">	applicationCache.swapCache();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//查看cookie</span><br><span class="line">console.log(document.cookie)</span><br><span class="line"></span><br><span class="line">//设置cookie</span><br><span class="line">document.cookie = encodeURIComponent(&quot;test&quot;) + &quot;=&quot; + encodeURIComponent(&quot;value&quot;)</span><br><span class="line"></span><br><span class="line">//删除cookie 其实就是让时间过期</span><br><span class="line">document.cookie = encodeURIComponent(&quot;test&quot;) + &quot;=&quot; + encodeURIComponent(&quot;value&quot;) + &quot;; expires=&quot; + new Date(0)</span><br></pre></td></tr></table></figure>
+<h3 id="子cookie"><a href="#子cookie" class="headerlink" title="子cookie"></a>子cookie</h3><blockquote>
+<p>每个域设置的cookie是有上限的, 每条长度也有上限, 各浏览器各不一样; 我们可以设置子cookie增加cookie上限</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//我们可以先获取parent, 先根据&amp;split, 然后通过各sub获取对应的子cookie值</span><br><span class="line">document.cookie = &quot;parent=sub1=val1&amp;sub2=val2&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="IE用户数据"><a href="#IE用户数据" class="headerlink" title="IE用户数据"></a>IE用户数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var dataStore = document.getElementById(&quot;dataStore&quot;);</span><br><span class="line">dataStore.setAttribute(&quot;name&quot;, &quot;test&quot;);</span><br><span class="line">dataStore.setAttribute(&quot;book&quot;, &quot;val&quot;);</span><br><span class="line">dataStore.save(&quot;bookInfo&quot;);</span><br><span class="line"></span><br><span class="line">//下一次加载页面 调用load 即可加载数据</span><br><span class="line">dataStore.load(&quot;book&quot;)</span><br><span class="line">//获取</span><br><span class="line">dataStore.getAttribute(&quot;name&quot;);</span><br><span class="line">//删除</span><br><span class="line">dataStore.removeAttribute(&quot;name&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><blockquote>
+<p>浏览器对每个源存储的大小在 2.5M-5M之间</p>
+</blockquote>
+<h3 id="storage事件"><a href="#storage事件" class="headerlink" title="storage事件"></a>storage事件</h3><blockquote>
+<p><code>setItem</code>, <code>clear</code>, <code>removeItem</code>都会触发<code>storage事件</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.addEventListener(&apos;storage&apos;, function(event) &#123;</span><br><span class="line">	console.log(event.domain)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h3><h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//打开一个名为admin的数据库</span><br><span class="line">var database;</span><br><span class="line">var request = indexedDB.open(&quot;admin&quot;);</span><br><span class="line">request.onsuccess = function(event) &#123;</span><br><span class="line">	console.log(&quot;success&quot;)</span><br><span class="line">	database = event.target.result;</span><br><span class="line">&#125;</span><br><span class="line">request.onerror = function(event) &#123;</span><br><span class="line">	console.log(event.target.errorCode)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//给数据库设置版本号, 默认是没有版本号的</span><br><span class="line">if (database.version != &quot;1.0&quot; &amp;&amp; database.serVersion) &#123;</span><br><span class="line">	request = database.serVersion(&quot;1.0&quot;);</span><br><span class="line">	request.onerror = function(event) &#123;</span><br><span class="line">		console.log(event.target.errorCode);</span><br><span class="line">	&#125;</span><br><span class="line">	request.onsuccess = function(event) &#123;</span><br><span class="line">		console.log(database.version)</span><br><span class="line">	&#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	console.log(database.version)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="对象存储空间"><a href="#对象存储空间" class="headerlink" title="对象存储空间"></a>对象存储空间</h4><ul>
+<li>database.createObjectStore(表名, 指定主键)</li>
+<li>store.add(obj) 添加数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var user = &#123;</span><br><span class="line">	username: &quot;007&quot;,</span><br><span class="line">	firstName: &quot;James&quot;,</span><br><span class="line">	lastName: &quot;Bond&quot;,</span><br><span class="line">	password: &quot;foo&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var store = database.createObjectStore(&quot;users&quot;, &#123;keypath: &quot;username&quot;&#125;)</span><br><span class="line">store.add(user)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="事物"><a href="#事物" class="headerlink" title="事物"></a>事物</h4><ul>
+<li>database.transaction([表名, …], 访问模式)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var transaction = database.transaction([&quot;users&quot;, &quot;anotherStore&quot;], READ_WRITE)</span><br><span class="line">//获取相应的表 获取相应的数据</span><br><span class="line">transaction.objectStore(&quot;users&quot;).get(&quot;007&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="使用游标查询"><a href="#使用游标查询" class="headerlink" title="使用游标查询"></a>使用游标查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var store = database.transaction([&quot;users&quot;, &quot;anotherStore&quot;], READ_WRITE).objectStore(&quot;users&quot;), value, updateRequest;</span><br><span class="line">request.onsuccess = function(event) &#123;</span><br><span class="line">	var cursor = event.target.result;</span><br><span class="line">	if (cursor) &#123;</span><br><span class="line">		if (cursor.key == &quot;foo&quot;) &#123;</span><br><span class="line">			value = cursor.value;</span><br><span class="line">			value.password = &quot;magic&quot;</span><br><span class="line"></span><br><span class="line">			updateRequest = cursor.update(value);</span><br><span class="line">			updateRequest.onsuccess = function() &#123;&#125;</span><br><span class="line">			updateRequest.onerror = function() &#123;&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		//游标移动到下一个</span><br><span class="line">		cursor.continue();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="键范围"><a href="#键范围" class="headerlink" title="键范围"></a>键范围</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var IDBKeyRange = window.IDBKeyRange</span><br><span class="line"></span><br><span class="line">//和上面的get(&quot;007&quot;) 功能类似</span><br><span class="line">IDBKeyRange.only(&quot;007&quot;)</span><br></pre></td></tr></table></figure>
+<h4 id="并发问题"><a href="#并发问题" class="headerlink" title="并发问题"></a>并发问题</h4><blockquote>
+<p>当同一个来源的另一个标签页调用<code>setVersion()</code>时, 会触发<code>onversionchange</code>事件, 我们此时需要立即将数据库, 这样另一个页面的执行才能成功, 因为只有一个标签页使用数据库才能修改版本, 如果有其他tab开着数据库导致改变版本失败, 会触发<code>onblock</code>事件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var database;</span><br><span class="line">var request = indexedDB.open(&quot;admin&quot;);</span><br><span class="line">request.onsuccess = function(event) &#123;</span><br><span class="line">	console.log(&quot;success&quot;)</span><br><span class="line">	database = event.target.result;</span><br><span class="line"></span><br><span class="line">	database.onversionchange = function() &#123;</span><br><span class="line">		database.close()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	database.onblock = function() &#123;</span><br><span class="line">		alert(&quot;请先关闭其他tab的数据库&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h4><blockquote>
+<p>数据库也是有大小限制的, 根据每个浏览器而不同, 大小在5mb-50mb之间</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/18/离线应用与客户端存储/" data-id="cl6xk2y8i0032c65wqph1dvdu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-高级技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/12/高级技巧/" class="article-date">
+  <time datetime="2017-09-12T02:40:37.000Z" itemprop="datePublished">2017-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/12/高级技巧/">高级技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="高级函数"><a href="#高级函数" class="headerlink" title="高级函数"></a>高级函数</h2><h3 id="安全的类型检测"><a href="#安全的类型检测" class="headerlink" title="安全的类型检测"></a>安全的类型检测</h3><blockquote>
+<p>使用<code>typeof</code>检测数组函数等返回都是<code>object</code>, 无法获取正确类型, 所以可以使用下面的方法获取正确的类型信息 </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var value = []</span><br><span class="line">Object.prototype.toString.call(value)//&quot;[object Array]&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="安全构造函数"><a href="#安全构造函数" class="headerlink" title="安全构造函数"></a>安全构造函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function Polygon(sides) &#123;</span><br><span class="line">	if  (this instanceof Polygon) &#123;</span><br><span class="line">		this.sides = sides;</span><br><span class="line">		this.getArea = function() &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return new Polygon(sides);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Rectangle(width, height) &#123;</span><br><span class="line">	Polygon.call(this, 2);</span><br><span class="line">	this.width = width;</span><br><span class="line">	this.height = height;</span><br><span class="line">	this.getArea = function() &#123;</span><br><span class="line">		return this.width *  this.height;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Rectangle.prototype = new Polygon();</span><br><span class="line">var rect = new Rectangle(5, 10);</span><br><span class="line">rect.sides;//2</span><br></pre></td></tr></table></figure>
+<h3 id="惰性载入函数"><a href="#惰性载入函数" class="headerlink" title="惰性载入函数"></a>惰性载入函数</h3><blockquote>
+<p>有时候函数的具体逻辑, 会根据环境不同而不同, 因此我们可以使用惰性载入函数, 在页面加载的时候就能自运行获取正确的函数, 而不用再调用时在去判断生成</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var createXHR = (function() &#123;</span><br><span class="line">	if (typeof XMLHttpRequest != &quot;undefined&quot;) &#123;</span><br><span class="line">		return function() &#123;</span><br><span class="line">			return new XMLHttpRequest();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return function() &#123;</span><br><span class="line">			//...</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<h3 id="函数绑定"><a href="#函数绑定" class="headerlink" title="函数绑定"></a>函数绑定</h3><blockquote>
+<p><code>this</code>指向被改变</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var handler = &#123;</span><br><span class="line">	message: &apos;event handle&apos;,</span><br><span class="line">	handleClick: function(event) &#123;</span><br><span class="line">		console.log(this.message);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EventUtil.addHandler(btn, &quot;click&quot;, handler.handleClick); // undefined</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用<code>bind</code>纠正<code>this</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var handler = &#123;</span><br><span class="line">	message: &apos;event handle&apos;,</span><br><span class="line">	handleClick: function(event) &#123;</span><br><span class="line">		console.log(this.message);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">function bind(fn, context) &#123;</span><br><span class="line">	return function() &#123;</span><br><span class="line">		fn.apply(context, arguments)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">EventUtil.addHandler(btn, &quot;click&quot;, bind(handler.handleClick, handler)); // event handle</span><br></pre></td></tr></table></figure>
+<h3 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function add(num1, num2) &#123;</span><br><span class="line">	return num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function curriedAdd(num2) &#123;</span><br><span class="line">	return add(5, num2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(add((2, 3)))//5</span><br><span class="line">console.log(curriedAdd(3));//8</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>柯里化</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function curry(fn) &#123;</span><br><span class="line">	var args = Array.prototype.slice.call(arguments, 1);</span><br><span class="line">	return function() &#123;</span><br><span class="line">		var innerArgs = Array.prototype.slice.call(arguments);</span><br><span class="line">		var finalArgs = args.concat(innerArgs);</span><br><span class="line">		fn.apply(null, finalArgs);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">var curriedAdd = curry(add, 5);</span><br><span class="line">console.log(curriedAdd(3));//8</span><br></pre></td></tr></table></figure>
+<h2 id="防篡改对象"><a href="#防篡改对象" class="headerlink" title="防篡改对象"></a>防篡改对象</h2><h3 id="不可扩展对象"><a href="#不可扩展对象" class="headerlink" title="不可扩展对象"></a>不可扩展对象</h3><blockquote>
+<p><code>Object.preventExtensions</code>可以使对象不能再扩展属性, 但可以对已有属性进行修改删除</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;a: &apos;a&apos;, b: &apos;b&apos;, c:&apos;c&apos;&#125;;</span><br><span class="line">Object.isExtensible(obj);//true</span><br><span class="line"></span><br><span class="line">Object.preventExtensions(obj);</span><br><span class="line">Object.isExtensible(obj);//false</span><br><span class="line">obj.d = &apos;d&apos;;</span><br><span class="line">consolelog(obj);//&#123;a: &apos;a&apos;, b: &apos;b&apos;, c:&apos;c&apos;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="密封对象"><a href="#密封对象" class="headerlink" title="密封对象"></a>密封对象</h3><blockquote>
+<p>被<code>seal</code>的对象, <code>[[Configurable]]</code>被设置为false, 因此不能删除属性和方法, 也不能新增属性和方法, 但可以修改属性和方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;name: &apos;zhichen&apos;&#125;;</span><br><span class="line">Object.isExtensible(person);//true</span><br><span class="line">Object.isSealed(person);//false</span><br><span class="line"></span><br><span class="line">Object.seal(person);</span><br><span class="line">Object.isExtensible(person);//false</span><br><span class="line">Object.isSealed(person);//true</span><br><span class="line"></span><br><span class="line">person.age = 18;</span><br><span class="line">person.name = &apos;lc&apos;</span><br><span class="line">delete person.name;</span><br><span class="line">console.log(person);//&#123;name: &apos;lc&apos;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="冻结的对象"><a href="#冻结的对象" class="headerlink" title="冻结的对象"></a>冻结的对象</h3><blockquote>
+<p>被<code>freeze</code>的对象, 不能进行扩展, <code>[[writable]]</code>特性会被设置为false, 如果定义<code>[[Set]]</code>函数, 访问器属性仍可以写的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;name: &apos;zhichen&apos;&#125;;</span><br><span class="line">Object.isExtensible(person);//true</span><br><span class="line">Object.isSealed(person);//false</span><br><span class="line">Object.isFrozen(person);//false</span><br><span class="line"></span><br><span class="line">Object.freeze(person);</span><br><span class="line">Object.isExtensible(person);//false</span><br><span class="line">Object.isSealed(person);//true</span><br><span class="line">Object.isFrozen(person);//true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">person.age = 18;</span><br><span class="line">person.name = &apos;lc&apos;</span><br><span class="line">delete person.name;</span><br><span class="line">console.log(person);//&#123;name: &apos;zhichen&apos;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="高级定时器"><a href="#高级定时器" class="headerlink" title="高级定时器"></a>高级定时器</h2><blockquote>
+<p><code>setTimeout</code>和<code>setInterval</code> 加入设置时间为150ms, 不表示在150ms后立即执行, 而是在150ms后被加入到执行队列, 如果队列没有其他任务, 就立即执行, 如果有其他任务, 等其他任务执行完毕后才能执行</p>
+</blockquote>
+<h3 id="重复的定时器"><a href="#重复的定时器" class="headerlink" title="重复的定时器"></a>重复的定时器</h3><blockquote>
+<p><code>setInterval</code>为了避免因为任务等待导致在同一时间重复执行, 因此<code>setInterval</code>被加入进程队列前会先检测是否有次任务, 如果有此任务, 就不会再被添加到进程队列中, 所以有些间隔会被跳过</p>
+</blockquote>
+<h3 id="Yielding-Processes"><a href="#Yielding-Processes" class="headerlink" title="Yielding Processes"></a>Yielding Processes</h3><blockquote>
+<p>如果要操作一个数组里的数据, 会导致阻塞, 如果可以改成异步的话, 可以使用如下方式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function chunk(array, process, context) &#123;</span><br><span class="line">	setTimeout(function() &#123;</span><br><span class="line">		var item = array.shift();</span><br><span class="line">		process.call(context, item);</span><br><span class="line"></span><br><span class="line">		//如果还有数据 就再调自身循环</span><br><span class="line">		if (array.length &gt; 0) &#123;</span><br><span class="line">			setTimeout(arguments.callee, 100)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, 100)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/12/高级技巧/" data-id="cl6xk2y8v003ec65wri7450yu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-JSON" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/06/JSON/" class="article-date">
+  <time datetime="2017-09-06T02:46:26.000Z" itemprop="datePublished">2017-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/JSON/">JSON</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="解析与序列化"><a href="#解析与序列化" class="headerlink" title="解析与序列化"></a>解析与序列化</h2><h3 id="序列化选项"><a href="#序列化选项" class="headerlink" title="序列化选项"></a>序列化选项</h3><blockquote>
+<p><code>JSON.stringify</code>第二个参数可以是个数组, 过滤掉其他参数, 只留下指定参数; </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;a: &apos;a&apos;, b: &apos;b&apos;, c:&apos;c&apos;&#125;</span><br><span class="line">JSON.stringify(obj, [&apos;a&apos;,&apos;c&apos;]) //&quot;&#123;&quot;a&quot;:&quot;a&quot;,&quot;c&quot;:&quot;c&quot;&#125;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第二个参数也可以是个方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [&quot;Nicholas C. Zakas&quot;],</span><br><span class="line">    edition: 3,</span><br><span class="line">    year: 2001</span><br><span class="line">&#125;;</span><br><span class="line">var jsonText = JSON.stringify(book, function(key, value) &#123;</span><br><span class="line">    switch(key) &#123;</span><br><span class="line">        case &quot;authors&quot;:</span><br><span class="line">            return value.join(&quot;,&quot;);</span><br><span class="line">        case &quot;year&quot;:</span><br><span class="line">            return 5000;</span><br><span class="line">        case &quot;edition&quot;:</span><br><span class="line">            return undefined;</span><br><span class="line">        default:</span><br><span class="line">            return value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">jsonText; //&quot;&#123;&quot;title&quot;:&quot;Professional JavaScript&quot;,&quot;authors&quot;:&quot;Nicholas C. Zakas&quot;,&quot;year&quot;:5000&#125;&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第三个参数, 如果是数值可以指定缩进几个空格(最大缩进10), 也可以指定是字符串</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [&quot;Nicholas C. Zakas&quot;],</span><br><span class="line">    edition: 3,</span><br><span class="line">    year: 2001</span><br><span class="line">&#125;;</span><br><span class="line">var jsonText = JSON.stringify(book, null, 4);</span><br><span class="line">/** </span><br><span class="line">&quot;&#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [</span><br><span class="line">        &quot;Nicholas C. Zakas&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;edition&quot;: 3,</span><br><span class="line">    &quot;year&quot;: 2001</span><br><span class="line">&#125;&quot;**/</span><br><span class="line"></span><br><span class="line">JSON.stringify(book, null, &apos;-&apos;);</span><br><span class="line">/**</span><br><span class="line">&quot;&#123;</span><br><span class="line">-&quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">-&quot;authors&quot;: [</span><br><span class="line">--&quot;Nicholas C. Zakas&quot;</span><br><span class="line">-],</span><br><span class="line">-&quot;edition&quot;: 3,</span><br><span class="line">-&quot;year&quot;: 2001</span><br><span class="line">&#125;&quot;*/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>toJSON</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [&quot;Nicholas C. Zakas&quot;],</span><br><span class="line">    edition: 3,</span><br><span class="line">    year: 2001,</span><br><span class="line">    toJSON: function() &#123;</span><br><span class="line">        if (this.edition &gt; 3) &#123;</span><br><span class="line">            return &apos;big&apos;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return &apos;small&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">JSON.stringify(book) //&quot;small&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="解析选项"><a href="#解析选项" class="headerlink" title="解析选项"></a>解析选项</h2><h3 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse()"></a>JSON.parse()</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/09/06/JSON/" data-id="cl6xk2y74000cc65w6bwj76zx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

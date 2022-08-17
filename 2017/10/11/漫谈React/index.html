@@ -1,16 +1,279 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>漫谈React | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="事件系统事件委派 它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数  在React中使用原生事件1234567891011121314class NativeEventDemo extends Component &amp;#123; 	componentDidMount()">
+<meta name="keywords" content="深入React技术栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漫谈React">
+<meta property="og:url" content="http://blog.hellolc.com/2017/10/11/漫谈React/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="事件系统事件委派 它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数  在React中使用原生事件1234567891011121314class NativeEventDemo extends Component &amp;#123; 	componentDidMount()">
+<meta property="og:updated_time" content="2017-10-22T06:25:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="漫谈React">
+<meta name="twitter:description" content="事件系统事件委派 它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数  在React中使用原生事件1234567891011121314class NativeEventDemo extends Component &amp;#123; 	componentDidMount()">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-漫谈React" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/11/漫谈React/" class="article-date">
+  <time datetime="2017-10-11T01:01:17.000Z" itemprop="datePublished">2017-10-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      漫谈React
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="事件系统"><a href="#事件系统" class="headerlink" title="事件系统"></a>事件系统</h2><h3 id="事件委派"><a href="#事件委派" class="headerlink" title="事件委派"></a>事件委派</h3><blockquote>
+<p>它并不会把事件处理函数直接绑定到 真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监 听器上维持了一个映射来保存所有组件内部的事件监听和处理函数</p>
+</blockquote>
+<h3 id="在React中使用原生事件"><a href="#在React中使用原生事件" class="headerlink" title="在React中使用原生事件"></a>在React中使用原生事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class NativeEventDemo extends Component &#123; </span><br><span class="line">	componentDidMount() &#123;</span><br><span class="line">		this.refs.button.addEventListener(&apos;click&apos;, e =&gt; &#123; this.handleClick(e);&#125;); </span><br><span class="line">	&#125;</span><br><span class="line">	handleClick(e) &#123; </span><br><span class="line">		console.log(e);</span><br><span class="line">	&#125;</span><br><span class="line">	componentWillUnmount() &#123; </span><br><span class="line">		this.refs.button.removeEventListener(&apos;click&apos;);</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;button ref=&quot;button&quot;&gt;Test&lt;/button&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><h3 id="跨级组件通信通信"><a href="#跨级组件通信通信" class="headerlink" title="跨级组件通信通信"></a>跨级组件通信通信</h3><blockquote>
+<p>父级组件申明<code>getChildContext</code>方法和<code>childContextTypes</code>对象属性, 子组件申明<code>contextTypes</code>再可以通过<code>this.context</code>跨级获取对应的属性, 类似全局变量的概念, 但是这样比较混乱, react不建议这样使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Parent extends Component &#123;</span><br><span class="line">	static childContextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;</span><br><span class="line">	getChildContext() &#123; </span><br><span class="line">		return &#123;</span><br><span class="line">			color: &apos;red&apos;, </span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;Son /&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Son extends Component &#123;</span><br><span class="line">	static contextTypes = &#123;</span><br><span class="line">	    color: PropTypes.string,</span><br><span class="line">	&#125;;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &#123;this.context.color&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="没有嵌套关系的组件通信"><a href="#没有嵌套关系的组件通信" class="headerlink" title="没有嵌套关系的组件通信"></a>没有嵌套关系的组件通信</h3><blockquote>
+<p>通过<code>EventEmitter</code>对象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import &#123; EventEmitter &#125; from &apos;events&apos;;</span><br><span class="line">const emitter = new EventEmitter();</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    this.btnClick = emitter.on(&apos;btnClick&apos;, (data) =&gt; &#123; </span><br><span class="line">      console.log(data);</span><br><span class="line">      alert(data)</span><br><span class="line">    &#125;); </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    emitter.removeListener(this.btnClick);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class OtherComp extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">    	super(props);</span><br><span class="line">	&#125;</span><br><span class="line">	onClickEvent() &#123;</span><br><span class="line">	    emitter.emit(&apos;btnClick&apos;, &apos;click...&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123;</span><br><span class="line">		</span><br><span class="line">		return &lt;button onClick=&#123;this.onClickEvent.bind(this)&#125;&gt;按钮&lt;/button&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h2><h3 id="属性代理"><a href="#属性代理" class="headerlink" title="属性代理"></a>属性代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		const newProps = &#123;</span><br><span class="line">			text: newText, </span><br><span class="line">		&#125;;</span><br><span class="line">		return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;React&apos;;</span><br><span class="line">const MyContainer = (WrappedComponent) =&gt;</span><br><span class="line">	class extends Component &#123;</span><br><span class="line">		constructor(props) &#123; </span><br><span class="line">			super(props); </span><br><span class="line">			this.state = &#123;</span><br><span class="line">		  		name: &apos;&apos;,</span><br><span class="line">		  	&#125;;</span><br><span class="line">			this.onNameChange = this.onNameChange.bind(this); </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		onNameChange(event) &#123; </span><br><span class="line">			this.setState(&#123;</span><br><span class="line">				name: event.target.value, </span><br><span class="line">			&#125;)</span><br><span class="line">		&#125;</span><br><span class="line">		render() &#123;</span><br><span class="line">			const newProps = &#123;</span><br><span class="line">				name: &#123;</span><br><span class="line">					value: this.state.name,</span><br><span class="line">					onChange: this.onNameChange,</span><br><span class="line">				&#125;, </span><br><span class="line">			&#125;</span><br><span class="line">			return &lt;WrappedComponent &#123;...this.props&#125; &#123;...newProps&#125; /&gt;; </span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@MyContainer</span><br><span class="line">class MyComponent extends Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;input name=&quot;name&quot; &#123;...this.props.name&#125; /&gt;;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过以上的封装，我们就得到了一个被控制的 input 组件。</p>
+</blockquote>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><blockquote>
+<p>高阶组件集成传递进来的组件WrappedComponent, 然后通过super去反向调用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const MyContainer = (WrappedComponent) =&gt; </span><br><span class="line">	class extends WrappedComponent &#123;</span><br><span class="line">		render() &#123;</span><br><span class="line">			return super.render();</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组件性能优化"><a href="#组件性能优化" class="headerlink" title="组件性能优化"></a>组件性能优化</h2><h3 id="PureRender"><a href="#PureRender" class="headerlink" title="PureRender"></a>PureRender</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Account style=&#123;&#123; color: &apos;black&apos; &#125;&#125; /&gt;</span><br><span class="line"></span><br><span class="line">//优化为如下</span><br><span class="line"></span><br><span class="line">const defaultStyle = &#123;&#123;color: &apos;black&apos;&#125;&#125;;</span><br><span class="line">&lt;Account style=&#123;this.props.style || defaultStyle&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, 我们知道，每次调用 React 组件其实都会重新创建组件。就算传入的数组或对象的值没有改变, 但它引用的地址改变, 因此对象和数组类型的数据, 应该用一个变量传入</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class NameItem extends Component &#123; </span><br><span class="line">	render() &#123;</span><br><span class="line">		//翻译成jsx为: &lt;Item children=&#123;React.createElement(&apos;span&apos;, &#123;&#125;, &apos;Arcthur&apos;)&#125;/&gt;</span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;Item/&gt;</span><br><span class="line">		 )</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">import PureRenderMixin from &apos;react-addons-pure-render-mixin&apos;;</span><br><span class="line">class NameItem extends Component &#123;</span><br><span class="line">	constructor(props) &#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this); </span><br><span class="line">	&#125;</span><br><span class="line">	render() &#123; </span><br><span class="line">		return ( &lt;Item&gt;</span><br><span class="line">			&lt;span&gt;Arcthur&lt;/span&gt; &lt;/Item&gt;</span><br><span class="line">		); </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上, Item 组件不论什么情况下都会重新渲染。那么，怎么避免 Item 组件的重复渲染呢? 很简单，我们给 NameItem 设置 PureRender</p>
+</blockquote>
+<h3 id="Immutable"><a href="#Immutable" class="headerlink" title="Immutable"></a>Immutable</h3><blockquote>
+<p>Immutable提供了很多类似es6工具方法, 它最大的亮点是提供了Map(对象), List(数据)这2个方法, 它可以得到不会被改变的对象和数组, 就可以防止数据被在某些黑盒里修改</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let a = Map(&#123;</span><br><span class="line">	select: &apos;users&apos;,</span><br><span class="line">	filter: Map(&#123; name: &apos;Cam&apos; &#125;),</span><br><span class="line">&#125;);</span><br><span class="line">let b = a.set(&apos;select&apos;, &apos;people&apos;);</span><br><span class="line">a === b // false</span><br><span class="line"></span><br><span class="line">let map1 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">let map2 = Immutable.Map(&#123;a:1, b:1, c:1&#125;); </span><br><span class="line">map1 === map2; // =&gt; false</span><br><span class="line">Immutable.is(map1, map2); // =&gt; true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上为Immutable的map简单用法, Immutable.is 比较的是两个对象的 hashCode 或 valueOf(对于 JavaScript 对象)。由于 Immutable 内部使用了 trie 数据结构来存储，只要两个对象的 hashCode 相等，值就是一样的。 这样的算法避免了深度遍历比较，因此性能非常好。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;; </span><br><span class="line">import &#123; is &#125; from &apos;immutable&apos;;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123; </span><br><span class="line">	shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">		const thisProps = this.props || &#123;&#125;;</span><br><span class="line">		const thisState = this.state || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">		if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) &#123;</span><br><span class="line">			return true; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextProps) &#123;</span><br><span class="line">			if (nextProps.hasOwnProperty(key) &amp;&amp; !is(thisProps[key], nextProps[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (const key in nextState) &#123;</span><br><span class="line">			if (nextState.hasOwnProperty(key) &amp;&amp; !is(thisState[key], nextState[key])) &#123; </span><br><span class="line">				return true;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return false; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上优化shouldComponentUpdate, Immutable.js提供了简洁、高效的判断数据是否变化的方法，只需 === 和 is 比较就能知 道是否需要执行 render，而这个操作几乎零成本，所以可以极大提高性能</p>
+</blockquote>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><blockquote>
+<p>我们迭代渲染数组时, 如果不给组件设置key或是设置了相同的key会有警告, 但是设置的key, 尽量根据组件自身属性而产生的唯一性key, 比如id, 尽量避免使用数组的key, 这样效率会很低, 因为所有组件基本都会重新渲染</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import createFragment from &apos;react-addons-create-fragment&apos;;</span><br><span class="line">function Rank(&#123; first, second &#125;) &#123; </span><br><span class="line">	const children = createFragment(&#123;</span><br><span class="line">		first: first,</span><br><span class="line">		second: second, </span><br><span class="line">	&#125;);</span><br><span class="line">	return ( &lt;ul&gt;&#123;children&#125; &lt;/ul&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关于 key，我们还需要知道的一种情况是，有两个子组件需要渲染的时候，我们没法给它们<br>设 key。这时需要用到 React 插件 createFragment 来解决, 如上</p>
+</blockquote>
+<h3 id="react-addons-perf-性能检测工具"><a href="#react-addons-perf-性能检测工具" class="headerlink" title="react-addons-perf 性能检测工具"></a>react-addons-perf 性能检测工具</h3><blockquote>
+<p>通过 Perf.start() 和 Perf.stop() 两个 API 设置 开始和结束的状态来作分析</p>
+</blockquote>
+<ul>
+<li>Perf.printInclusive(measurements):所有阶段的时间。 </li>
+<li>Perf.printExclusive(measurements):不包含挂载组件的时间，即初始化 props、state，调用 componentWillMount 和 componentDidMount 方法的时间等。</li>
+<li>Perf.printWasted(measurements):监测渲染的内容保持不变的组件(可以查看哪些组件<br>没有被 shouldComponentUpdate 命中)。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/10/11/漫谈React/" data-id="cl6xk2y8k0034c65w851ln56s" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/17/Values/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Values
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/10/初入React世界/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">初入React世界</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

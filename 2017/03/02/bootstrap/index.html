@@ -1,16 +1,307 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>bootstrap | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="栅格 要被div.row包裹起来 一行只有12个 col-lg col-md col-sm col-xs 这些是根据不同的分辨率展现对应的个数 可以嵌套使用 col-lg-offset 向右偏移 col-lg-push 向右偏移和offset类似 但不完全一样 col-lg-pull 向左偏移 visible-lg-block 在对应的分辨率下可见 其他情况隐藏 hidden-sm 在对应的像素下">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bootstrap">
+<meta property="og:url" content="http://blog.hellolc.com/2017/03/02/bootstrap/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="栅格 要被div.row包裹起来 一行只有12个 col-lg col-md col-sm col-xs 这些是根据不同的分辨率展现对应的个数 可以嵌套使用 col-lg-offset 向右偏移 col-lg-push 向右偏移和offset类似 但不完全一样 col-lg-pull 向左偏移 visible-lg-block 在对应的分辨率下可见 其他情况隐藏 hidden-sm 在对应的像素下">
+<meta property="og:updated_time" content="2017-06-28T13:39:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="bootstrap">
+<meta name="twitter:description" content="栅格 要被div.row包裹起来 一行只有12个 col-lg col-md col-sm col-xs 这些是根据不同的分辨率展现对应的个数 可以嵌套使用 col-lg-offset 向右偏移 col-lg-push 向右偏移和offset类似 但不完全一样 col-lg-pull 向左偏移 visible-lg-block 在对应的分辨率下可见 其他情况隐藏 hidden-sm 在对应的像素下">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-bootstrap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/02/bootstrap/" class="article-date">
+  <time datetime="2017-03-02T13:24:09.000Z" itemprop="datePublished">2017-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      bootstrap
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="栅格"><a href="#栅格" class="headerlink" title="栅格"></a>栅格</h3><ul>
+<li>要被div.row包裹起来</li>
+<li>一行只有12个</li>
+<li>col-lg col-md col-sm col-xs 这些是根据不同的分辨率展现对应的个数 可以嵌套使用</li>
+<li>col-lg-offset 向右偏移</li>
+<li>col-lg-push 向右偏移和offset类似 但不完全一样</li>
+<li>col-lg-pull 向左偏移</li>
+<li>visible-lg-block 在对应的分辨率下可见 其他情况隐藏</li>
+<li>hidden-sm 在对应的像素下隐藏</li>
+<li>pull-right/left 贴在左边或右边</li>
+<li>hidden/visible-print-block 打印显示或隐藏<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3></li>
+<li>default primary success info warning error</li>
+<li>btn<ul>
+<li>btn-link 有连接</li>
+<li>btn-block 独占一行</li>
+<li>也有 btn-lg lg md sm xs 样式大小</li>
+<li>disable 禁用样式</li>
+<li>active 选中样式</li>
+</ul>
+</li>
+<li>btn-group 按钮变为一组<ul>
+<li>btn-group-justified 充满一行 默认只对a标签生效 input和button需要再套一层div.btn-group</li>
+<li>btn-group-vertical</li>
+</ul>
+</li>
+<li>bg</li>
+<li>text</li>
+<li>alert</li>
+<li>panel<ul>
+<li>panel-heading</li>
+<li>panel-body</li>
+</ul>
+</li>
+<li>input</li>
+<li>form-control</li>
+<li>caret 下拉箭头<ul>
+<li>dropup 箭头向上<h3 id="下拉"><a href="#下拉" class="headerlink" title="下拉"></a>下拉</h3></li>
+</ul>
+</li>
+<li>data-* 跟js有关 data-toggle<ul>
+<li>data-target 操作对象</li>
+</ul>
+</li>
+<li>aria-* 残疾人辅助功能</li>
+<li>divider 分割线<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;bg-primary&quot;&gt;aaaa&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;dropdown&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;btn-group dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; data-target=&quot;.dropdown&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;btn btn-primary&quot;&gt;aaa&lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;btn btn-primary&quot;&gt;&lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;&lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;ul class=&quot;dropdown-menu&quot;&gt;</span><br><span class="line">                &lt;li&gt;1&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;2&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;3&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;4&lt;/li&gt;</span><br><span class="line">            &lt;/ul&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;container&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;bg-primary&quot;&gt;aaaa&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;dropdown&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;btn-group dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;btn btn-primary&quot;&gt;aaa&lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;btn btn-primary&quot;&gt;&lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;&lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;ul class=&quot;dropdown-menu&quot;&gt;</span><br><span class="line">                &lt;li&gt;1&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;2&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;3&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;4&lt;/li&gt;</span><br><span class="line">            &lt;/ul&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="导航-nav"><a href="#导航-nav" class="headerlink" title="导航 nav"></a>导航 nav</h3><ul>
+<li>nav </li>
+<li>nav-tabs</li>
+<li>nav-jusified 等宽</li>
+<li>nav-pills</li>
+<li>nav-stackted 垂直的</li>
+<li>tab-content 导航内容</li>
+<li><p>tab-pane </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul class=&quot;nav nav-tabs&quot;&gt;</span><br><span class="line">    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#a&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;a href=&quot;#b&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;a href=&quot;#c&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;&lt;a href=&quot;#d&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;ul class=&quot;tab-content&quot;&gt;</span><br><span class="line">    &lt;li class=&quot;tab-pane active&quot; id=&quot;a&quot;&gt;aaa&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;tab-pane&quot; id=&quot;b&quot;&gt;bbb&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;tab-pane&quot; id=&quot;c&quot;&gt;ccc&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;tab-pane&quot; id=&quot;d&quot;&gt;ddd&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>navbar </p>
+</li>
+<li>navbar-default narbar-* </li>
+<li>navbar-inverse 不同的风格</li>
+<li>navbar-fixed-top/bottom 固定</li>
+<li><p>navbar-header</p>
+<ul>
+<li>navbar-brand<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;nav class=&quot;navbar navbar-default nav-inverse&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;navbar-header&quot;&gt;</span><br><span class="line">                &lt;a href=&quot;&quot; class=&quot;navbar-brand&quot;&gt;logo&lt;/a&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;ul class=&quot;nav nav-tabs&quot;&gt;</span><br><span class="line">                &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#a&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#b&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#c&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;li&gt;&lt;a href=&quot;#d&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">            &lt;/ul&gt;</span><br><span class="line">        &lt;/nav&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>navbar-left 内容靠左 </p>
+</li>
+<li>navbar-right</li>
+<li>navbar-btn</li>
+<li>navbar-link</li>
+<li>navbar-text</li>
+<li>navbar-toggle</li>
+<li><p>navbar-collapse 导航折叠</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;nav class=&quot;navbar navbar-default nav-inverse&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;navbar-header&quot;&gt;</span><br><span class="line">                &lt;a href=&quot;&quot; class=&quot;navbar-brand&quot;&gt;logo&lt;/a&gt;</span><br><span class="line">                &lt;btton class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot; data-target=&quot;#myCollapse&quot;&gt;</span><br><span class="line">                    &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;</span><br><span class="line">                    &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;</span><br><span class="line">                    &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;</span><br><span class="line">                &lt;/btton&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class=&quot;collapse navbar-collapse&quot; id=&quot;myCollapse&quot;&gt;</span><br><span class="line">                &lt;ul class=&quot;nav nav-tabs navbar-left&quot;&gt;</span><br><span class="line">                    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#a&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&lt;a href=&quot;#b&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&lt;a href=&quot;#c&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&lt;a href=&quot;#d&quot; data-toggle=&quot;tab&quot;&gt;one&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;/ul&gt;</span><br><span class="line">                &lt;button class=&quot;navbar-nav navbar-btn&quot;&gt;aa&lt;/button&gt;</span><br><span class="line">                &lt;p class=&quot;nav navbar-nav navbar-text navbar-right&quot;&gt;bbb&lt;/p&gt;</span><br><span class="line">                &lt;form action=&quot;&quot; class=&quot;navbar-form navbar-left&quot;&gt;</span><br><span class="line">                    &lt;input type=&quot;text&quot; class=&quot;form-control&quot;&gt;</span><br><span class="line">                    &lt;input type=&quot;text&quot; class=&quot;btn btn-primary&quot; value=&quot;搜索&quot;&gt;</span><br><span class="line">                &lt;/form&gt;</span><br><span class="line">                &lt;ul class=&quot;nav navbar-nav  navbar-right&quot;&gt;</span><br><span class="line">                    &lt;li&gt;&lt;a href=&quot;&quot;&gt;登录&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">                &lt;/ul&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/nav&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>data-spy=”scroll” 监听滚动条</p>
+</li>
+<li>data-target=”#”</li>
+<li>data-offset=”200px” 偏移距离</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/03/02/bootstrap/" data-id="cl6xk2y7v001mc65wxmsdkp0o" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/02/css/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          css
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/02/Backbone/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Backbone</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MVCandClasses | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="What Is MVC?The Model主要存储对象数据的地方 因为是面向对象编程, 因此我们任何数据被model对象封装后, 都可以直接调用其方法, 而不依赖全局方法, 这样可以减少很多全局方法冲突1234567//使用全局变量的方法var user = users[&quot;foo&quot;]; destroyUser(user);//建议封装为如下var user = User.find(&quot;foo&quot;);">
+<meta name="keywords" content="JavaScript Web Applications">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVCandClasses">
+<meta property="og:url" content="http://blog.hellolc.com/2018/01/14/MVCAndClasses/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="What Is MVC?The Model主要存储对象数据的地方 因为是面向对象编程, 因此我们任何数据被model对象封装后, 都可以直接调用其方法, 而不依赖全局方法, 这样可以减少很多全局方法冲突1234567//使用全局变量的方法var user = users[&quot;foo&quot;]; destroyUser(user);//建议封装为如下var user = User.find(&quot;foo&quot;);">
+<meta property="og:updated_time" content="2018-01-14T11:44:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MVCandClasses">
+<meta name="twitter:description" content="What Is MVC?The Model主要存储对象数据的地方 因为是面向对象编程, 因此我们任何数据被model对象封装后, 都可以直接调用其方法, 而不依赖全局方法, 这样可以减少很多全局方法冲突1234567//使用全局变量的方法var user = users[&quot;foo&quot;]; destroyUser(user);//建议封装为如下var user = User.find(&quot;foo&quot;);">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MVCAndClasses" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/14/MVCAndClasses/" class="article-date">
+  <time datetime="2018-01-14T08:11:51.000Z" itemprop="datePublished">2018-01-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MVCandClasses
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="What-Is-MVC"><a href="#What-Is-MVC" class="headerlink" title="What Is MVC?"></a>What Is MVC?</h2><h3 id="The-Model"><a href="#The-Model" class="headerlink" title="The Model"></a>The Model</h3><p>主要存储对象数据的地方</p>
+<p>因为是面向对象编程, 因此我们任何数据被model对象封装后, 都可以直接调用其方法, 而不依赖全局方法, 这样可以减少很多全局方法冲突<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用全局变量的方法</span></span><br><span class="line"><span class="keyword">var</span> user = users[<span class="string">"foo"</span>]; </span><br><span class="line">destroyUser(user);</span><br><span class="line"></span><br><span class="line"><span class="comment">//建议封装为如下</span></span><br><span class="line"><span class="keyword">var</span> user = User.find(<span class="string">"foo"</span>); </span><br><span class="line">user.destroy();</span><br></pre></td></tr></table></figure></p>
+<h3 id="The-View"><a href="#The-View" class="headerlink" title="The View"></a>The View</h3><p>主要是展示页面, 和其他逻辑解耦</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// helper.js</span></span><br><span class="line"><span class="keyword">var</span> helper = &#123;&#125;;</span><br><span class="line">helper.formatDate = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">/* ... */</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// template.html </span></span><br><span class="line">&lt;div&gt;</span><br><span class="line">    $&#123; helper.formatDate(<span class="keyword">this</span>.date) &#125; </span><br><span class="line">&lt;<span class="regexp">/div&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="The-Controller"><a href="#The-Controller" class="headerlink" title="The Controller"></a>The Controller</h3><p>controller是model和view的中间粘合剂, 它从view中获取events和input, 再从model中获取相应数据, 返回给view展示</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Use a anonymous function to enscapulate scope </span></span><br><span class="line">(Controller.users = <span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> nameClick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">    <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Attach event listeners on page load $(function()&#123;</span></span><br><span class="line">$(<span class="string">"#view .name"</span>).click(nameClick); &#125;);</span><br><span class="line">&#125;)(jQuery);</span><br></pre></td></tr></table></figure>
+<h2 id="Toward-Modularity-Creating-Classes"><a href="#Toward-Modularity-Creating-Classes" class="headerlink" title="Toward Modularity, Creating Classes"></a>Toward Modularity, Creating Classes</h2><p>js中的class是用原型链模拟的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Class = <span class="function"><span class="keyword">function</span>(<span class="params">parent</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> klass = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.init.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (parent) &#123;</span><br><span class="line">          <span class="keyword">var</span> subClass = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">          subClass.prototype = parent.prototype;</span><br><span class="line">          klass.prototype = <span class="keyword">new</span> subClass();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      klass.fn = klass.prototype;</span><br><span class="line"></span><br><span class="line">      klass.fn.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">      klass.fn.parent = klass;</span><br><span class="line"></span><br><span class="line">      klass.fn._super = klass.__proto__;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Adding a proxy function </span></span><br><span class="line">      klass.proxy = <span class="function"><span class="keyword">function</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>; </span><br><span class="line">        <span class="keyword">return</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> func.apply(self, <span class="built_in">arguments</span>); </span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// Add the function on instances too </span></span><br><span class="line">      klass.fn.proxy = klass.proxy;  </span><br><span class="line"></span><br><span class="line">      klass.extend = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj) &#123;</span><br><span class="line">              klass[i] = obj[i];</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      klass.include = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj) &#123;</span><br><span class="line">              klass.prototype[i] = obj[i];</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> klass;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> Animal = <span class="keyword">new</span> Class;</span><br><span class="line">Animal.include(&#123; </span><br><span class="line">    init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'I am animal'</span>)  </span><br><span class="line">    &#125;,</span><br><span class="line">    breath: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'breath'</span>); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> animal = <span class="keyword">new</span> Animal;</span><br><span class="line">animal.breath(); <span class="comment">//I am animal //breath</span></span><br><span class="line"><span class="keyword">var</span> Cat = <span class="keyword">new</span> Class(Animal)</span><br><span class="line">Cat.prototype.init = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I am Cat'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Usage</span></span><br><span class="line"><span class="keyword">var</span> tommy = <span class="keyword">new</span> Cat; </span><br><span class="line">tommy.breath();<span class="comment">//I am Cat //breath</span></span><br></pre></td></tr></table></figure>
+<h3 id="bind-polyfill"><a href="#bind-polyfill" class="headerlink" title="bind polyfill"></a>bind polyfill</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.bind) &#123;</span><br><span class="line">    <span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//self 就是bind的调用者 context是调用者想绑定上下文</span></span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>,</span><br><span class="line">            slice = [].prototype.slice,</span><br><span class="line">            <span class="comment">//获取额外要传递的参数</span></span><br><span class="line">            args = slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>),</span><br><span class="line">            <span class="comment">//用来做间接继承的</span></span><br><span class="line">            nop = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">        <span class="comment">//将bind的调用者的原型 赋值给nop</span></span><br><span class="line">        nop.prototype = self.prototype;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//bound 会覆盖bind调用者</span></span><br><span class="line">        <span class="keyword">var</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">//这里是函数被调用时 会生效的逻辑</span></span><br><span class="line">            <span class="comment">//通过apply将上下文 指向 nop(因为继承了bind调用者的原型)或者context</span></span><br><span class="line">            <span class="comment">//然后函数调用时传递的参数合并到之前传递进来的参数数组里</span></span><br><span class="line">            <span class="keyword">return</span> self.apply(<span class="keyword">this</span> <span class="keyword">instanceof</span> nop ? <span class="keyword">this</span> : (context || &#123;&#125;), args.concat(slice(<span class="built_in">arguments</span>)))</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将bind调用者的原型赋值给bound的原型, 这样bound也拥有了bind调用者的属性和方法, 而且具有改变上下文指向的能力</span></span><br><span class="line">        bound.prototype = <span class="keyword">new</span> nop();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> bound;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/01/14/MVCAndClasses/" data-id="cl6xk2y7i000tc65w53emtx8y" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/14/git/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          git
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/13/node-js模块机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">node.js模块机制</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

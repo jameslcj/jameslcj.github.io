@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深入理解计算机系统 | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为什么32位系统只能支持4G内存? 因为每台计算机都有一个字长, 这也是指针的大小, 32位系统的指针字长为4字节, 也就是32位, 因此它能表示的地址为 0 ~ 2^32 - 1, 所以超出4G的内存地址, 它是无法表示的  int, long, int32_t, int64_t类型的区别? long 类型在32位系统是4字节, 在64位是8字节, 为了不同的编译系统导致不同的分配字节, 因此引">
+<meta name="keywords" content="深入理解计算机系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解计算机系统">
+<meta property="og:url" content="http://blog.hellolc.com/2018/02/25/深入理解计算机系统/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="为什么32位系统只能支持4G内存? 因为每台计算机都有一个字长, 这也是指针的大小, 32位系统的指针字长为4字节, 也就是32位, 因此它能表示的地址为 0 ~ 2^32 - 1, 所以超出4G的内存地址, 它是无法表示的  int, long, int32_t, int64_t类型的区别? long 类型在32位系统是4字节, 在64位是8字节, 为了不同的编译系统导致不同的分配字节, 因此引">
+<meta property="og:updated_time" content="2018-04-09T02:19:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解计算机系统">
+<meta name="twitter:description" content="为什么32位系统只能支持4G内存? 因为每台计算机都有一个字长, 这也是指针的大小, 32位系统的指针字长为4字节, 也就是32位, 因此它能表示的地址为 0 ~ 2^32 - 1, 所以超出4G的内存地址, 它是无法表示的  int, long, int32_t, int64_t类型的区别? long 类型在32位系统是4字节, 在64位是8字节, 为了不同的编译系统导致不同的分配字节, 因此引">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-深入理解计算机系统" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/25/深入理解计算机系统/" class="article-date">
+  <time datetime="2018-02-25T10:07:14.000Z" itemprop="datePublished">2018-02-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解计算机系统
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="为什么32位系统只能支持4G内存"><a href="#为什么32位系统只能支持4G内存" class="headerlink" title="为什么32位系统只能支持4G内存?"></a>为什么32位系统只能支持4G内存?</h3><blockquote>
+<p>因为每台计算机都有一个字长, 这也是指针的大小, 32位系统的指针字长为4字节, 也就是32位, 因此它能表示的地址为 <code>0 ~ 2^32 - 1</code>, 所以超出4G的内存地址, 它是无法表示的</p>
+</blockquote>
+<h3 id="int-long-int32-t-int64-t类型的区别"><a href="#int-long-int32-t-int64-t类型的区别" class="headerlink" title="int, long, int32_t, int64_t类型的区别?"></a>int, long, int32_t, int64_t类型的区别?</h3><blockquote>
+<p>long 类型在32位系统是4字节, 在64位是8字节, 为了不同的编译系统导致不同的分配字节, 因此引入了int32_t, int64_t类型</p>
+</blockquote>
+<h3 id="逻辑位移和算数位移"><a href="#逻辑位移和算数位移" class="headerlink" title="逻辑位移和算数位移"></a>逻辑位移和算数位移</h3><blockquote>
+<p>逻辑位移向右位移时, 高位以0补充, 算数位移向右位移高位以最高有效值补充, 一般无符号以逻辑位移方式, 有符号位移按算数位移方式</p>
+</blockquote>
+<h3 id="无符号与有符号进行运算"><a href="#无符号与有符号进行运算" class="headerlink" title="无符号与有符号进行运算"></a>无符号与有符号进行运算</h3><blockquote>
+<p>无符号与有符号数进行运算, 有符号数被会转成无符号数进行运算<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">-2</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"result: "</span> &lt;&lt; a + b &lt;&lt; <span class="string">" 2^32: "</span> &lt;&lt; <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>) &lt;&lt; <span class="string">" a+b-2^32: "</span> &lt;&lt; a + b - <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//result: 4294967295 2^32: 4.29497e+09 a+b-2^32: -1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="unsigned-导致的BUG"><a href="#unsigned-导致的BUG" class="headerlink" title="unsigned 导致的BUG"></a>unsigned 导致的BUG</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">sum_elements</span><span class="params">(<span class="keyword">float</span> a[], <span class="keyword">unsigned</span> length)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">float</span> sum = <span class="number">0</span>;  </span><br><span class="line">    <span class="comment">//length为无符号 length-1的结果也是无符号,  所以不管结果是正数还是负数, 对于程序猿而言都是大于0的</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= length <span class="number">-1</span>; ++i)  </span><br><span class="line">        sum += a[i];  </span><br><span class="line">    <span class="keyword">return</span> sum;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">//size_t ==&gt; unsigned int</span></span><br><span class="line"><span class="keyword">size_t</span> <span class="built_in">strlen</span>(<span class="keyword">const</span> <span class="keyword">char</span> *s); </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">strlonger</span><span class="params">(<span class="keyword">char</span> *s1, <span class="keyword">char</span> *s2)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="comment">//因为strlen返回的结果是unsigned int  所以下面的结果都是大于0的 应改为strlen(s1) &gt; strlen(s2)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strlen</span>(s1) - <span class="built_in">strlen</span>(s2) &gt; <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><table>
+<thead>
+<tr>
+<th>63</th>
+<th style="text-align:center">31</th>
+<th style="text-align:center">15</th>
+<th style="text-align:center">7</th>
+<th style="text-align:right">0 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%rax</td>
+<td style="text-align:center">%eax</td>
+<td style="text-align:center">%ax</td>
+<td style="text-align:center">%al</td>
+<td style="text-align:right">返回值 </td>
+</tr>
+<tr>
+<td>%rbx</td>
+<td style="text-align:center">%ebx</td>
+<td style="text-align:center">%bx</td>
+<td style="text-align:center">%bl</td>
+<td style="text-align:right">被调用者保存 </td>
+</tr>
+<tr>
+<td>%rcx</td>
+<td style="text-align:center">%ecx</td>
+<td style="text-align:center">%cx</td>
+<td style="text-align:center">%cl</td>
+<td style="text-align:right">第4个参数 </td>
+</tr>
+<tr>
+<td>%rdx</td>
+<td style="text-align:center">%edx</td>
+<td style="text-align:center">%dx</td>
+<td style="text-align:center">%dl</td>
+<td style="text-align:right">第3个参数 </td>
+</tr>
+<tr>
+<td>%rsi</td>
+<td style="text-align:center">%esi</td>
+<td style="text-align:center">%si</td>
+<td style="text-align:center">%sil</td>
+<td style="text-align:right">第2个参数 </td>
+</tr>
+<tr>
+<td>%rdi</td>
+<td style="text-align:center">%edi</td>
+<td style="text-align:center">%di</td>
+<td style="text-align:center">%dil</td>
+<td style="text-align:right">第1个参数 </td>
+</tr>
+<tr>
+<td>%rbp</td>
+<td style="text-align:center">%ebp</td>
+<td style="text-align:center">%bp</td>
+<td style="text-align:center">%bpl</td>
+<td style="text-align:right">被调用者保存 </td>
+</tr>
+<tr>
+<td>%rsp</td>
+<td style="text-align:center">%esp</td>
+<td style="text-align:center">%sp</td>
+<td style="text-align:center">%spl</td>
+<td style="text-align:right">栈指针 </td>
+</tr>
+<tr>
+<td>%r8</td>
+<td style="text-align:center">%r8d</td>
+<td style="text-align:center">%r8w</td>
+<td style="text-align:center">%r8b</td>
+<td style="text-align:right">第5个参数 </td>
+</tr>
+<tr>
+<td>%r9</td>
+<td style="text-align:center">%r9d</td>
+<td style="text-align:center">%r9w</td>
+<td style="text-align:center">%r9b</td>
+<td style="text-align:right">第6个参数 </td>
+</tr>
+<tr>
+<td>%r10</td>
+<td style="text-align:center">%r10d</td>
+<td style="text-align:center">%r10w</td>
+<td style="text-align:center">%r10b</td>
+<td style="text-align:right">调用者保存</td>
+</tr>
+<tr>
+<td>%r11</td>
+<td style="text-align:center">%r11d</td>
+<td style="text-align:center">%r11w</td>
+<td style="text-align:center">%r11b</td>
+<td style="text-align:right">调用者保存</td>
+</tr>
+<tr>
+<td>%r12</td>
+<td style="text-align:center">%r12d</td>
+<td style="text-align:center">%r12w</td>
+<td style="text-align:center">%r12b</td>
+<td style="text-align:right">被调用者保存</td>
+</tr>
+<tr>
+<td>%r13</td>
+<td style="text-align:center">%r13d</td>
+<td style="text-align:center">%r13w</td>
+<td style="text-align:center">%r13b</td>
+<td style="text-align:right">被调用者保存</td>
+</tr>
+<tr>
+<td>%r14</td>
+<td style="text-align:center">%r14d</td>
+<td style="text-align:center">%r14w</td>
+<td style="text-align:center">%r14b</td>
+<td style="text-align:right">被调用者保存</td>
+</tr>
+<tr>
+<td>%r15</td>
+<td style="text-align:center">%r15d</td>
+<td style="text-align:center">%r15w</td>
+<td style="text-align:center">%r15b</td>
+<td style="text-align:right">被调用者保存</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>movb(传送字节)</li>
+<li>movw(传送字)</li>
+<li>movl(传送双字 long  word)</li>
+<li>movq(传送四字)</li>
+<li>movs(传送单精读)</li>
+<li>movl(传送双精度) 与传送双字一样 但是浮点运送用的是完全不同的指令和寄存器 因此不会有冲突</li>
+</ul>
+<h3 id="操作数指示符"><a href="#操作数指示符" class="headerlink" title="操作数指示符"></a>操作数指示符</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th style="text-align:center">格式</th>
+<th style="text-align:right">操作数 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>立即数</td>
+<td style="text-align:center">$Imm</td>
+<td style="text-align:right">Imm</td>
+</tr>
+<tr>
+<td>寄存器</td>
+<td style="text-align:center">ra</td>
+<td style="text-align:right">R[ra]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">Imm</td>
+<td style="text-align:right">M[Imm]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">(ra)</td>
+<td style="text-align:right">M[R[ra]]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">Imm(ra)</td>
+<td style="text-align:right">M[Imm + R[ra]]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">(rb, ri)</td>
+<td style="text-align:right">M[R[rb] + R[ri]]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">Imm(rb, ri)</td>
+<td style="text-align:right">M[Imm + R[rb] + R[ri]]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">(, ri, s)</td>
+<td style="text-align:right">M[R[ri] * s]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">Imm(, ri, s)</td>
+<td style="text-align:right">M[Imm + R[ri] * s]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">(rb, ri, s)</td>
+<td style="text-align:right">M[R[rb] + R[ri] * s]</td>
+</tr>
+<tr>
+<td>内存</td>
+<td style="text-align:center">Imm(rb, ri, s)</td>
+<td style="text-align:right">M[Imm + R[rb] + R[ri] * s]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="MOV-S-D"><a href="#MOV-S-D" class="headerlink" title="MOV S, D"></a>MOV S, D</h3><ul>
+<li>MOVZ 目的中剩余的z字节填充0</li>
+<li>MOVS 目的中剩余的z字节填充符号位</li>
+</ul>
+<blockquote>
+<p>间接引用指针实际上就是从寄存器中取出指针所保存的地址, 然后从内存找到相应的地址<code>(%rdi)</code>; 局部变量通常是放在寄存器中;</p>
+</blockquote>
+<pre><code class="c"><span class="function"><span class="keyword">long</span> <span class="title">exchange</span><span class="params">(<span class="keyword">long</span>* xp, <span class="keyword">long</span> y)</span>  </span>{
+        <span class="keyword">long</span> x = *xp;
+        *xp = y;
+        <span class="keyword">return</span> x;
+}
+
+<span class="comment">//对应的汇编代码</span>
+<span class="comment">// xp =&gt; %rdi  y ==&gt; %rsi</span>
+movq    (%rdi), %rax
+movq    %rsi, (%rdi)
+ret
+</code></pre>
+<h3 id="条件码"><a href="#条件码" class="headerlink" title="条件码"></a>条件码</h3><ul>
+<li>CF: 进位标志</li>
+<li>ZF: 零标志</li>
+<li>SF: 符号标志</li>
+<li>OF: 溢出标志</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/02/25/深入理解计算机系统/" data-id="cl6xk2y8q0039c65wb9qt3z5a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/25/linux进程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          linux进程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/23/JavaScript设计模式与开发实践/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaScript设计模式与开发实践</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

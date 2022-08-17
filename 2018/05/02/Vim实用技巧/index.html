@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vim实用技巧 | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Vim 解决问题的方式   按键操作 用途     f{char} 查找字符   ; 命令会重复查找上次 f 命令所查找的字符(f查找多次可以使用;一次实现)   :s/target/replacement 替换内存   * 光标会跳到下一个匹配项上, 所有出现这个 词的地方都会被高亮显示出来(:set hls)    普通模式   按键操作 用途     db 向前删除   daw 删除整个字符">
+<meta name="keywords" content="Vim实用技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim实用技巧">
+<meta property="og:url" content="http://blog.hellolc.com/2018/05/02/Vim实用技巧/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="Vim 解决问题的方式   按键操作 用途     f{char} 查找字符   ; 命令会重复查找上次 f 命令所查找的字符(f查找多次可以使用;一次实现)   :s/target/replacement 替换内存   * 光标会跳到下一个匹配项上, 所有出现这个 词的地方都会被高亮显示出来(:set hls)    普通模式   按键操作 用途     db 向前删除   daw 删除整个字符">
+<meta property="og:updated_time" content="2018-09-20T03:37:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vim实用技巧">
+<meta name="twitter:description" content="Vim 解决问题的方式   按键操作 用途     f{char} 查找字符   ; 命令会重复查找上次 f 命令所查找的字符(f查找多次可以使用;一次实现)   :s/target/replacement 替换内存   * 光标会跳到下一个匹配项上, 所有出现这个 词的地方都会被高亮显示出来(:set hls)    普通模式   按键操作 用途     db 向前删除   daw 删除整个字符">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Vim实用技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/02/Vim实用技巧/" class="article-date">
+  <time datetime="2018-05-02T02:43:46.000Z" itemprop="datePublished">2018-05-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vim实用技巧
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Vim-解决问题的方式"><a href="#Vim-解决问题的方式" class="headerlink" title="Vim 解决问题的方式"></a>Vim 解决问题的方式</h2><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f{char}</td>
+<td style="text-align:right">查找字符</td>
+</tr>
+<tr>
+<td>;</td>
+<td style="text-align:right">命令会重复查找上次 f 命令所查找的字符(f查找多次可以使用;一次实现)</td>
+</tr>
+<tr>
+<td>:s/target/replacement</td>
+<td style="text-align:right">替换内存</td>
+</tr>
+<tr>
+<td>*</td>
+<td style="text-align:right">光标会跳到下一个匹配项上, 所有出现这个 词的地方都会被高亮显示出来(:set hls)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="普通模式"><a href="#普通模式" class="headerlink" title="普通模式"></a>普通模式</h2><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>db</td>
+<td style="text-align:right">向前删除</td>
+</tr>
+<tr>
+<td>daw</td>
+<td style="text-align:right">删除整个字符</td>
+</tr>
+<tr>
+<td>dap</td>
+<td style="text-align:right">删除整个段落</td>
+</tr>
+<tr>
+<td><code>{num}&lt;C-a&gt;</code></td>
+<td style="text-align:right">对数字进行++</td>
+</tr>
+<tr>
+<td><code>{num}&lt;C-x&gt;</code></td>
+<td style="text-align:right">对数字进行–</td>
+</tr>
+<tr>
+<td>d{num}w</td>
+<td style="text-align:right">删除单词</td>
+</tr>
+<tr>
+<td>></td>
+<td style="text-align:right">增加缩进</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td style="text-align:right">减少缩进</td>
+</tr>
+<tr>
+<td>=</td>
+<td style="text-align:right">自动缩进</td>
+</tr>
+<tr>
+<td>g~</td>
+<td style="text-align:right">反转大小写</td>
+</tr>
+<tr>
+<td>gu</td>
+<td style="text-align:right">转换为小写</td>
+</tr>
+<tr>
+<td>gU</td>
+<td style="text-align:right">转换为大写</td>
+</tr>
+</tbody>
+</table>
+<h2 id="插入模式"><a href="#插入模式" class="headerlink" title="插入模式"></a>插入模式</h2><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;C-h&gt;</code></td>
+<td style="text-align:right">删除前一个字符(同退格键)</td>
+</tr>
+<tr>
+<td><code>&lt;C-w&gt;</code></td>
+<td style="text-align:right">删除前一个单词</td>
+</tr>
+<tr>
+<td><code>&lt;C-u\&gt;</code></td>
+<td style="text-align:right">删至行首</td>
+</tr>
+<tr>
+<td><code>&lt;C-r&gt;</code>={运算}</td>
+<td style="text-align:right">获取计算结果</td>
+</tr>
+<tr>
+<td><code>&lt;C-v&gt;</code>{065}</td>
+<td style="text-align:right">插入ASCII码 </td>
+</tr>
+<tr>
+<td><code>&lt;C-v&gt;</code>u{1234}</td>
+<td style="text-align:right">插入utf8字符 </td>
+</tr>
+<tr>
+<td> ga</td>
+<td style="text-align:right">查看字符编码信息</td>
+</tr>
+<tr>
+<td><code>&lt;C-k&gt;{char1}{char2}</code></td>
+<td style="text-align:right">插入以二合字母{char1}{char2}表示的字符</td>
+</tr>
+</tbody>
+</table>
+<h2 id="可视模式"><a href="#可视模式" class="headerlink" title="可视模式"></a>可视模式</h2><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;C-v&gt;</code></td>
+<td style="text-align:right">激活面向列块的可视模式</td>
+</tr>
+<tr>
+<td>gv</td>
+<td style="text-align:right">重选上次的高亮选区</td>
+</tr>
+<tr>
+<td>o</td>
+<td style="text-align:right">在选择模式下可以切换活动端点</td>
+</tr>
+<tr>
+<td>vit</td>
+<td style="text-align:right">选择标签里的内容</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>‘m</td>
+<td style="text-align:right">包含位置标记 m 的行 </td>
+</tr>
+<tr>
+<td>‘&lt;</td>
+<td style="text-align:right">高亮选区的起始行   </td>
+</tr>
+<tr>
+<td>‘&gt;</td>
+<td style="text-align:right">高亮选区的结束行</td>
+</tr>
+<tr>
+<td>%</td>
+<td style="text-align:right">整个文件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="复制移动和复制行"><a href="#复制移动和复制行" class="headerlink" title="复制移动和复制行"></a>复制移动和复制行</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:.6t.</td>
+<td style="text-align:right">把第6行复制到当前行下方</td>
+</tr>
+<tr>
+<td>:t6</td>
+<td style="text-align:right">把当前行复制第6行</td>
+</tr>
+<tr>
+<td>:t.</td>
+<td style="text-align:right">复制当前行</td>
+</tr>
+<tr>
+<td>:t$</td>
+<td style="text-align:right">把当前行复制到文本结尾;</td>
+</tr>
+<tr>
+<td><code>:&#39;&lt;,&#39;&gt;t0</code></td>
+<td style="text-align:right">把高亮选中的行复制到文件开头</td>
+</tr>
+<tr>
+<td>:[range]m {address}</td>
+<td style="text-align:right">移动行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="在指定范围上执行普通模式命令"><a href="#在指定范围上执行普通模式命令" class="headerlink" title="在指定范围上执行普通模式命令"></a>在指定范围上执行普通模式命令</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:’&lt;,’&gt;normal .</td>
+<td style="text-align:right">快速批量重复之前的操作</td>
+</tr>
+<tr>
+<td>:%normal A;</td>
+<td style="text-align:right">%表示给整个文件 A表示跳至最后一行 然后添加;</td>
+</tr>
+<tr>
+<td>:’&lt;,’&gt;normal i//</td>
+<td style="text-align:right">给选中的加上//注释</td>
+</tr>
+</tbody>
+</table>
+<h3 id="重复之前的ex操作"><a href="#重复之前的ex操作" class="headerlink" title="重复之前的ex操作"></a>重复之前的ex操作</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@:</td>
+<td style="text-align:right">重复之前的ex操作</td>
+</tr>
+<tr>
+<td>xx<code>&lt;C-d&gt;</code> tab</td>
+<td style="text-align:right">自动补全</td>
+</tr>
+<tr>
+<td>:<code>&lt;C-r&gt;&lt;C-w&gt;</code></td>
+<td style="text-align:right">复制当前光标的单词到命令行</td>
+</tr>
+<tr>
+<td>*</td>
+<td style="text-align:right">匹配下一个单词</td>
+</tr>
+<tr>
+<td>q/</td>
+<td style="text-align:right">打开查找命令历史的命令行窗口</td>
+</tr>
+<tr>
+<td>q:</td>
+<td style="text-align:right">打开 EX 命令历史的命令行窗口</td>
+</tr>
+<tr>
+<td><code>&lt;Ctrl-f&gt;</code></td>
+<td style="text-align:right">从命令行模式切换到命令行窗口</td>
+</tr>
+</tbody>
+</table>
+<h3 id="运行Shell命令"><a href="#运行Shell命令" class="headerlink" title="运行Shell命令"></a>运行Shell命令</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:!ls</td>
+<td style="text-align:right">运行shell命令</td>
+</tr>
+<tr>
+<td>:%</td>
+<td style="text-align:right">%代表当前文件</td>
+</tr>
+<tr>
+<td>:read !{cmd}</td>
+<td style="text-align:right">把{cmd}命令的输出读入当前缓冲区中</td>
+</tr>
+<tr>
+<td>:write !{cmd}</td>
+<td style="text-align:right">把缓冲区的内容传给外部的shell</td>
+</tr>
+<tr>
+<td>:write! {cmd}</td>
+<td style="text-align:right">把缓冲区的内容写入到{cmd}文件中</td>
+</tr>
+<tr>
+<td>:2,$!sort -t “,” -k2</td>
+<td style="text-align:right">对一定范围内的数据调用shell进行排序</td>
+</tr>
+</tbody>
+</table>
+<h2 id="管理多个文件"><a href="#管理多个文件" class="headerlink" title="管理多个文件"></a>管理多个文件</h2><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:ls/args</td>
+<td style="text-align:right">查看打开的文件</td>
+</tr>
+<tr>
+<td>:bnext/bn</td>
+<td style="text-align:right">切换到缓冲区的下一个文件</td>
+</tr>
+<tr>
+<td>:bprev/bp</td>
+<td style="text-align:right">切换到缓冲区的上一个文件</td>
+</tr>
+<tr>
+<td>:bfirst/bf</td>
+<td style="text-align:right">切换到缓冲区的第一个文件</td>
+</tr>
+<tr>
+<td>:blastbl</td>
+<td style="text-align:right">切换到缓冲区的最后一个文件</td>
+</tr>
+<tr>
+<td>:buffer {n}</td>
+<td style="text-align:right">切换到缓冲区的第{n}个文件</td>
+</tr>
+<tr>
+<td>:buffer {name}</td>
+<td style="text-align:right">切换到缓冲区的{name}文件</td>
+</tr>
+<tr>
+<td>:bdelete/bd {name}</td>
+<td style="text-align:right">删除缓冲区{name}文件</td>
+</tr>
+</tbody>
+</table>
+<h3 id="管理隐藏缓冲区"><a href="#管理隐藏缓冲区" class="headerlink" title="管理隐藏缓冲区"></a>管理隐藏缓冲区</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:w[rite]</td>
+<td style="text-align:right">把缓冲区的内容写入磁盘</td>
+</tr>
+<tr>
+<td>:e[dit]!</td>
+<td style="text-align:right">把磁盘中的内容写入缓冲区</td>
+</tr>
+<tr>
+<td>:qa[ll]!</td>
+<td style="text-align:right">强制关闭所有</td>
+</tr>
+<tr>
+<td>:wa[ll]!</td>
+<td style="text-align:right">把所有缓冲区的内容写入磁盘</td>
+</tr>
+</tbody>
+</table>
+<h3 id="将工作区切分成窗口"><a href="#将工作区切分成窗口" class="headerlink" title="将工作区切分成窗口"></a>将工作区切分成窗口</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:sp/<code>&lt;C-w&gt;s</code></td>
+<td style="text-align:right">水平切分窗口</td>
+</tr>
+<tr>
+<td>:vsp/<code>&lt;C-w&gt;v</code></td>
+<td style="text-align:right">垂直切分窗口</td>
+</tr>
+<tr>
+<td><code>&lt;C-w&gt;w/h/j/k/l</code></td>
+<td style="text-align:right">窗口间切换</td>
+</tr>
+<tr>
+<td>:clo[se]/<code>&lt;C-w&gt;c</code></td>
+<td style="text-align:right">关闭当前窗口</td>
+</tr>
+<tr>
+<td>:on[ly]</td>
+<td style="text-align:right">只保留当前窗口</td>
+</tr>
+<tr>
+<td><code>&lt;C-w&gt;=</code></td>
+<td style="text-align:right">窗口等宽等高</td>
+</tr>
+<tr>
+<td><code>&lt;C-w&gt;_</code></td>
+<td style="text-align:right">窗口最大高度</td>
+</tr>
+<tr>
+<td>`<c-w></c-w></td>
+<td style="text-align:right">`</td>
+<td>窗口最大宽度</td>
+</tr>
+<tr>
+<td>[N]<code>&lt;C-w&gt;_</code></td>
+<td style="text-align:right">窗口高度设置到[N]行</td>
+</tr>
+<tr>
+<td>[10]`<c-w></c-w></td>
+<td style="text-align:right">`</td>
+<td>窗口宽度设置到[N]列</td>
+</tr>
+</tbody>
+</table>
+<h3 id="用标签页将窗口分组"><a href="#用标签页将窗口分组" class="headerlink" title="用标签页将窗口分组"></a>用标签页将窗口分组</h3><table>
+<thead>
+<tr>
+<th>按键操作</th>
+<th style="text-align:right">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:lcd {path}</td>
+<td style="text-align:right">切换当前窗口的本地工作目录</td>
+</tr>
+<tr>
+<td>:tabe[dit] {name}</td>
+<td style="text-align:right">新建一个tab页</td>
+</tr>
+<tr>
+<td>:tabc[lose]</td>
+<td style="text-align:right">关闭当前标签页</td>
+</tr>
+<tr>
+<td>:tabo[lny]</td>
+<td style="text-align:right">只保留活动标签页, 关闭所有其他标签页</td>
+</tr>
+<tr>
+<td>:tabn[ext]</td>
+<td style="text-align:right">切换标签页</td>
+</tr>
+<tr>
+<td>:tabp[revious]</td>
+<td style="text-align:right">切换标签页</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2018/05/02/Vim实用技巧/" data-id="cl6xk2y7t001hc65wohw25tlq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/06/Drawing/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Drawing
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/01/The-canvas-Element/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">The canvas Element</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

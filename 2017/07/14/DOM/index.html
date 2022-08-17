@@ -1,16 +1,407 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>DOM | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="节点层次 如下, 最外层的节点, 称为文档元素, 每个文档只能有一个文档元素;在html页面中, 文档元素始终都是元素;  12345678&amp;lt;html&amp;gt;  &amp;lt;head&amp;gt;    &amp;lt;title&amp;gt;Home&amp;lt;/title&amp;gt;  &amp;lt;/head&amp;gt;  &amp;lt;body&amp;gt;    &amp;lt;p&amp;gt;hello wolrd!&amp;lt;/p&amp;gt;  &amp;lt">
+<meta name="keywords" content="javaScript高级程序设计笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM">
+<meta property="og:url" content="http://blog.hellolc.com/2017/07/14/DOM/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="节点层次 如下, 最外层的节点, 称为文档元素, 每个文档只能有一个文档元素;在html页面中, 文档元素始终都是元素;  12345678&amp;lt;html&amp;gt;  &amp;lt;head&amp;gt;    &amp;lt;title&amp;gt;Home&amp;lt;/title&amp;gt;  &amp;lt;/head&amp;gt;  &amp;lt;body&amp;gt;    &amp;lt;p&amp;gt;hello wolrd!&amp;lt;/p&amp;gt;  &amp;lt">
+<meta property="og:image" content="https://img.alicdn.com/tfs/TB1vSxxSFXXXXXPXVXXXXXXXXXX-1772-1278.png">
+<meta property="og:image" content="https://img.alicdn.com/tfs/TB1S2w.SpXXXXcYapXXXXXXXXXX-2088-1516.png">
+<meta property="og:updated_time" content="2017-08-10T03:32:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DOM">
+<meta name="twitter:description" content="节点层次 如下, 最外层的节点, 称为文档元素, 每个文档只能有一个文档元素;在html页面中, 文档元素始终都是元素;  12345678&amp;lt;html&amp;gt;  &amp;lt;head&amp;gt;    &amp;lt;title&amp;gt;Home&amp;lt;/title&amp;gt;  &amp;lt;/head&amp;gt;  &amp;lt;body&amp;gt;    &amp;lt;p&amp;gt;hello wolrd!&amp;lt;/p&amp;gt;  &amp;lt">
+<meta name="twitter:image" content="https://img.alicdn.com/tfs/TB1vSxxSFXXXXXPXVXXXXXXXXXX-1772-1278.png">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DOM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/DOM/" class="article-date">
+  <time datetime="2017-07-14T01:43:27.000Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DOM
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h2><blockquote>
+<p>如下, 最外层的节点<html>, 称为文档元素, 每个文档只能有一个文档元素;<br>在html页面中, 文档元素始终都是<html>元素;</html></html></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;Home&lt;/title&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;p&gt;hello wolrd!&lt;/p&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Node类型"><a href="#Node类型" class="headerlink" title="Node类型"></a>Node类型</h3><blockquote>
+<p>节点类型如下:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Node.ELEMENT_NODE(1);</span><br><span class="line">Node.ATTRIBUTE_NODE(2);</span><br><span class="line">Node.TEXT_NODE(3);</span><br><span class="line">Node.CDATA_SECTION_NODE(4);</span><br><span class="line">Node.ENTITY_REFERENCE_NODE(5);</span><br><span class="line">Node.ENTITY_NODE(6);</span><br><span class="line">Node.PROCESSING_INSTRUCTION_NODE(7);</span><br><span class="line">Node.COMMENT_NODE(8);</span><br><span class="line">Node.DOCUMENT_NODE(9);</span><br><span class="line">Node.DOCUMENT_TYPE_NODE(10);</span><br><span class="line">Node.DOCUMENT_FRAGMENT_NODE(11);</span><br><span class="line">Node.NOTATION_NODE(12);</span><br><span class="line"></span><br><span class="line">//可以通过如下方式判断</span><br><span class="line">if (someNode.nodeType == 1) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="nodeName和nodeValue属性"><a href="#nodeName和nodeValue属性" class="headerlink" title="nodeName和nodeValue属性"></a>nodeName和nodeValue属性</h3><blockquote>
+<p><code>nodeName</code>元素的标签名, <code>nodeValue</code>节点值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var someNode = document.getElementById(&apos;html&apos;);</span><br><span class="line">someNode.nodeName;//&quot;html&quot;</span><br><span class="line">someNode.nodeValue;//null</span><br></pre></td></tr></table></figure>
+<h3 id="节点关系"><a href="#节点关系" class="headerlink" title="节点关系"></a>节点关系</h3><blockquote>
+<p>每个节点都有一个childNodes属性, 保存着一个NodeList对象, NodeList是一种类数组对象(有length属性, 但不是数组);<br>可以通过previousSibling和nextSibling属性, 可以访问同一列表中的相邻其他节点.<br>firstChild获取第一个节点, lastChild获取最后一个节点;<br>parentNode可以获取父节点;<br>hasChildNodes()可以判断是否有子节点;<br>所有节点都有一个属性是ownerDocument, 该属性指向整个文档的文档节点, 即: document;<br>以下为获取NoeList中的节点方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var firstChild = someNode.childNodes[0];</span><br><span class="line">var secondChild = someNode.childNodes.item(1);</span><br><span class="line"></span><br><span class="line">firstChild.nextSibling == secondChild;//true</span><br><span class="line">secondChild.previousSibling == firstChild;//true</span><br><span class="line">someNode.firstChild == firstChild//true</span><br><span class="line">someNode.lastChild == someNode.childNodes[someNode.childNodes.length - 1]; //true</span><br><span class="line">someNode.firstChild.parentNode == someNode;//true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>由于NodeList是类数组, 可以通过Array.prototype.slice.call(NodeList, 0)方式转换为数组, 但是需要IE8以上, 因为IE8及一下是DOM是用COM对象实现的, 不是JScript;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function convertToArray(nodes) &#123;</span><br><span class="line">  var array = [];</span><br><span class="line">  try &#123;</span><br><span class="line">    array = Array.prototype.slice.call(nodes, 0);//针对非IE浏览器</span><br><span class="line">  &#125; catch (ex) &#123;</span><br><span class="line">    for (var i=0, len=nodes.length; i &lt; len; i++) &#123;</span><br><span class="line">      array.push(nodes[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="操作节点"><a href="#操作节点" class="headerlink" title="操作节点"></a>操作节点</h3><blockquote>
+<p>appendChild()想childNodes列表的末尾添加一个节点;<br>insertBefore(要插入的节点, 参照的节点); 可以把节点放在childNodes列表中某个特定的位置上, 如果参照节点为null, 则insertBefore与appendChild执行相同的操作;<br>replaceChild(要插入的节点, 替换节点);<br>removeChild(要移除的节点);</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var returnedNode = someNodes.appendChild(newNode);</span><br><span class="line">returnedNode == newNode; //true</span><br><span class="line">someNodes.lastChild == newNode; //true</span><br><span class="line"></span><br><span class="line">//在末尾插入</span><br><span class="line">someNodes.insertBefore(newNode, null);</span><br><span class="line">someNodes.lastChild == newNode; //true</span><br><span class="line"></span><br><span class="line">//插入到第一个</span><br><span class="line">someNodes.insertBefore(newNode, newNode.firstChild);</span><br><span class="line">someNodes.firstChild == newNode; //true</span><br><span class="line"></span><br><span class="line">//替换第一个节点</span><br><span class="line">someNodes.replaceChild(newNode, someNodes.firstChild);</span><br><span class="line"></span><br><span class="line">//移除第一个节点</span><br><span class="line">someNodes.removeChild(someNodes.firstChild);</span><br></pre></td></tr></table></figure>
+<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><blockquote>
+<p>cloneNode(是否深复制子节点)克隆节点; 当传递为true时, 会复制节点自身和它的子节点, 否则只复制自身, 复制后返回的节点副本属于文档所有, 但并没有为它指定父节点. 需要通过appendChild(), insertBefore()或replaceChild()将它添加到文档中. cloneNode()不会复制DOM节点中的JavaScript属性, 例如事件处理程序等.IE在此存在一个bug, 即它会复制事件处理程序, 所以我们建议在复制之前最好先移除事件处理程序;<br>normalize()处理文档树中的文本节点, 删除节点的后代节点中的空文本节点, 或是将相邻的文本节点, 合并为一个文本节点.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;item 1&lt;/item&gt;</span><br><span class="line">  &lt;li&gt;item 2&lt;/item&gt;</span><br><span class="line">  &lt;li&gt;item 3&lt;/item&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">var deepList = myList.cloneNode(true);</span><br><span class="line">console.log(deepList.childNodes.length);//3(IE&lt;9)或7(其他浏览器)</span><br><span class="line"></span><br><span class="line">var shallowList = myList.cloneNode(false);</span><br><span class="line">console.log(shallowList.childNodes.length);//0</span><br></pre></td></tr></table></figure>
+<h2 id="document类型"><a href="#document类型" class="headerlink" title="document类型"></a>document类型</h2><blockquote>
+<p>document是HTMLDocument的一个实例</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.nodeType//9</span><br><span class="line">document.nodeName //#document</span><br><span class="line">document.nodeValue//null</span><br><span class="line">document.parentNode//null</span><br><span class="line">document.ownerDocument//null</span><br></pre></td></tr></table></figure>
+<h3 id="文档的子节点"><a href="#文档的子节点" class="headerlink" title="文档的子节点"></a>文档的子节点</h3><ul>
+<li>document.documentElement</li>
+<li>document.body</li>
+<li>document.doctype(只读), 各浏览器对其是否解析为document的子节点各不相同</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;&lt;/head&gt;</span><br><span class="line">  &lt;body&gt;&lt;/body&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">document.childNodes[0] === document.documentElement //true</span><br></pre></td></tr></table></figure>
+<h3 id="文档信息"><a href="#文档信息" class="headerlink" title="文档信息"></a>文档信息</h3><ul>
+<li>document.title 获取标题信息, 修改标题</li>
+<li>document.URL(只读) 当前地址</li>
+<li>document.referrer(只读) 来源网站的URL</li>
+<li>document.domain</li>
+</ul>
+<blockquote>
+<p>由于安全方面的限制, 这个值只能设置为URL中的子域名, 比如<code>www.test.com</code>只能设置为<code>test.com</code>;<br>这个值的用处是, 当一个页面嵌套一个同域子页面时, 如果要想通过JavaScript进行通信, 则必须将两个页面的document.domain设置为同一个域, 才可以进行通信;</p>
+</blockquote>
+<ul>
+<li>namedItem<blockquote>
+<p>对<code>HTMlCollection</code>集合调用数字索引值时, 就会调用<code>item()</code>方法, 如果调用字符串索引值就会调用<code>namedItem()</code>方法</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;myimage.gif&quot; name=&quot;myImage&quot;&gt;</span><br><span class="line">// 获取HTMLCollection集合</span><br><span class="line">var images = document.getElementByTagName(&quot;img&quot;)</span><br><span class="line">images.namedItem(&quot;myImage&quot;);</span><br><span class="line">//等价于</span><br><span class="line">images[&quot;myImage&quot;]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>document.getElementByTagName(&#39;*&#39;)</code>可以获取所有元素, 但是在ie下注释的元素也会被获取</p>
+</blockquote>
+<h3 id="特殊集合"><a href="#特殊集合" class="headerlink" title="特殊集合"></a>特殊集合</h3><ul>
+<li>document.anchors 所有带<code>name</code>标签的<code>&lt;a&gt;</code>元素</li>
+<li>document.applets 所有<code>&lt;applets&gt;</code>元素</li>
+<li>document.forms 所有<code>&lt;form&gt;</code>元素</li>
+<li>document.images 所有<code>&lt;img&gt;</code> 元素</li>
+<li>document.links 所有带<code>href</code>特性的<code>&lt;a&gt;</code>元素</li>
+<li>document.write() 将输出流写入网页</li>
+<li>document.writeln() 将输出流写入网页并换行</li>
+</ul>
+<blockquote>
+<p><code>document.write/writeln</code> 这2个方法会重写<code>整个页面</code>, 还有如果输出<code>&lt;/script&gt;</code>一定要转译成<code>&lt;\/script&gt;</code>, 否则会报错</p>
+</blockquote>
+<h2 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h2><ul>
+<li>nodeType值为1</li>
+<li>nodeName/tagName值为元素的标签名</li>
+<li>nodeValue值为null</li>
+<li>parentNode值为Document或Element</li>
+</ul>
+<blockquote>
+<p>nodeName一般为大写, 所以先进行转大小写, 再进行比较</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;a&gt;我是a标签&lt;/a&gt;</span><br><span class="line">var a = document.getElementsByTagName(&quot;a&quot;)[0]</span><br><span class="line">a.nodeName //A</span><br><span class="line">a.nodeName === a.tagName//true</span><br><span class="line">if (a.nodeName.toLowerCase == &apos;a&apos;) &#123;</span><br><span class="line">  //do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="html元素"><a href="#html元素" class="headerlink" title="html元素"></a>html元素</h3><blockquote>
+<p>每个html元素都有如下属性</p>
+</blockquote>
+<ul>
+<li>id</li>
+<li>title</li>
+<li>className</li>
+<li>lang 元素内容的语言代码, 很少使用</li>
+<li>dir 语言的方法, 值为 “ltr” 或 “rtl”</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;div1&quot; class=&quot;myClass&quot; title=&quot;myTitle&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;/div&gt;</span><br><span class="line">var div = document.getElementById(&quot;div1&quot;);</span><br><span class="line">div.id;//div1</span><br><span class="line">div.className;//myClass</span><br><span class="line">div.title;//myTitle</span><br><span class="line">div.lang;//en</span><br><span class="line">div.dir;//ltr</span><br></pre></td></tr></table></figure>
+<h3 id="取得特性"><a href="#取得特性" class="headerlink" title="取得特性"></a>取得特性</h3><ul>
+<li>getAttribute() 获取属性, 获取的属性名与实际相同, 所以获取class时, 使用getAttribute(‘class’)就可以而不是className</li>
+</ul>
+<blockquote>
+<p>只有公认的属性会添加到DOM对象上(ie除外), 其他的自定义属性需要使用<code>getAttribute()</code>获取;<br>获取<code>style</code>属性时会返回一个对象或是<code>null</code>, 获取事件属性时会返回函数或者<code>null</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;div1&quot; class=&quot;myClass&quot; my_attr=&quot;myAttr&quot;&gt;&lt;/div&gt;</span><br><span class="line">var div = document.getElementById(&quot;div1&quot;);</span><br><span class="line">div.my_attr;//undefined(ie除外)</span><br><span class="line">div.getAttribute(&quot;my_attr&quot;);//myAttr</span><br><span class="line">div.getAttribute(&quot;class&quot;);//myClass</span><br></pre></td></tr></table></figure>
+<h3 id="设置特性"><a href="#设置特性" class="headerlink" title="设置特性"></a>设置特性</h3><ul>
+<li>setAttribute() 设置属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;div1&quot; class=&quot;myClass&quot; my_attr=&quot;myAttr&quot;&gt;&lt;/div&gt;</span><br><span class="line">var div = document.getElementById(&quot;div1&quot;);</span><br><span class="line">div.setAttribute(&quot;title&quot;, &quot;myTitle&quot;);</span><br><span class="line">div.className = &quot;newClass&quot;;</span><br><span class="line">//如果这样直接设置属性, 在大多数浏览器下, 这个属性不会自动变成元素的特性, 因此用getAttribute(&quot;myColor&quot;)结果为null</span><br><span class="line">div.myColor = &quot;red&quot;;</span><br></pre></td></tr></table></figure>
+<h3 id="删除属性"><a href="#删除属性" class="headerlink" title="删除属性"></a>删除属性</h3><ul>
+<li>removeAttribute() 删除属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;div1&quot; class=&quot;myClass&quot; my_attr=&quot;myAttr&quot;&gt;&lt;/div&gt;</span><br><span class="line">var div = document.getElementById(&quot;div1&quot;);</span><br><span class="line">div.removeAttribute(&quot;class&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="attributes属性"><a href="#attributes属性" class="headerlink" title="attributes属性"></a>attributes属性</h3><ul>
+<li>getNamedItem(name) 获取名为name的属性</li>
+<li>removeNamedItem(name) 删除名为name的属性</li>
+<li>setNamedItem(node) 向列表中添加节点, 以节点的nodeName为索引</li>
+<li>item(pos) 返回位于数字pos位置的节点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var id = element.attributes.getNamedItem(&quot;id&quot;).nodeValue;</span><br><span class="line">//等价于如下</span><br><span class="line">var id = element.attributes[&quot;id&quot;].nodeValue;</span><br></pre></td></tr></table></figure>
+<h3 id="创建元素"><a href="#创建元素" class="headerlink" title="创建元素"></a>创建元素</h3><ul>
+<li>document.createElement()</li>
+</ul>
+<blockquote>
+<p>由于在ie7以下, 某些动态创建的元素会有问题, 建议使用完整的html创建, 其他浏览器就使用标签创建</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (client.browser.ie &amp;&amp; client.browser.ie &lt;= 7) &#123;</span><br><span class="line">  var iframe = document.createElement(&quot;&lt;iframe name=\&quot;myName\&quot;&gt;&lt;/iframe&gt;&quot;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  var iframe = document.createElement(&quot;iframe&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="元素子节点"><a href="#元素子节点" class="headerlink" title="元素子节点"></a>元素子节点</h3><blockquote>
+<p>除ie浏览器外, 都会计算子节点下的空白节点, 因此判断子节点时候, 对nodeType进行判断是否为1</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;&lt;/li&gt;</span><br><span class="line">  &lt;li&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">var element = document.getElementsByTagName(&apos;ul&apos;)[0];</span><br><span class="line">element.childNodes.length; //非ie为3, 其他浏览器为7</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//-----------------</span><br><span class="line">&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">var element = document.getElementsByTagName(&apos;ul&apos;)[0];</span><br><span class="line">element.childNodes.length; //所有浏览器都为3</span><br><span class="line"></span><br><span class="line">for (var i = 0; i &lt; element.childNodes.length; i++) &#123;</span><br><span class="line"></span><br><span class="line">  if (element.childNodes[i].nodeType == 1) &#123;</span><br><span class="line">    //do something</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="文本节点"><a href="#文本节点" class="headerlink" title="文本节点"></a>文本节点</h2><ul>
+<li>nodeType值为3</li>
+<li>nodeName值为”#text”</li>
+<li>nodeValue值为节点所包含的内容</li>
+<li>parentNode是一个元素节点</li>
+<li>不支持子节点</li>
+<li>appendData(text) 将text添加到节点末尾</li>
+<li>deleteData(offset, count) 从offset开始删除count个字符</li>
+<li>insertData(offset, text) 从offset开始插入text</li>
+<li>replaceData(offset, count, text) 从offset开始, 替换count个字符为text</li>
+<li>splitText(offset) 从offset位置开始讲文本分成两个文本节点</li>
+<li>substringData(offset, count) 获取从offset到offset+count为止的字符串</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;span&gt;hello&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">var spanText = document.getElementsByTagName(&quot;span&quot;)[0].childNodes[0];</span><br><span class="line">spanText.appendData(&quot; world&quot;);// hello world</span><br><span class="line">spanText.deleteData(5, 6);// hello</span><br><span class="line"></span><br><span class="line">//默认情况下, 至多有一个文本节点</span><br><span class="line">&lt;span&gt;&lt;/span&gt; //没有文本节点</span><br><span class="line">&lt;span&gt; &lt;/span&gt; //有空格 所以有文本节点</span><br></pre></td></tr></table></figure>
+<h3 id="创建文本节点"><a href="#创建文本节点" class="headerlink" title="创建文本节点"></a>创建文本节点</h3><ul>
+<li>document.createTextNode</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;span&gt;hello&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">var ele = document.getElementsByTagName(&quot;span&quot;)[0];</span><br><span class="line">var textNode = document.createTextNode(&quot; world&quot;)</span><br><span class="line">ele.appendChild(textNode);</span><br></pre></td></tr></table></figure>
+<h3 id="规范化文本节点"><a href="#规范化文本节点" class="headerlink" title="规范化文本节点"></a>规范化文本节点</h3><ul>
+<li>normalize() 可以将多个子文本节点变成一个</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;span&gt;hello&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">var ele = document.getElementsByTagName(&quot;span&quot;)[0];</span><br><span class="line">var textNode = document.createTextNode(&quot; world&quot;)</span><br><span class="line">ele.appendChild(textNode);</span><br><span class="line">ele.childNodes.length;//2</span><br><span class="line">ele.normalize();</span><br><span class="line">ele.childNodes.length;//1</span><br></pre></td></tr></table></figure>
+<h3 id="分割文本节点"><a href="#分割文本节点" class="headerlink" title="分割文本节点"></a>分割文本节点</h3><ul>
+<li>splitText(offset) 指定位置分割文本节点, 功能和normalize()相反</li>
+</ul>
+<h2 id="comment类型"><a href="#comment类型" class="headerlink" title="comment类型"></a>comment类型</h2><blockquote>
+<p>注释节点 功能与text节点相似, 就少一个splitText方法</p>
+</blockquote>
+<ul>
+<li>nodeType值为8</li>
+<li>nodeName值为”#comment</li>
+<li>nodeValue值为注释内容</li>
+<li>parentNode值为Document或Element</li>
+<li>没有子节点</li>
+<li>document.createComment() 创建注释</li>
+</ul>
+<h3 id="DocumentFragment类型"><a href="#DocumentFragment类型" class="headerlink" title="DocumentFragment类型"></a>DocumentFragment类型</h3><blockquote>
+<p>DocumentFragment类型节点类似一个节点仓库, 如果直接在节点树里添加新节点, 会导致页面重绘, 所以我们可以将多次添加的节点,<br>先放到DocumentFragment节点里先, 再添加到dom树中, 这样只需重绘一次就够了.</p>
+</blockquote>
+<ul>
+<li>nodeType值为11</li>
+<li>nodeName值为”#document-fragment</li>
+<li>nodeValue值为null</li>
+<li>parentNode值为null</li>
+<li>document.createDocumentFragment()</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var fragment = document.createDocumentFragment();</span><br><span class="line">var ul = document.getElementById(&quot;myUl&quot;);</span><br><span class="line"></span><br><span class="line">for (var i=0; i &lt; 3; i++) &#123;</span><br><span class="line">  var li = document.createElement(&apos;li&apos;);</span><br><span class="line">  fragment.appendChild(li);</span><br><span class="line">&#125;</span><br><span class="line">ul.appendChild(fragment);</span><br></pre></td></tr></table></figure>
+<h2 id="DOM操作技术"><a href="#DOM操作技术" class="headerlink" title="DOM操作技术"></a>DOM操作技术</h2><h3 id="动态脚本"><a href="#动态脚本" class="headerlink" title="动态脚本"></a>动态脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function loadScriptStirng(code) &#123;</span><br><span class="line">  var script = document.createElement(&quot;script&quot;);</span><br><span class="line">  script.type = &quot;text/javascript&quot;;</span><br><span class="line">  try &#123;</span><br><span class="line">    script.appendChild(document.createTextNode(code));</span><br><span class="line">  &#125; catch(e) &#123;</span><br><span class="line">    script.text = code;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  var head = document.getElemntsByTagName(&quot;head&quot;)[0];</span><br><span class="line">  head.appendChild(script);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function loadStyleString(code) &#123;</span><br><span class="line">  var style = document.createElement(&quot;style&quot;);</span><br><span class="line">  style.type = &quot;text/css&quot;;</span><br><span class="line">  try &#123;</span><br><span class="line">    style.appendChild(document.createTextNode(code))</span><br><span class="line">  &#125; catch(e) &#123;</span><br><span class="line">    style.styleSheet.cssText = code;</span><br><span class="line">  &#125;</span><br><span class="line">  var head = document.getElemntsByTagName(&quot;head&quot;)[0];</span><br><span class="line">  head.appendChild(style);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="操作表单"><a href="#操作表单" class="headerlink" title="操作表单"></a>操作表单</h3><blockquote>
+<p>因为表格创建比较繁杂, 所以js封装了一些特殊方法, 简化了创建方式</p>
+</blockquote>
+<p><img src="https://img.alicdn.com/tfs/TB1vSxxSFXXXXXPXVXXXXXXXXXX-1772-1278.png" alt="表格创建方法"><br><img src="https://img.alicdn.com/tfs/TB1S2w.SpXXXXcYapXXXXXXXXXX-2088-1516.png" alt="表格创建方法2"></p>
+<h3 id="使用NodeList"><a href="#使用NodeList" class="headerlink" title="使用NodeList"></a>使用NodeList</h3><blockquote>
+<p>NodeList, NamedNodeMap和HTMLCollection, 这3个集合都是动态的; 也就是说, 每次文档结构发生变化时, 它们都会得到更新; 一般来说, 应尽量减少访问NodeList的次数, 因为每次访问NodeList, 都会运行一次基于文档的查询;</p>
+<p>如下操作会导致无线循环, 应该避免</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var divArr = document.getElementByTagName(&quot;div&quot;);</span><br><span class="line"></span><br><span class="line">//divArr.length 每次操作后都会变动</span><br><span class="line">for (var i = 0; i &lt; divArr.length; i++) &#123;</span><br><span class="line">  var div = document.createElement(&quot;div&quot;);</span><br><span class="line">  document.body.appendChild(div);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//应该优化为如下</span><br><span class="line">for (var i = 0, len = divArr.length; i &lt; len; i++) &#123;</span><br><span class="line">  var div = document.createElement(&quot;div&quot;);</span><br><span class="line">  document.body.appendChild(div);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/07/14/DOM/" data-id="cl6xk2y710005c65wzxys4rht" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/02/DOM扩展/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DOM扩展
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/13/客户端检测/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">客户端检测</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>

@@ -1,16 +1,253 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>hellolc</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta charset="utf-8">
+  
+  <title>Backbone | hellolc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="backbone依赖 依赖jquery库 进行dom操作 依赖underscore 进行数据存储123&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;jquery-2.0.3.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;qu">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Backbone">
+<meta property="og:url" content="http://blog.hellolc.com/2017/03/02/Backbone/index.html">
+<meta property="og:site_name" content="hellolc">
+<meta property="og:description" content="backbone依赖 依赖jquery库 进行dom操作 依赖underscore 进行数据存储123&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;jquery-2.0.3.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;qu">
+<meta property="og:updated_time" content="2017-06-28T13:39:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Backbone">
+<meta name="twitter:description" content="backbone依赖 依赖jquery库 进行dom操作 依赖underscore 进行数据存储123&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;jquery-2.0.3.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;qu">
+  
+    <link rel="alternate" href="/atom.xml" title="hellolc" type="application/atom+xml">
+  
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-	
 </head>
+
 <body>
-	<script type="text/javascript" src="js/blog.js"></script>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">hellolc</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.hellolc.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Backbone" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/02/Backbone/" class="article-date">
+  <time datetime="2017-03-02T13:21:31.000Z" itemprop="datePublished">2017-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Backbone
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="backbone依赖"><a href="#backbone依赖" class="headerlink" title="backbone依赖"></a>backbone依赖</h3><ul>
+<li>依赖<code>jquery</code>库 进行dom操作</li>
+<li>依赖<code>underscore</code> 进行数据存储<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;jquery-2.0.3.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;underscore-min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;backbone-min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="model-与-collection的区别"><a href="#model-与-collection的区别" class="headerlink" title="model 与 collection的区别"></a><code>model</code> 与 <code>collection</code>的区别</h3><ul>
+<li><code>collection</code>是多条<code>model</code>对象的集合<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var collect = new Backbone.Collection();</span><br><span class="line">    var model = new Backbone.Model();</span><br><span class="line">    model.set(&apos;name&apos;, &apos;bbb&apos;)</span><br><span class="line">    model.set(&#123;&apos;age&apos;: 18&#125;)</span><br><span class="line">    collect.add(model)</span><br><span class="line">    alert(JSON.stringify(collect))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="model的扩展"><a href="#model的扩展" class="headerlink" title="model的扩展"></a>model的扩展</h3><ul>
+<li>第一个对象是扩展对象方法</li>
+<li>第二个对象是扩展静态方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var M = Backbone.Model.extend(&#123;</span><br><span class="line">        aaa: function() &#123;</span><br><span class="line">            alert(&apos;aaa&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        bbb: function() &#123;</span><br><span class="line">            alert(&apos;bbb&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    M.bbb();</span><br><span class="line">    var model = new M</span><br><span class="line">    model.aaa();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="初始化默认值"><a href="#初始化默认值" class="headerlink" title="初始化默认值"></a>初始化默认值</h3><ul>
+<li>defaults 默认参数</li>
+<li>initialize 默认方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var M = Backbone.Model.extend(&#123;</span><br><span class="line">        defaults: &#123;</span><br><span class="line">            name: &apos;lc&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        initialize: function() &#123;</span><br><span class="line">        //当有变化时触发 change后面可以添加参数 指定某个参数变化 触发 如change:name</span><br><span class="line">            this.on(&apos;change&apos;, function() &#123;</span><br><span class="line">                alert(&apos;changed&apos;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var model = new M();</span><br><span class="line">    alert(model.get(&apos;name&apos;))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var M = Backbone.Model.extend(&#123;</span><br><span class="line">        defaults: &#123;</span><br><span class="line">            name: &apos;lc&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var childModel = M.extend();</span><br><span class="line">    var model = new childModel();</span><br><span class="line">    alert(model.get(&apos;name&apos;))</span><br></pre></td></tr></table></figure>
+<h3 id="与view结合"><a href="#与view结合" class="headerlink" title="与view结合"></a>与view结合</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var M = Backbone.Model.extend(&#123;</span><br><span class="line">        defaults: &#123;</span><br><span class="line">            name: &apos;lc&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var V = Backbone.View.extend(&#123;</span><br><span class="line">        initialize: function() &#123;</span><br><span class="line">            this.listenTo(this.model, &apos;change&apos;, this.show);</span><br><span class="line">        &#125;,</span><br><span class="line">        show: function(model) &#123;</span><br><span class="line">            $(&apos;body&apos;).append(&apos;&lt;div&gt;&apos; + model.get(&apos;name&apos;) + &apos;&lt;/div&gt;&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var m = new M();</span><br><span class="line">    var view  = new V(&#123;model: m&#125;)</span><br><span class="line">    setTimeout(function() &#123;</span><br><span class="line">        m.set(&#123;name: &apos;ll&apos;&#125;)</span><br><span class="line">    &#125;, 1000)</span><br></pre></td></tr></table></figure>
+<h3 id="save-与-sync联系"><a href="#save-与-sync联系" class="headerlink" title="save 与 sync联系"></a>save 与 sync联系</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Backbone.sync = function(method, model) &#123;</span><br><span class="line">        alert(method + &apos;:&apos; + JSON.stringify(model))</span><br><span class="line">        //将method方法改成update</span><br><span class="line">        model.id = 1</span><br><span class="line">    &#125;</span><br><span class="line">    var M = Backbone.Model.extend(&#123;</span><br><span class="line">        defaults: &#123;</span><br><span class="line">            name: &apos;lc&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        url: &apos;/url&apos;</span><br><span class="line">    &#125;)</span><br><span class="line">    var model = new M()</span><br><span class="line">    model.save()</span><br><span class="line">    model.save(&#123;name: &apos;ll&apos;&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="fetch-获取服务器资源"><a href="#fetch-获取服务器资源" class="headerlink" title="fetch 获取服务器资源"></a>fetch 获取服务器资源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Backbone.sync = function(method, model) &#123;</span><br><span class="line">        alert(method + &apos;:&apos; + JSON.stringify(model))</span><br><span class="line">        //将method方法改成update</span><br><span class="line">        // model.id = 1</span><br><span class="line">    &#125;</span><br><span class="line">    var C = Backbone.Collection.extend(&#123;</span><br><span class="line">        initialize: function() &#123;</span><br><span class="line">            this.on(&apos;reset&apos;, function() &#123;</span><br><span class="line">                alert(123)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;,</span><br><span class="line">        url: &apos;http://www.baidu.com&apos;</span><br><span class="line">    &#125;)</span><br><span class="line">    var model = new C()</span><br><span class="line">    model.fetch()</span><br></pre></td></tr></table></figure>
+<h3 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var m = Backbone.Router.extend(&#123;</span><br><span class="line">        routes: &#123;</span><br><span class="line">            &apos;index&apos;: &apos;index&apos;,</span><br><span class="line">            &apos;getData/:id&apos;: &apos;getData&apos;,</span><br><span class="line">            &apos;setData/:id/:data&apos;: &apos;setData&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        index: function() &#123;</span><br><span class="line">            alert(&apos;index&apos;)</span><br><span class="line">        &#125;,</span><br><span class="line">        getData(id) &#123;</span><br><span class="line">            alert(id)</span><br><span class="line">        &#125;,</span><br><span class="line">        setData(id, data) &#123;</span><br><span class="line">            alert(id + &apos;:&apos; + data )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var model = new m();</span><br><span class="line">    Backbone.history.start()</span><br></pre></td></tr></table></figure>
+<h3 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h3><ul>
+<li>对dom操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var V = Backbone.View.extend(&#123;</span><br><span class="line">        //模板</span><br><span class="line">        el: $(&apos;body&apos;),</span><br><span class="line">        events: &#123;</span><br><span class="line">            //监听事件 dom对象 回调方法</span><br><span class="line">            &apos;click li&apos;: &apos;test&apos;</span><br><span class="line">        &#125;,</span><br><span class="line">        test: function() &#123;</span><br><span class="line">            alert(&apos;aaa&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var view = new V</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/template&quot; id=&quot;template&quot;&gt;</span><br><span class="line">        &lt;% for (var i = 0; i &lt; 5; i ++) &#123;%&gt;</span><br><span class="line">            &lt;div&gt;&lt;%= name %&gt;&lt;/div&gt;</span><br><span class="line">        &lt;% &#125; %&gt;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    </span><br><span class="line">var M = Backbone.Model.extend(&#123;</span><br><span class="line">        defaults: &#123;</span><br><span class="line">            name: &apos;lc&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    var V = Backbone.View.extend(&#123;</span><br><span class="line">        initialize: function() &#123;</span><br><span class="line">            this.listenTo(this.model, &apos;change&apos;, this.show);</span><br><span class="line">        &#125;,</span><br><span class="line">        show: function(model) &#123;</span><br><span class="line">            //将数据转成json 传递给模板生成</span><br><span class="line">            $(&apos;body&apos;).append(this.template(this.model.toJSON()))</span><br><span class="line">        &#125;,</span><br><span class="line">        // 拿到模板 并获取数据填充</span><br><span class="line">        template: _.template($(&quot;#template&quot;).html())</span><br><span class="line">    &#125;)</span><br><span class="line">    var m = new M();</span><br><span class="line">    var view  = new V(&#123;model: m&#125;)</span><br><span class="line">    setTimeout(function() &#123;</span><br><span class="line">        m.set(&#123;name: &apos;ll&apos;&#125;)</span><br><span class="line">    &#125;, 1000)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/03/02/Backbone/" data-id="cl6xk2y6u0001c65w0blxv9ae" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/02/bootstrap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          bootstrap
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/18/Virtual DOM/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Virtual DOM</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/18/设计模式/">设计模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/09/数据结构/">数据结构与算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/Drawing/">Drawing</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 lichen<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
 </body>
 </html>
