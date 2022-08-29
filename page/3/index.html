@@ -61,6 +61,63 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Generators" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/02/Generators/" class="article-date">
+  <time datetime="2017-12-02T06:17:01.000Z" itemprop="datePublished">2017-12-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/02/Generators/">Generators</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function *foo(x) &#123;</span><br><span class="line">	var y = x * (yield function() &#123;return &quot;hello world&quot;;&#125;); </span><br><span class="line">	return y;</span><br><span class="line">&#125;</span><br><span class="line">var it = foo( 6 ); //将6作为参数调用foo方法 并返回一个迭代器对象</span><br><span class="line">// start `foo(..)`</span><br><span class="line">var res1 = it.next(); //开始执行函数, 直到碰到yield 就停住了, 等待下一步指令; 并返回一个迭代器对象值为 &#123;done: false, value: ƒ&#125;, done表示迭代器还没有结束, value表示yield后面的内容; 一般浏览器都会忽略掉第一个next传入的参数</span><br><span class="line">res1.value(); //上面yield后面的内容是一个函数, 所以调用后, 返回&quot;hello world&quot;</span><br><span class="line">var res2 = it.next( 7 ); //将7 作为yield的返回值, 并继续执行至下一个yield或是结束</span><br><span class="line">res2.value; //因此 6 * 7 = 42</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function* test() &#123;</span><br><span class="line">	yield 1;</span><br><span class="line">	yield 2;</span><br><span class="line">	yield 3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var it = test();</span><br><span class="line">for (var v of it) &#123;</span><br><span class="line">	console.log(v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>for (var v of it)</code> 会自动执行迭代器的next方法, 直到返回的对象<code>done: true</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (var v of it) &#123;&#125;</span><br><span class="line">//可以转化为如下</span><br><span class="line">for (var ret; (ret = it.next()) &amp;&amp; !ret.done; ) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1, 3, 5, 7];</span><br><span class="line">for (var v of arr) &#123;</span><br><span class="line">	console.log(v);//1 3 5 7</span><br><span class="line">&#125;</span><br><span class="line">// 等价于如下</span><br><span class="line">var it = arr[Symbol.iterator]()</span><br><span class="line">it.next();//&#123;value: 1, done: false&#125;</span><br><span class="line">it.next();//&#123;value: 3, done: false&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function* test() &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		var nextVal = 1;</span><br><span class="line">		while (true) &#123;</span><br><span class="line">			nextVal += 3;</span><br><span class="line">			yield nextVal;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; finally &#123;</span><br><span class="line">		console.log(&apos;finally...&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var it = test();</span><br><span class="line">for (var v of it) &#123;</span><br><span class="line">	console.log(v)</span><br><span class="line">	if (v &gt; 30 ) &#123;</span><br><span class="line">		var result = it.return(&quot;hello world&quot;)</span><br><span class="line">		console.log(&quot;result: &quot;, result)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> * 输出结果: 1 4 .... finally... result: &#123;value: &quot;hello world&quot;, done: true&#125;</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当我们调用迭代器it的return方法时, 迭代器会将it.next的结果done设置为true, 来终端迭代器迭代下去, 然后会执行迭代器里的finally方法(如果有), 最后返回的value的值等于我们return传递进去的值</p>
+</blockquote>
+<h2 id="自动执行迭代器"><a href="#自动执行迭代器" class="headerlink" title="自动执行迭代器"></a>自动执行迭代器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">function ajax(delay) &#123;</span><br><span class="line">    return new Promise(function(resolve, reject) &#123;</span><br><span class="line">        //延迟返回 模拟异步</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            resolve(&quot;ajax data&quot;);</span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function *test(arg) &#123;</span><br><span class="line">    var ajaxRes = yield ajax(arg);</span><br><span class="line">    return yield ajaxRes;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> * 模拟co库写的一个迭代器递归执行方法</span><br><span class="line"> **/</span><br><span class="line">function co(gen) &#123;</span><br><span class="line">    //获取初始化参数</span><br><span class="line">    var args = [].slice.call(arguments, 1);</span><br><span class="line">    //使用当前作用域初始化gen获取迭代器对象it, 下面it会作为一个闭包对象一直被递归调用</span><br><span class="line">    var it = gen.apply(this, args);</span><br><span class="line">    //返回一个处理好的promise</span><br><span class="line">    return Promise.resolve().then(function handleNext(value) &#123;</span><br><span class="line">        //将上一次promise返回的结果作为参数传递给迭代器, 第一次value为undefined, 一般浏览器会忽略</span><br><span class="line">        var next = it.next(value);</span><br><span class="line">        console.log(&quot;next: &quot;, next);</span><br><span class="line">        </span><br><span class="line">        //函数自运行</span><br><span class="line">        return (function handleResult(next) &#123;</span><br><span class="line">            //判断迭代器是否完成 如果完成返回最后结果</span><br><span class="line">            if (next.done) &#123;</span><br><span class="line">                return next.value;</span><br><span class="line">            &#125; else if (typeof next.value == &apos;function&apos;) &#123;</span><br><span class="line">				//处理thunk类型的回调</span><br><span class="line">				//返回一个promise</span><br><span class="line">				return new Promise(function(resolve, reject) &#123;</span><br><span class="line">					//给thunk传递回调函数</span><br><span class="line">					next.value(function(err, msg) &#123;</span><br><span class="line">						if (err) &#123;</span><br><span class="line">							reject(err);</span><br><span class="line">						&#125; else &#123;</span><br><span class="line">							resolve(msg);</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;)</span><br><span class="line">				&#125;).then(function() &#123;</span><br><span class="line">                    //如果promise返回成功, 就递归调用handleNext来处理it迭代器至完成</span><br><span class="line">                    handleNext,</span><br><span class="line"></span><br><span class="line">                    //异常处理</span><br><span class="line">                    function handleErr(err) &#123;</span><br><span class="line">                        return Promise.resolve(</span><br><span class="line">                            //处理异常</span><br><span class="line">                            it.throw(err)</span><br><span class="line">                        ).then(</span><br><span class="line">                            //继续处理异常处理的结果</span><br><span class="line">                            handleResult</span><br><span class="line">                        )</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">				&#125;)</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">                //否则就递归调用迭代器</span><br><span class="line">                //通过promise处理next.value, 如果next.value是非promise对象就会直接进入then, 否则就等待promise回调then</span><br><span class="line">                //这里的next.value一般都是异步处理, 例如ajax操作</span><br><span class="line">                return Promise.resolve(next.value).then(</span><br><span class="line">                    //如果promise返回成功, 就递归调用handleNext来处理it迭代器至完成</span><br><span class="line">                    handleNext,</span><br><span class="line">					</span><br><span class="line">                    //异常处理</span><br><span class="line">                    function handleErr(err) &#123;</span><br><span class="line">                        return Promise.resolve(</span><br><span class="line">                            //处理异常</span><br><span class="line">                            it.throw(err)</span><br><span class="line">                        ).then(</span><br><span class="line">                            //继续处理异常处理的结果</span><br><span class="line">                            handleResult</span><br><span class="line">                        )</span><br><span class="line">                    &#125;</span><br><span class="line">                );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(next)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">co(test, 3000).then(function(res) &#123;</span><br><span class="line">    console.log(&quot;res: &quot;,res)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面是一个自动递归处理迭代器的方法, 方法类似co库</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">funcion *foo() &#123;</span><br><span class="line">	var r1 = yield ajax(&apos;url1&apos;);</span><br><span class="line">	var r2 = yield ajax(&apos;url2&apos;);</span><br><span class="line"></span><br><span class="line">	var r3 = yield ajax(r1+r2);</span><br><span class="line">	return r3;</span><br><span class="line">&#125;</span><br><span class="line">co(foo);</span><br><span class="line"></span><br><span class="line">//可以优化为下面</span><br><span class="line">funcion *foo() &#123;</span><br><span class="line"></span><br><span class="line">	var p1 = ajax(&apos;url1&apos;);</span><br><span class="line">	var p2 = ajax(&apos;url2&apos;);</span><br><span class="line">	var r1 = yield p1</span><br><span class="line">	var r2 = yield p2</span><br><span class="line"></span><br><span class="line">	var r3 = yield ajax(r1+r2);</span><br><span class="line">	return r3;</span><br><span class="line">&#125;</span><br><span class="line">co(foo);</span><br><span class="line">// 上面那方法可以理解如下</span><br><span class="line">funcion *foo() &#123;</span><br><span class="line">	var results = yield Promise.all([ajax(&apos;url1&apos;), ajax(&apos;url2)]);</span><br><span class="line">	var r1 = results[0];</span><br><span class="line">	var r2 = results[1];</span><br><span class="line"></span><br><span class="line">	var r3 = yield ajax(r1+r2);</span><br><span class="line">	return r3;</span><br><span class="line">&#125;</span><br><span class="line">co(foo);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面第一个demo, 按照迭代器的方式, 必须等r1的ajax返回结果后, 才会调用r2的ajax, 这样效率就会很低, 所以应该优化为下面那方法, 这样就可以先直接发送2个ajax请求并发, 处理结果使用迭代器</p>
+</blockquote>
+<h2 id="迭代器的polyfill"><a href="#迭代器的polyfill" class="headerlink" title="迭代器的polyfill"></a>迭代器的polyfill</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">function *foo(url) &#123;</span><br><span class="line">	// STATE *1*</span><br><span class="line">	try &#123;</span><br><span class="line">		console.log( &quot;requesting:&quot;, url );</span><br><span class="line">		var TMP1 = request( url );</span><br><span class="line"></span><br><span class="line">		// STATE *2*</span><br><span class="line">		var val = yield TMP1;</span><br><span class="line">		console.log( val );</span><br><span class="line">	&#125; catch (e) &#123;</span><br><span class="line">		// STATE *3*</span><br><span class="line">		console.log( &quot;Oops:&quot;, err );</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//polyfill 如下</span><br><span class="line"></span><br><span class="line">function foo(url) &#123;</span><br><span class="line">	// manage generator state</span><br><span class="line">	var state;</span><br><span class="line"></span><br><span class="line">	// generator-wide variable declarations</span><br><span class="line">	var val;</span><br><span class="line">	</span><br><span class="line">	function process(v) &#123;</span><br><span class="line">		switch (state) &#123;</span><br><span class="line">			case 1: </span><br><span class="line">				console.log( &quot;requesting:&quot;, url );</span><br><span class="line">				return request( url );  </span><br><span class="line">			case 2:</span><br><span class="line">				val = v;</span><br><span class="line">				console.log( val );</span><br><span class="line">			case 3:</span><br><span class="line">				var err = v;</span><br><span class="line">				console.log( &quot;Oops:&quot;, err );</span><br><span class="line">				return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return &#123;</span><br><span class="line">		next: function(v) &#123;</span><br><span class="line">			// initial state</span><br><span class="line">			if (!state) &#123; </span><br><span class="line">				state = 1;</span><br><span class="line">				return &#123;</span><br><span class="line">					done: false,</span><br><span class="line">					value: process()</span><br><span class="line">				&#125;;</span><br><span class="line">			// yield resumed successfully</span><br><span class="line">			&#125; else if (state == 1) &#123;</span><br><span class="line">				state = 2;</span><br><span class="line">				return &#123;</span><br><span class="line">					done: true,</span><br><span class="line">					value: process( v )</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">			// generator already completed</span><br><span class="line">			else &#123; </span><br><span class="line">				return &#123;</span><br><span class="line">					done: true,</span><br><span class="line">					value: undefined</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		throw: function(e) &#123;</span><br><span class="line">			// the only explicit error handling is in </span><br><span class="line">			// state *1*</span><br><span class="line">			if (state == 1) &#123;</span><br><span class="line">				state = 3; </span><br><span class="line">				return &#123;</span><br><span class="line">					done: true,</span><br><span class="line">					value: process( e )</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;</span><br><span class="line">			// otherwise, an error won&apos;t be handled, </span><br><span class="line">			// so just throw it right back out</span><br><span class="line">			else &#123;</span><br><span class="line">				throw e; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/12/02/Generators/" data-id="cl7e5jffd000ado5wtmi294wp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Coercion" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/10/22/Coercion/" class="article-date">
@@ -178,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/22/Coercion/" data-id="cl6xm2uhn00042f5wn1liy5xk" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/10/22/Coercion/" data-id="cl7e5jff30002do5wbhe6niq0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
@@ -244,7 +301,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/20/Natives/" data-id="cl6xm2uif00142f5w9kb3eitw" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/10/20/Natives/" data-id="cl7e5jfft0010do5w84ajc1zp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
@@ -348,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/17/Values/" data-id="cl6xm2uim001b2f5wn437gvsg" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/10/17/Values/" data-id="cl7e5jfg00018do5wpvagajo2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li></ul>
@@ -441,7 +498,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/11/漫谈React/" data-id="cl6xm2ujv003i2f5w0c7knir5" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/10/11/漫谈React/" data-id="cl7e5jfh00032do5w5d5qkxde" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
@@ -524,7 +581,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/10/10/初入React世界/" data-id="cl6xm2ujd002o2f5wwau54qm1" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/10/10/初入React世界/" data-id="cl7e5jfgz002xdo5wghl3enxe" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li></ul>
@@ -595,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/24/api/" data-id="cl6xm2uit001l2f5wbddqnbkb" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/09/24/api/" data-id="cl7e5jfgd001wdo5whd9i2hz4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
@@ -643,7 +700,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/23/最佳实践/" data-id="cl6xm2ujl00312f5w8whx0vzc" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/09/23/最佳实践/" data-id="cl7e5jfhf003edo5w6jxc79md" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
@@ -721,7 +778,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/18/离线应用与客户端存储/" data-id="cl6xm2ujm00332f5wpyezg2f6" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/09/18/离线应用与客户端存储/" data-id="cl7e5jfhg003hdo5wogoz5p6w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
@@ -803,61 +860,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/12/高级技巧/" data-id="cl6xm2ujq003f2f5wlo3pu321" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JSON" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/06/JSON/" class="article-date">
-  <time datetime="2017-09-06T02:46:26.000Z" itemprop="datePublished">2017-09-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/JSON/">JSON</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="解析与序列化"><a href="#解析与序列化" class="headerlink" title="解析与序列化"></a>解析与序列化</h2><h3 id="序列化选项"><a href="#序列化选项" class="headerlink" title="序列化选项"></a>序列化选项</h3><blockquote>
-<p><code>JSON.stringify</code>第二个参数可以是个数组, 过滤掉其他参数, 只留下指定参数; </p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;a: &apos;a&apos;, b: &apos;b&apos;, c:&apos;c&apos;&#125;</span><br><span class="line">JSON.stringify(obj, [&apos;a&apos;,&apos;c&apos;]) //&quot;&#123;&quot;a&quot;:&quot;a&quot;,&quot;c&quot;:&quot;c&quot;&#125;&quot;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>第二个参数也可以是个方法</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [&quot;Nicholas C. Zakas&quot;],</span><br><span class="line">    edition: 3,</span><br><span class="line">    year: 2001</span><br><span class="line">&#125;;</span><br><span class="line">var jsonText = JSON.stringify(book, function(key, value) &#123;</span><br><span class="line">    switch(key) &#123;</span><br><span class="line">        case &quot;authors&quot;:</span><br><span class="line">            return value.join(&quot;,&quot;);</span><br><span class="line">        case &quot;year&quot;:</span><br><span class="line">            return 5000;</span><br><span class="line">        case &quot;edition&quot;:</span><br><span class="line">            return undefined;</span><br><span class="line">        default:</span><br><span class="line">            return value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">jsonText; //&quot;&#123;&quot;title&quot;:&quot;Professional JavaScript&quot;,&quot;authors&quot;:&quot;Nicholas C. Zakas&quot;,&quot;year&quot;:5000&#125;&quot;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>第三个参数, 如果是数值可以指定缩进几个空格(最大缩进10), 也可以指定是字符串</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [&quot;Nicholas C. Zakas&quot;],</span><br><span class="line">    edition: 3,</span><br><span class="line">    year: 2001</span><br><span class="line">&#125;;</span><br><span class="line">var jsonText = JSON.stringify(book, null, 4);</span><br><span class="line">/** </span><br><span class="line">&quot;&#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [</span><br><span class="line">        &quot;Nicholas C. Zakas&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;edition&quot;: 3,</span><br><span class="line">    &quot;year&quot;: 2001</span><br><span class="line">&#125;&quot;**/</span><br><span class="line"></span><br><span class="line">JSON.stringify(book, null, &apos;-&apos;);</span><br><span class="line">/**</span><br><span class="line">&quot;&#123;</span><br><span class="line">-&quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">-&quot;authors&quot;: [</span><br><span class="line">--&quot;Nicholas C. Zakas&quot;</span><br><span class="line">-],</span><br><span class="line">-&quot;edition&quot;: 3,</span><br><span class="line">-&quot;year&quot;: 2001</span><br><span class="line">&#125;&quot;*/</span><br></pre></td></tr></table></figure>
-<ul>
-<li>toJSON</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">    &quot;title&quot;: &quot;Professional JavaScript&quot;,</span><br><span class="line">    &quot;authors&quot;: [&quot;Nicholas C. Zakas&quot;],</span><br><span class="line">    edition: 3,</span><br><span class="line">    year: 2001,</span><br><span class="line">    toJSON: function() &#123;</span><br><span class="line">        if (this.edition &gt; 3) &#123;</span><br><span class="line">            return &apos;big&apos;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return &apos;small&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">JSON.stringify(book) //&quot;small&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="解析选项"><a href="#解析选项" class="headerlink" title="解析选项"></a>解析选项</h2><h3 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse()"></a>JSON.parse()</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/09/06/JSON/" data-id="cl6xm2uhs00092f5wc3w4wirk" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/09/12/高级技巧/" data-id="cl7e5jfhb0039do5wkilh9a2x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li></ul>
@@ -885,7 +888,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -895,7 +898,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
     </div>
   </div>
 
@@ -904,7 +907,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -915,6 +918,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/02/20/KafkaController的生命周期/">KafkaController的生命周期</a>
+          </li>
         
           <li>
             <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
@@ -930,10 +937,6 @@
         
           <li>
             <a href="/2018/05/06/Drawing/">Drawing</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
           </li>
         
       </ul>

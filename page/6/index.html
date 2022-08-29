@@ -61,6 +61,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Virtual DOM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/18/Virtual DOM/" class="article-date">
+  <time datetime="2017-02-18T12:29:54.000Z" itemprop="datePublished">2017-02-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/18/Virtual DOM/">Virtual DOM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="为什么要使用Vitrul-DOM"><a href="#为什么要使用Vitrul-DOM" class="headerlink" title="为什么要使用Vitrul DOM"></a>为什么要使用Vitrul DOM</h3><ul>
+<li>因为原生dom自带很多属性, 直接操作dom是非常笨重的, 性能效率非常低</li>
+</ul>
+<h3 id="Vitrul-DOM-原理"><a href="#Vitrul-DOM-原理" class="headerlink" title="Vitrul DOM 原理"></a>Vitrul DOM 原理</h3><ul>
+<li><p>因为原生dom过于笨重, 初始化了很多属性, 我们可以将原生dom用js对象来表示, 这个对象里只保存这个dom独有的属性, 省略了很多其他默认的属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;ul id=<span class="string">'list'</span>&gt;</span><br><span class="line">  &lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">'item'</span>&gt;Item <span class="number">1</span>&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">  &lt;li class='item'&gt;Item 2&lt;/</span>li&gt;</span><br><span class="line">  &lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">'item'</span>&gt;Item <span class="number">3</span>&lt;<span class="regexp">/li&gt;</span></span><br><span class="line"><span class="regexp">&lt;/u</span>l&gt;</span><br><span class="line"><span class="comment">//上面的js表示如下</span></span><br><span class="line"><span class="keyword">var</span> element = &#123;</span><br><span class="line">  tagName: <span class="string">'ul'</span>, <span class="comment">// 节点标签名</span></span><br><span class="line">  props: &#123; <span class="comment">// DOM的属性，用一个对象存储键值对</span></span><br><span class="line">    id: <span class="string">'list'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  children: [ <span class="comment">// 该节点的子节点</span></span><br><span class="line">    &#123;<span class="attr">tagName</span>: <span class="string">'li'</span>, <span class="attr">props</span>: &#123;<span class="attr">class</span>: <span class="string">'item'</span>&#125;, <span class="attr">children</span>: [<span class="string">"Item 1"</span>]&#125;,</span><br><span class="line">    &#123;<span class="attr">tagName</span>: <span class="string">'li'</span>, <span class="attr">props</span>: &#123;<span class="attr">class</span>: <span class="string">'item'</span>&#125;, <span class="attr">children</span>: [<span class="string">"Item 2"</span>]&#125;,</span><br><span class="line">    &#123;<span class="attr">tagName</span>: <span class="string">'li'</span>, <span class="attr">props</span>: &#123;<span class="attr">class</span>: <span class="string">'item'</span>&#125;, <span class="attr">children</span>: [<span class="string">"Item 3"</span>]&#125;,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Virturl Dom 会把旧dom和新dom, 用js对象生成两棵树进行比较之间的差异</p>
+</li>
+<li>正如你所预料的，比较两棵DOM树的差异是 Virtual DOM 算法最核心的部分，这也是所谓的 Virtual DOM 的 diff 算法。两个树的完全的 diff 算法是一个时间复杂度为 O(n^3) 的问题。但是在前端当中，你很少会跨越层级地移动DOM元素。所以 Virtual DOM 只会对同一个层级的元素进行对比</li>
+<li>在比较过程, 记录每个节点的差异, 比如是节点元素类型变换了, 还是增删改了属性值等等</li>
+<li>最后对有变化的dom进行操作</li>
+</ul>
+<h3 id="如果dom只是重新排序了-利用上面的方法-性能也会很差"><a href="#如果dom只是重新排序了-利用上面的方法-性能也会很差" class="headerlink" title="如果dom只是重新排序了? 利用上面的方法, 性能也会很差"></a>如果dom只是重新排序了? 利用上面的方法, 性能也会很差</h3><ul>
+<li>这个问题抽象出来其实是字符串的最小编辑距离问题（Edition Distance），最常见的解决算法是 Levenshtein Distance，通过动态规划求解，时间复杂度为 O(M * N)。但是我们并不需要真的达到最小的操作，我们只需要优化一些比较常见的移动情况，牺牲一定DOM操作，让算法时间复杂度达到线性的（O(max(M, N))。具体算法细节比较多，这里不累述，有兴趣可以参考<a href="https://github.com/livoras/list-diff/blob/master/lib/diff.js" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<h3 id="为什么组件上要加上唯一的key标识"><a href="#为什么组件上要加上唯一的key标识" class="headerlink" title="为什么组件上要加上唯一的key标识"></a>为什么组件上要加上唯一的key标识</h3><ul>
+<li>因为tagName是可重复的，不能用这个来进行对比。所以需要给子节点加上唯一标识key，列表对比的时候，使用key进行对比，这样才能复用老的 DOM 树上的节点</li>
+</ul>
+<h3 id="参考学习"><a href="#参考学习" class="headerlink" title="参考学习"></a>参考学习</h3><ul>
+<li><a href="https://github.com/livoras/blog/issues/13" target="_blank" rel="noopener">戴嘉华: 深度剖析：如何实现一个 Virtual DOM 算法</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.hellolc.com/2017/02/18/Virtual DOM/" data-id="cl7e5jfga001kdo5wy3o690v1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JavaScript实现一些算法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/02/15/JavaScript实现一些算法/" class="article-date">
@@ -193,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/02/15/JavaScript实现一些算法/" data-id="cl6xm2ui7000p2f5w990gndg9" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/02/15/JavaScript实现一些算法/" data-id="cl7e5jffq000rdo5wa3qdho5d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
@@ -276,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/01/18/JavaScript原型和原型链/" data-id="cl6xm2ui7000n2f5w90zdzta0" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/01/18/JavaScript原型和原型链/" data-id="cl7e5jffj000hdo5wgtgql1mi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -351,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2017/01/11/Jquery源码心得/" data-id="cl6xm2uid000z2f5w834zo4lc" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2017/01/11/Jquery源码心得/" data-id="cl7e5jffr000tdo5wtl4ey0cz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jquery/">Jquery</a></li></ul>
@@ -464,7 +524,7 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2016/12/22/JavaScript坑总结/" data-id="cl6xm2uhw000f2f5wlpbegftx" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2016/12/22/JavaScript坑总结/" data-id="cl7e5jffm000mdo5wwhwxo8kb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -516,7 +576,7 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.hellolc.com/2016/12/18/Native快速入门学习计划/" data-id="cl6xm2uik00192f5wfzxrddta" class="article-share-link">Share</a>
+      <a data-url="http://blog.hellolc.com/2016/12/18/Native快速入门学习计划/" data-id="cl7e5jffz0015do5w9ryf66xq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactNative/">ReactNative</a></li></ul>
@@ -544,7 +604,7 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Core-HTML5-Canvas/">Core HTML5 Canvas</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Web-Applications/">JavaScript Web Applications</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript设计模式与开发实践/">JavaScript设计模式与开发实践</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pro-Git/">Pro Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactNative/">ReactNative</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim实用技巧/">Vim实用技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/You-Don-t-Know-JS/">You Don't Know JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript高级程序设计笔记/">javaScript高级程序设计笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux系统编程/">linux系统编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入React技术栈/">深入React技术栈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入浅出Node-js/">深入浅出Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/深入理解计算机系统/">深入理解计算机系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -554,7 +614,7 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+      <a href="/tags/Core-HTML5-Canvas/" style="font-size: 12px;">Core HTML5 Canvas</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/JavaScript/" style="font-size: 18px;">JavaScript</a> <a href="/tags/JavaScript-Web-Applications/" style="font-size: 12px;">JavaScript Web Applications</a> <a href="/tags/JavaScript设计模式与开发实践/" style="font-size: 10px;">JavaScript设计模式与开发实践</a> <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/Pro-Git/" style="font-size: 10px;">Pro Git</a> <a href="/tags/ReactNative/" style="font-size: 12px;">ReactNative</a> <a href="/tags/Vim实用技巧/" style="font-size: 10px;">Vim实用技巧</a> <a href="/tags/You-Don-t-Know-JS/" style="font-size: 16px;">You Don't Know JS</a> <a href="/tags/css/" style="font-size: 12px;">css</a> <a href="/tags/html5/" style="font-size: 10px;">html5</a> <a href="/tags/javaScript高级程序设计笔记/" style="font-size: 20px;">javaScript高级程序设计笔记</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux系统编程/" style="font-size: 10px;">linux系统编程</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/数据结构与算法/" style="font-size: 10px;">数据结构与算法</a> <a href="/tags/深入React技术栈/" style="font-size: 14px;">深入React技术栈</a> <a href="/tags/深入浅出Node-js/" style="font-size: 10px;">深入浅出Node.js</a> <a href="/tags/深入理解计算机系统/" style="font-size: 10px;">深入理解计算机系统</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
     </div>
   </div>
 
@@ -563,7 +623,7 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -574,6 +634,10 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/02/20/KafkaController的生命周期/">KafkaController的生命周期</a>
+          </li>
         
           <li>
             <a href="/2021/10/20/FastJSON Key Hash冲突问题/">FastJSON Key Hash冲突问题</a>
@@ -589,10 +653,6 @@ Object.freeze() 在上面的基础上，对象所有属性只读, 不可修改
         
           <li>
             <a href="/2018/05/06/Drawing/">Drawing</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/02/Vim实用技巧/">Vim实用技巧</a>
           </li>
         
       </ul>
